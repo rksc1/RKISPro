@@ -1,0 +1,70 @@
+import { notFound } from "next/navigation";
+import { CustomerLayout } from "@/components/layout/CustomerLayout";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { EmptyState } from "@/components/ui/EmptyState";
+import { QuoteCard } from "@/components/ui/QuoteCard";
+import { getCustomerFromCookie } from "@/lib/auth";
+import { getApprovedQuotesForCustomerRequest } from "@/services/vendor-quote-service";
+
+export const dynamic = "force-dynamic";
+
+export default async function CustomerQuoteComparisonPage({
+  params
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const [{ id }, customer] = await Promise.all([params, getCustomerFromCookie()]);
+
+  if (!customer) notFound();
+
+  const { request, quotes } = await getApprovedQuotesForCustomerRequest(id, customer.id);
+
+  if (!request) notFound();
+
+  return (
+    <CustomerLayout title="Compare quotes">
+      <Card>
+        <div className="grid gap-3">
+          <h2 className="text-2xl font-black text-slate-950">{request.project_title}</h2>
+          <p className="text-sm text-muted">{request.description}</p>
+          <div className="grid gap-2 text-sm md:grid-cols-4">
+            <span><strong>Service:</strong> {request.service_type}</span>
+            <span><strong>Material:</strong> {request.material_type}</span>
+            <span><strong>Location:</strong> {request.location}</span>
+            <span><strong>Deadline:</strong> {request.deadline}</span>
+          </div>
+        </div>
+      </Card>
+
+      {quotes.length === 0 ? (
+        <EmptyState
+          title="Quotes are under review"
+          description="Quotes are under review. You'll see verified quotations here once approved by RKISPro admin."
+        />
+      ) : (
+        <div className="grid gap-4">
+          {quotes.map((quote) => (
+            <QuoteCard
+              key={quote.id}
+              quote={quote}
+              footer={
+                <ConfirmDialog
+                  title="Select this vendor?"
+                  description="This will award the project to the selected vendor and mark other approved quotes as not selected."
+                  actionLabel="Select Vendor"
+                >
+                  <form action={`/api/customer/requests/${request.id}/select-vendor`} method="post">
+                    <input type="hidden" name="quoteId" value={quote.id} />
+                    <Button type="submit">Confirm Selection</Button>
+                  </form>
+                </ConfirmDialog>
+              }
+            />
+          ))}
+        </div>
+      )}
+    </CustomerLayout>
+  );
+}
