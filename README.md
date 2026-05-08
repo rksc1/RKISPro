@@ -1,4 +1,8 @@
 # RKISPro Marketplace
+Managed Industrial RFQ Marketplace Platform
+
+One-line summary:
+RKISPro is a B2B industrial fabrication marketplace connecting customers with verified fabrication vendors through a managed RFQ workflow.
 
 Foundation for a B2B industrial RFQ marketplace built with Next.js App Router, Tailwind CSS, Supabase, Cloudinary, bcrypt, and protected cookie sessions.
 
