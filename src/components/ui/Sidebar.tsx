@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "@/components/ui/Logo";
 
 export type SidebarLink = {
   href: string;
@@ -15,8 +16,11 @@ export function Sidebar({
   return (
     <aside className="border-b border-line bg-white lg:min-h-screen lg:w-64 lg:border-b-0 lg:border-r">
       <details className="group" open>
-        <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-4 font-bold text-brand-dark lg:cursor-default">
-          {title}
+        <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-4 font-bold text-brand-dark lg:cursor-default">
+          <span className="grid gap-1">
+            <Logo size="sm" />
+            <span className="text-xs font-black uppercase tracking-[0.18em] text-muted">{title}</span>
+          </span>
           <span className="lg:hidden">Menu</span>
         </summary>
         <nav className="grid gap-1 px-3 pb-4">

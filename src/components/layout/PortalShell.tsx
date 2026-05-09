@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Sidebar, type SidebarLink } from "@/components/ui/Sidebar";
 import { NotificationBell } from "@/components/ui/NotificationBell";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 import type { Role } from "@/types/auth";
 
 export async function PortalShell({
@@ -25,7 +26,7 @@ export async function PortalShell({
         <div className="mx-auto grid max-w-6xl gap-6">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider text-brand-gold">RKISPro Marketplace</p>
+              <BrandLogo size="sm" />
               <h1 className="mt-2 text-3xl font-bold">{title}</h1>
             </div>
             <NotificationBell role={role} userId={userId} />

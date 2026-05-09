@@ -14,6 +14,7 @@ export async function AdminLayout({ title, children }: { title: string; children
       links={[
         { href: "/admin/dashboard", label: "Dashboard" },
         { href: "/admin/vendors", label: "Vendors" },
+        { href: "/admin/quick-bookings", label: "Quick Bookings" },
         { href: "/admin/requests", label: "Requests" },
         { href: "/admin/quotes", label: "Quotes" },
         { href: "/admin/projects", label: "Projects" },

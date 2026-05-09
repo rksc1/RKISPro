@@ -5,6 +5,11 @@ import type { VendorQuote, VendorQuoteRow } from "@/models/VendorQuote";
 import { getVendorNotificationById, setVendorNotificationQuoted } from "@/services/vendor-notification-service";
 import type { VendorQuoteStatus } from "@/types/auth";
 
+function listText(value: string[] | string | null | undefined) {
+  if (Array.isArray(value)) return value.join(", ");
+  return String(value ?? "");
+}
+
 function mapQuote(row: VendorQuoteRow): VendorQuote {
   return {
     id: row.id,
@@ -34,7 +39,7 @@ function mapQuoteWithRelations(
           companyName: row.vendors.company_name,
           ownerName: row.vendors.owner_name,
           location: row.vendors.location,
-          services: row.vendors.services
+          services: listText(row.vendors.services)
         }
       : null,
     request: row.marketplace_requests
@@ -150,7 +155,7 @@ export async function getApprovedQuotesForCustomerRequest(requestId: string, cus
             companyName: row.vendors.company_name,
             ownerName: row.vendors.owner_name,
             location: row.vendors.location,
-            services: row.vendors.services
+            services: listText(row.vendors.services)
           }
         : null
     }))

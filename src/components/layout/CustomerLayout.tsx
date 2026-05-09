@@ -13,6 +13,8 @@ export async function CustomerLayout({ title, children }: { title: string; child
       userId={customer?.id ?? ""}
       links={[
         { href: "/customer/dashboard", label: "Dashboard" },
+        { href: "/customer/quick-booking/new", label: "Quick Booking" },
+        { href: "/customer/quick-bookings", label: "My Quick Bookings" },
         { href: "/customer/request/new", label: "New Request" },
         { href: "/customer/dashboard#requests", label: "Requests" },
         { href: "/customer/projects", label: "Projects" },

@@ -3,15 +3,16 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { StatusBadge } from "@/components/ui/StatusBadge";
+import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
 import { getVendors } from "@/services/vendor-service";
-import type { VendorStatus } from "@/types/auth";
+import type { VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminVendorsPage({
   searchParams
 }: {
-  searchParams: Promise<{ location?: string; services?: string; machinery?: string }>;
+  searchParams: Promise<{ location?: string; services?: string; machinery?: string; vendorType?: VendorType | ""; verificationStatus?: VendorVerificationStatus | ""; city?: string }>;
 }) {
   const filters = await searchParams;
   const vendors = await getVendors(filters);
@@ -19,10 +20,27 @@ export default async function AdminVendorsPage({
   return (
     <AdminLayout title="Vendor management">
       <Card>
-        <form className="grid gap-4 md:grid-cols-4" action="/admin/vendors">
-          <Input label="Location" name="location" defaultValue={filters.location ?? ""} />
+        <form className="grid gap-4 md:grid-cols-6" action="/admin/vendors">
+          <Input label="City" name="city" defaultValue={filters.city ?? ""} />
           <Input label="Services" name="services" defaultValue={filters.services ?? ""} />
           <Input label="Machinery" name="machinery" defaultValue={filters.machinery ?? ""} />
+          <label className="grid gap-1.5 text-sm font-semibold text-ink">
+            Type
+            <select className="min-h-11 rounded-md border border-line bg-white px-3" name="vendorType" defaultValue={filters.vendorType ?? ""}>
+              <option value="">All</option>
+              <option value="individual">Individual</option>
+              <option value="company">Company</option>
+            </select>
+          </label>
+          <label className="grid gap-1.5 text-sm font-semibold text-ink">
+            Verification
+            <select className="min-h-11 rounded-md border border-line bg-white px-3" name="verificationStatus" defaultValue={filters.verificationStatus ?? ""}>
+              <option value="">All</option>
+              <option value="pending">Pending</option>
+              <option value="verified">Verified</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </label>
           <div className="flex items-end">
             <Button type="submit" className="w-full">Filter</Button>
           </div>
@@ -45,8 +63,9 @@ export default async function AdminVendorsPage({
                 <tr className="border-b border-line align-top" key={vendor.id}>
                   <td className="grid gap-1 p-3">
                     <strong>{vendor.companyName}</strong>
+                    <VendorTypeBadge type={vendor.vendorType} />
                     <span className="text-muted">{vendor.ownerName}</span>
-                    <span className="text-muted">{vendor.location}</span>
+                    <span className="text-muted">{vendor.city ?? vendor.location}</span>
                   </td>
                   <td className="grid gap-1 p-3">
                     <span>{vendor.email}</span>
@@ -55,12 +74,14 @@ export default async function AdminVendorsPage({
                   </td>
                   <td className="grid gap-1 p-3">
                     <span>{vendor.services}</span>
-                    <span className="text-muted">{vendor.machinery}</span>
+                    <span className="text-muted">{vendor.machinery || "No machinery listed"}</span>
                     <span className="text-muted">{vendor.capacity}</span>
+                    <span className="text-muted">Verification: {vendor.verificationStatus}</span>
                   </td>
                   <td className="p-3"><StatusBadge status={vendor.status} /></td>
                   <td className="p-3">
                     <div className="flex flex-wrap gap-2">
+                      <Button href={`/admin/vendors/${vendor.id}`} variant="secondary">View</Button>
                       {(["Approved", "Rejected", "Inactive", "Pending"] as VendorStatus[]).map((status) => (
                         <form action={`/api/admin/vendors/${vendor.id}/status`} method="post" key={status}>
                           <input type="hidden" name="status" value={status} />

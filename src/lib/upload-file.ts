@@ -4,7 +4,8 @@ export const uploadFolders = {
   vendorLogos: "vendor-logos",
   vendorFactory: "vendor-factory",
   rfqDocuments: "rfq-documents",
-  quoteDocuments: "quote-documents"
+  quoteDocuments: "quote-documents",
+  quickBookingImages: "quick-booking-images"
 } as const;
 
 export type UploadFolder = (typeof uploadFolders)[keyof typeof uploadFolders];

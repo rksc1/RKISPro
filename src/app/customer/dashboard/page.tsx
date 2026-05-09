@@ -1,6 +1,7 @@
 import { CustomerLayout } from "@/components/layout/CustomerLayout";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { ServiceModeCard } from "@/components/ui/ServiceModeCard";
 import { getCustomerFromCookie } from "@/lib/auth";
 import { getCustomerById } from "@/services/customer-service";
 import { getCustomerMarketplaceRequests } from "@/services/marketplace-request-service";
@@ -15,6 +16,24 @@ export default async function CustomerDashboardPage() {
 
   return (
     <CustomerLayout title="Customer dashboard">
+      <div className="grid gap-5 lg:grid-cols-2">
+        <ServiceModeCard
+          icon="QB"
+          title="Quick Booking"
+          subtitle="Hire a welder, mechanic, repair person, installer, or maintenance worker for small urgent jobs."
+          examples={["Welding repair", "Machine breakdown", "Installer visit", "Maintenance helper"]}
+          cta="Book Now"
+          href="/customer/quick-booking/new"
+        />
+        <ServiceModeCard
+          icon="RFQ"
+          title="Project RFQ"
+          subtitle="Post fabrication requirements, upload drawings, compare quotations, and award project."
+          examples={["Fabrication project", "CNC machining", "Shed construction", "Heavy fabrication"]}
+          cta="Post Requirement"
+          href="/customer/request/new"
+        />
+      </div>
       <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <Card>
           <h2 className="text-xl font-bold">Profile</h2>

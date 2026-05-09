@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/Input";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { getMarketplaceRequestById } from "@/services/marketplace-request-service";
 import { getRequestNotificationVendorIds } from "@/services/vendor-notification-service";
-import { getApprovedVendors } from "@/services/vendor-service";
+import { getLargeWorkVendors } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
 
@@ -19,13 +19,13 @@ export default async function AdminRequestDistributionPage({
   searchParams: Promise<{ location?: string; services?: string; machinery?: string; capacity?: string }>;
 }) {
   const [{ id }, filters] = await Promise.all([params, searchParams]);
-  const [request, vendors, notifiedVendorIds] = await Promise.all([
-    getMarketplaceRequestById(id),
-    getApprovedVendors(filters),
-    getRequestNotificationVendorIds(id)
-  ]);
+  const request = await getMarketplaceRequestById(id);
 
   if (!request) notFound();
+  const [vendors, notifiedVendorIds] = await Promise.all([
+    getLargeWorkVendors({ ...filters, services: filters.services ?? request.serviceType }),
+    getRequestNotificationVendorIds(id)
+  ]);
 
   const canDistribute = request.status === "Approved" || request.status === "Distributed";
 

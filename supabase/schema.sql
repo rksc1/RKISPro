@@ -94,6 +94,65 @@ create index if not exists marketplace_requests_status_idx on public.marketplace
 create index if not exists vendor_notifications_vendor_id_idx on public.vendor_notifications (vendor_id);
 create index if not exists vendor_notifications_request_id_idx on public.vendor_notifications (request_id);
 
+alter table public.vendors
+  add column if not exists vendor_type text not null default 'company',
+  add column if not exists full_name text,
+  add column if not exists skill_categories text[] not null default '{}',
+  add column if not exists service_radius_km numeric,
+  add column if not exists available_for_quick_booking boolean not null default true,
+  add column if not exists id_proof_url text,
+  add column if not exists profile_photo_url text,
+  add column if not exists workshop_address text,
+  add column if not exists workshop_images text[] not null default '{}',
+  add column if not exists available_for_large_work boolean not null default true,
+  add column if not exists city text,
+  add column if not exists state text,
+  add column if not exists verification_status text not null default 'pending',
+  add column if not exists verification_notes text,
+  add column if not exists rating numeric not null default 0,
+  add column if not exists completed_projects_count integer not null default 0,
+  add column if not exists trust_score numeric not null default 0;
+
+alter table public.vendors
+  drop constraint if exists vendors_vendor_type_check,
+  add constraint vendors_vendor_type_check check (vendor_type in ('individual', 'company'));
+
+alter table public.vendors
+  drop constraint if exists vendors_verification_status_check,
+  add constraint vendors_verification_status_check check (verification_status in ('pending', 'verified', 'rejected'));
+
+alter table public.vendors
+  alter column company_name drop not null,
+  alter column owner_name drop not null,
+  alter column gst_number drop not null;
+
+alter table public.vendors
+  alter column services type text[] using case
+    when services is null then '{}'
+    when pg_typeof(services)::text = 'text[]' then services::text[]
+    else string_to_array(services::text, ',')
+  end,
+  alter column services set default '{}',
+  alter column machinery type text[] using case
+    when machinery is null then '{}'
+    when pg_typeof(machinery)::text = 'text[]' then machinery::text[]
+    else string_to_array(machinery::text, ',')
+  end,
+  alter column machinery set default '{}';
+
+update public.vendors
+set
+  city = coalesce(city, location),
+  workshop_address = coalesce(workshop_address, location),
+  workshop_images = case when workshop_images = '{}' then factory_images else workshop_images end,
+  full_name = coalesce(full_name, owner_name),
+  verification_status = case when status = 'Approved' then 'verified' when status = 'Rejected' then 'rejected' else verification_status end
+where true;
+
+create index if not exists vendors_vendor_type_idx on public.vendors (vendor_type);
+create index if not exists vendors_verification_status_idx on public.vendors (verification_status);
+create index if not exists vendors_city_idx on public.vendors (city);
+
 create table if not exists public.vendor_quotes (
   id uuid primary key default gen_random_uuid(),
   vendor_id uuid not null references public.vendors(id) on delete cascade,
@@ -257,3 +316,30 @@ create index if not exists payments_razorpay_payment_id_idx on public.payments (
 create unique index if not exists payments_active_pending_razorpay_idx
   on public.payments (project_id, customer_id, payment_type)
   where payment_method = 'razorpay' and status = 'pending' and razorpay_order_id is not null;
+
+create table if not exists public.quick_bookings (
+  id uuid primary key default gen_random_uuid(),
+  customer_id uuid not null references public.customers(id) on delete cascade,
+  service_type text not null check (service_type in ('welder', 'mechanic', 'repair', 'installer', 'maintenance', 'electrician', 'plumber', 'helper')),
+  title text not null,
+  description text,
+  location text not null,
+  preferred_date date,
+  preferred_time text,
+  urgency text not null default 'normal' check (urgency in ('normal', 'urgent', 'emergency')),
+  budget numeric,
+  images text[] not null default '{}',
+  status text not null default 'pending' check (status in ('pending', 'assigned', 'accepted', 'in_progress', 'completed', 'cancelled')),
+  assigned_vendor_id uuid references public.vendors(id),
+  assigned_worker_name text,
+  assigned_worker_phone text,
+  admin_notes text,
+  vendor_notes text,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists quick_bookings_customer_id_idx on public.quick_bookings (customer_id);
+create index if not exists quick_bookings_status_idx on public.quick_bookings (status);
+create index if not exists quick_bookings_service_type_idx on public.quick_bookings (service_type);
+create index if not exists quick_bookings_assigned_vendor_id_idx on public.quick_bookings (assigned_vendor_id);

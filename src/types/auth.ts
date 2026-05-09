@@ -9,6 +9,10 @@ export type SessionPayload = {
 
 export type VendorStatus = "Pending" | "Approved" | "Rejected" | "Inactive";
 
+export type VendorType = "individual" | "company";
+
+export type VendorVerificationStatus = "pending" | "verified" | "rejected";
+
 export type MarketplaceRequestStatus = "Pending" | "Approved" | "Rejected" | "Distributed" | "awarded";
 
 export type VendorNotificationStatus = "Sent" | "Viewed" | "Quoted" | "awarded";
@@ -30,3 +34,17 @@ export type PaymentType = "advance" | "milestone" | "final" | "refund" | "commis
 export type PaymentDirection = "customer_to_platform" | "platform_to_vendor" | "customer_to_vendor";
 
 export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
+
+export type QuickBookingServiceType =
+  | "welder"
+  | "mechanic"
+  | "repair"
+  | "installer"
+  | "maintenance"
+  | "electrician"
+  | "plumber"
+  | "helper";
+
+export type QuickBookingUrgency = "normal" | "urgent" | "emergency";
+
+export type QuickBookingStatus = "pending" | "assigned" | "accepted" | "in_progress" | "completed" | "cancelled";

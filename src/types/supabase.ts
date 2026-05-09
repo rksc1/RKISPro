@@ -8,10 +8,15 @@ import type {
   PaymentDirection,
   PaymentStatus,
   PaymentType,
+  QuickBookingServiceType,
+  QuickBookingStatus,
+  QuickBookingUrgency,
   Role,
   VendorNotificationStatus,
   VendorQuoteStatus,
-  VendorStatus
+  VendorStatus,
+  VendorType,
+  VendorVerificationStatus
 } from "@/types/auth";
 
 type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
@@ -61,14 +66,31 @@ export type Database = {
           password: string;
           gst_number: string;
           location: string;
-          services: string;
-          machinery: string;
+          services: string[];
+          machinery: string[];
           capacity: string;
           worker_count: number;
           experience_years: number;
           logo_url: string | null;
           factory_images: string[];
           status: VendorStatus;
+          vendor_type: VendorType;
+          full_name: string | null;
+          skill_categories: string[];
+          service_radius_km: number | null;
+          available_for_quick_booking: boolean;
+          id_proof_url: string | null;
+          profile_photo_url: string | null;
+          workshop_address: string | null;
+          workshop_images: string[];
+          available_for_large_work: boolean;
+          city: string | null;
+          state: string | null;
+          verification_status: VendorVerificationStatus;
+          verification_notes: string | null;
+          rating: number;
+          completed_projects_count: number;
+          trust_score: number;
           created_at: string;
         };
         Insert: {
@@ -80,14 +102,31 @@ export type Database = {
           password: string;
           gst_number: string;
           location: string;
-          services: string;
-          machinery: string;
+          services: string[];
+          machinery: string[];
           capacity: string;
           worker_count: number;
           experience_years: number;
           logo_url?: string | null;
           factory_images?: string[];
           status?: VendorStatus;
+          vendor_type?: VendorType;
+          full_name?: string | null;
+          skill_categories?: string[];
+          service_radius_km?: number | null;
+          available_for_quick_booking?: boolean;
+          id_proof_url?: string | null;
+          profile_photo_url?: string | null;
+          workshop_address?: string | null;
+          workshop_images?: string[];
+          available_for_large_work?: boolean;
+          city?: string | null;
+          state?: string | null;
+          verification_status?: VendorVerificationStatus;
+          verification_notes?: string | null;
+          rating?: number;
+          completed_projects_count?: number;
+          trust_score?: number;
           created_at?: string;
         };
         Update: {
@@ -98,14 +137,31 @@ export type Database = {
           password?: string;
           gst_number?: string;
           location?: string;
-          services?: string;
-          machinery?: string;
+          services?: string[];
+          machinery?: string[];
           capacity?: string;
           worker_count?: number;
           experience_years?: number;
           logo_url?: string | null;
           factory_images?: string[];
           status?: VendorStatus;
+          vendor_type?: VendorType;
+          full_name?: string | null;
+          skill_categories?: string[];
+          service_radius_km?: number | null;
+          available_for_quick_booking?: boolean;
+          id_proof_url?: string | null;
+          profile_photo_url?: string | null;
+          workshop_address?: string | null;
+          workshop_images?: string[];
+          available_for_large_work?: boolean;
+          city?: string | null;
+          state?: string | null;
+          verification_status?: VendorVerificationStatus;
+          verification_notes?: string | null;
+          rating?: number;
+          completed_projects_count?: number;
+          trust_score?: number;
           created_at?: string;
         };
         Relationships: [];
@@ -628,6 +684,86 @@ export type Database = {
             columns: ["project_id"];
             isOneToOne: true;
             referencedRelation: "projects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      quick_bookings: {
+        Row: {
+          id: string;
+          customer_id: string;
+          service_type: QuickBookingServiceType;
+          title: string;
+          description: string | null;
+          location: string;
+          preferred_date: string | null;
+          preferred_time: string | null;
+          urgency: QuickBookingUrgency;
+          budget: number | null;
+          images: string[];
+          status: QuickBookingStatus;
+          assigned_vendor_id: string | null;
+          assigned_worker_name: string | null;
+          assigned_worker_phone: string | null;
+          admin_notes: string | null;
+          vendor_notes: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          customer_id: string;
+          service_type: QuickBookingServiceType;
+          title: string;
+          description?: string | null;
+          location: string;
+          preferred_date?: string | null;
+          preferred_time?: string | null;
+          urgency?: QuickBookingUrgency;
+          budget?: number | null;
+          images?: string[];
+          status?: QuickBookingStatus;
+          assigned_vendor_id?: string | null;
+          assigned_worker_name?: string | null;
+          assigned_worker_phone?: string | null;
+          admin_notes?: string | null;
+          vendor_notes?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          customer_id?: string;
+          service_type?: QuickBookingServiceType;
+          title?: string;
+          description?: string | null;
+          location?: string;
+          preferred_date?: string | null;
+          preferred_time?: string | null;
+          urgency?: QuickBookingUrgency;
+          budget?: number | null;
+          images?: string[];
+          status?: QuickBookingStatus;
+          assigned_vendor_id?: string | null;
+          assigned_worker_name?: string | null;
+          assigned_worker_phone?: string | null;
+          admin_notes?: string | null;
+          vendor_notes?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "quick_bookings_customer_id_fkey";
+            columns: ["customer_id"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "quick_bookings_assigned_vendor_id_fkey";
+            columns: ["assigned_vendor_id"];
+            isOneToOne: false;
+            referencedRelation: "vendors";
             referencedColumns: ["id"];
           }
         ];
