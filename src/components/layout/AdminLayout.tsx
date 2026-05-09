@@ -17,6 +17,7 @@ export async function AdminLayout({ title, children }: { title: string; children
         { href: "/admin/requests", label: "Requests" },
         { href: "/admin/quotes", label: "Quotes" },
         { href: "/admin/projects", label: "Projects" },
+        { href: "/admin/finance", label: "Finance" },
         { href: "/admin/notifications", label: "Notifications" },
         { href: "/admin/activity", label: "Activity" }
       ]}

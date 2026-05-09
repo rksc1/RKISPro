@@ -4,6 +4,7 @@ import type { MarketplaceRequestRow } from "@/models/MarketplaceRequest";
 import type { Project, ProjectRow } from "@/models/Project";
 import type { VendorRow } from "@/models/Vendor";
 import type { VendorQuoteRow } from "@/models/VendorQuote";
+import { ensureProjectFinancial } from "@/services/finance-service";
 import { getProjectMilestones } from "@/services/project-milestone-service";
 import { setVendorNotificationAwarded } from "@/services/vendor-notification-service";
 import type { ProjectStatus } from "@/types/auth";
@@ -152,7 +153,10 @@ export async function awardProject(input: {
   await supabase.from("marketplace_requests").update({ status: "awarded" }).eq("id", input.requestId);
   await setVendorNotificationAwarded(input.requestId, quote.vendor_id);
 
-  return mapProject(project);
+  const mappedProject = mapProject(project);
+  await ensureProjectFinancial(mappedProject);
+
+  return mappedProject;
 }
 
 export async function getCustomerProjects(customerId: string) {

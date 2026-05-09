@@ -5,6 +5,9 @@ import type {
   ProjectStatus,
   ActivityEntityType,
   NotificationType,
+  PaymentDirection,
+  PaymentStatus,
+  PaymentType,
   Role,
   VendorNotificationStatus,
   VendorQuoteStatus,
@@ -491,6 +494,143 @@ export type Database = {
           created_at?: string;
         };
         Relationships: [];
+      };
+      payments: {
+        Row: {
+          id: string;
+          project_id: string;
+          customer_id: string;
+          vendor_id: string;
+          payment_type: PaymentType;
+          payment_direction: PaymentDirection;
+          amount: number;
+          status: PaymentStatus;
+          payment_method: string | null;
+          reference_number: string | null;
+          notes: string | null;
+          razorpay_order_id: string | null;
+          razorpay_payment_id: string | null;
+          razorpay_signature: string | null;
+          razorpay_status: string | null;
+          failure_reason: string | null;
+          gateway_response: Json | null;
+          created_by_role: Role;
+          created_by_id: string | null;
+          paid_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          customer_id: string;
+          vendor_id: string;
+          payment_type: PaymentType;
+          payment_direction: PaymentDirection;
+          amount: number;
+          status?: PaymentStatus;
+          payment_method?: string | null;
+          reference_number?: string | null;
+          notes?: string | null;
+          razorpay_order_id?: string | null;
+          razorpay_payment_id?: string | null;
+          razorpay_signature?: string | null;
+          razorpay_status?: string | null;
+          failure_reason?: string | null;
+          gateway_response?: Json | null;
+          created_by_role: Role;
+          created_by_id?: string | null;
+          paid_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          project_id?: string;
+          customer_id?: string;
+          vendor_id?: string;
+          payment_type?: PaymentType;
+          payment_direction?: PaymentDirection;
+          amount?: number;
+          status?: PaymentStatus;
+          payment_method?: string | null;
+          reference_number?: string | null;
+          notes?: string | null;
+          razorpay_order_id?: string | null;
+          razorpay_payment_id?: string | null;
+          razorpay_signature?: string | null;
+          razorpay_status?: string | null;
+          failure_reason?: string | null;
+          gateway_response?: Json | null;
+          created_by_role?: Role;
+          created_by_id?: string | null;
+          paid_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "payments_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      project_financials: {
+        Row: {
+          id: string;
+          project_id: string;
+          project_value: number;
+          advance_received: number;
+          total_received: number;
+          vendor_paid: number;
+          commission_percentage: number;
+          commission_amount: number;
+          pending_customer_balance: number;
+          pending_vendor_payout: number;
+          profit_amount: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          project_value?: number;
+          advance_received?: number;
+          total_received?: number;
+          vendor_paid?: number;
+          commission_percentage?: number;
+          commission_amount?: number;
+          pending_customer_balance?: number;
+          pending_vendor_payout?: number;
+          profit_amount?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          project_id?: string;
+          project_value?: number;
+          advance_received?: number;
+          total_received?: number;
+          vendor_paid?: number;
+          commission_percentage?: number;
+          commission_amount?: number;
+          pending_customer_balance?: number;
+          pending_vendor_payout?: number;
+          profit_amount?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "project_financials_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: true;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
     Views: Record<string, never>;

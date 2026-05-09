@@ -24,3 +24,9 @@ export type MilestoneCreatorRole = "admin" | "vendor";
 export type NotificationType = "info" | "success" | "warning" | "error";
 
 export type ActivityEntityType = "rfq" | "quote" | "project" | "milestone" | "vendor";
+
+export type PaymentType = "advance" | "milestone" | "final" | "refund" | "commission";
+
+export type PaymentDirection = "customer_to_platform" | "platform_to_vendor" | "customer_to_vendor";
+
+export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";

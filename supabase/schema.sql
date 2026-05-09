@@ -198,3 +198,59 @@ create index if not exists notifications_is_read_idx on public.notifications (is
 create index if not exists notifications_created_at_idx on public.notifications (created_at);
 create index if not exists activity_logs_entity_type_entity_id_idx on public.activity_logs (entity_type, entity_id);
 create index if not exists activity_logs_created_at_idx on public.activity_logs (created_at);
+
+create table if not exists public.payments (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid not null references public.projects(id) on delete cascade,
+  customer_id uuid not null references public.customers(id) on delete cascade,
+  vendor_id uuid not null references public.vendors(id) on delete cascade,
+  payment_type text not null check (payment_type in ('advance', 'milestone', 'final', 'refund', 'commission')),
+  payment_direction text not null check (payment_direction in ('customer_to_platform', 'platform_to_vendor', 'customer_to_vendor')),
+  amount numeric not null check (amount > 0),
+  status text not null default 'pending' check (status in ('pending', 'paid', 'failed', 'refunded')),
+  payment_method text,
+  reference_number text,
+  notes text,
+  razorpay_order_id text,
+  razorpay_payment_id text,
+  razorpay_signature text,
+  razorpay_status text,
+  failure_reason text,
+  gateway_response jsonb,
+  created_by_role text not null check (created_by_role in ('admin', 'customer', 'vendor')),
+  created_by_id uuid,
+  paid_at timestamptz,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.payments
+  add column if not exists razorpay_order_id text,
+  add column if not exists razorpay_payment_id text,
+  add column if not exists razorpay_signature text,
+  add column if not exists razorpay_status text,
+  add column if not exists failure_reason text,
+  add column if not exists gateway_response jsonb;
+
+create table if not exists public.project_financials (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid not null unique references public.projects(id) on delete cascade,
+  project_value numeric not null default 0,
+  advance_received numeric not null default 0,
+  total_received numeric not null default 0,
+  vendor_paid numeric not null default 0,
+  commission_percentage numeric not null default 3,
+  commission_amount numeric not null default 0,
+  pending_customer_balance numeric not null default 0,
+  pending_vendor_payout numeric not null default 0,
+  profit_amount numeric not null default 0,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists payments_project_id_idx on public.payments (project_id);
+create index if not exists payments_status_idx on public.payments (status);
+create index if not exists payments_payment_type_idx on public.payments (payment_type);
+create index if not exists payments_created_at_idx on public.payments (created_at);
+create index if not exists payments_razorpay_order_id_idx on public.payments (razorpay_order_id);
+create index if not exists payments_razorpay_payment_id_idx on public.payments (razorpay_payment_id);

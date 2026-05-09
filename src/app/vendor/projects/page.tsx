@@ -21,7 +21,12 @@ export default async function VendorProjectsPage() {
             <ProjectCard
               key={project.id}
               project={project}
-              footer={<Button href={`/vendor/projects/${project.id}`} variant="secondary">View Tracking</Button>}
+              footer={
+                <div className="flex flex-wrap gap-2">
+                  <Button href={`/vendor/projects/${project.id}`} variant="secondary">View Tracking</Button>
+                  <Button href={`/vendor/projects/${project.id}/payments`} variant="secondary">Payments</Button>
+                </div>
+              }
             />
           ))}
         </div>

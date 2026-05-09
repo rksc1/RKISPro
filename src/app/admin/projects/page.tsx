@@ -58,7 +58,10 @@ export default async function AdminProjectsPage({
               project={project}
               footer={
                 <div className="grid gap-4 border-t border-line pt-4">
-                  <Button href={`/admin/projects/${project.id}`} variant="secondary">Open Tracking</Button>
+                  <div className="flex flex-wrap gap-2">
+                    <Button href={`/admin/projects/${project.id}`} variant="secondary">Open Tracking</Button>
+                    <Button href={`/admin/projects/${project.id}/finance`} variant="secondary">Finance</Button>
+                  </div>
                 <form className="grid gap-4" action={`/api/admin/projects/${project.id}`} method="post">
                   <div className="grid gap-4 md:grid-cols-3">
                     <label className="grid gap-1.5 text-sm font-semibold text-ink">
