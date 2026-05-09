@@ -42,7 +42,21 @@ export async function POST(request: NextRequest) {
   }
 
   const activePending = await getPendingRazorpayPayment({ customerId: customer.id, projectId, paymentType });
+  if (activePending && !activePending.razorpayOrderId) {
+    return NextResponse.json(
+      { error: "A Razorpay order is already being prepared for this payment. Please wait a moment and try again." },
+      { status: 409 }
+    );
+  }
+
   if (activePending?.razorpayOrderId) {
+    if (Number(activePending.amount) !== amount) {
+      return NextResponse.json(
+        { error: `A pending ${paymentType} Razorpay order already exists for Rs. ${Number(activePending.amount).toLocaleString("en-IN")}. Complete or retry that payment first.` },
+        { status: 409 }
+      );
+    }
+
     return NextResponse.json({
       order_id: activePending.razorpayOrderId,
       amount: activePending.amount,

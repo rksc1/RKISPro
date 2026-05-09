@@ -254,3 +254,6 @@ create index if not exists payments_payment_type_idx on public.payments (payment
 create index if not exists payments_created_at_idx on public.payments (created_at);
 create index if not exists payments_razorpay_order_id_idx on public.payments (razorpay_order_id);
 create index if not exists payments_razorpay_payment_id_idx on public.payments (razorpay_payment_id);
+create unique index if not exists payments_active_pending_razorpay_idx
+  on public.payments (project_id, customer_id, payment_type)
+  where payment_method = 'razorpay' and status = 'pending' and razorpay_order_id is not null;

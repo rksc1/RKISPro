@@ -27,8 +27,12 @@ export async function POST(request: NextRequest) {
 
   const payment = await getPaymentForCustomer({ paymentId, customerId: customer.id });
   if (!payment) return NextResponse.json({ error: "Payment not found" }, { status: 404 });
-  if (payment.status !== "pending") return NextResponse.json({ error: "Payment is not pending" }, { status: 400 });
   if (payment.razorpayOrderId !== orderId) return NextResponse.json({ error: "Razorpay order mismatch" }, { status: 400 });
+  if (payment.status === "paid") {
+    const sameGatewayPayment = !payment.razorpayPaymentId || payment.razorpayPaymentId === razorpayPaymentId;
+    return NextResponse.json({ success: true, idempotent: true, alreadyPaid: sameGatewayPayment });
+  }
+  if (payment.status !== "pending") return NextResponse.json({ error: "Payment is not pending" }, { status: 400 });
 
   const valid = verifyRazorpaySignature(orderId, razorpayPaymentId, signature);
   if (!valid) {

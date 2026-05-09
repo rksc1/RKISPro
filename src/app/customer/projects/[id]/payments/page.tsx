@@ -40,6 +40,12 @@ export default async function CustomerProjectPaymentsPage({ params }: { params: 
         projectId={id}
         pendingBalance={finance.financial.pendingCustomerBalance}
         customer={{ name: customer.name, email: customer.email }}
+        failedPayments={finance.payments.filter(
+          (payment) =>
+            payment.paymentMethod === "razorpay" &&
+            payment.status === "failed" &&
+            (payment.paymentType === "advance" || payment.paymentType === "milestone" || payment.paymentType === "final")
+        )}
       />
 
       <div className="grid gap-4">

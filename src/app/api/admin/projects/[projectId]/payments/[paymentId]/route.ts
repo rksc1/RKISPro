@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAdminFromCookie } from "@/lib/auth";
-import { getProjectFinanceForRole, recalculateProjectFinancial, updatePaymentStatus } from "@/services/finance-service";
+import { getProjectFinanceForRole, recalculateProjectFinancial, updatePaymentNotes, updatePaymentStatus } from "@/services/finance-service";
 import { createActivityLog, createNotifications } from "@/services/notification-service";
 import type { PaymentStatus } from "@/types/auth";
 
@@ -24,8 +24,22 @@ export async function POST(
   const formData = await request.formData();
   const status = String(formData.get("status") ?? "");
   if (!isPaymentStatus(status)) return NextResponse.json({ error: "Invalid payment status" }, { status: 400 });
-  if (existingPayment.paymentMethod === "razorpay" && existingPayment.status === "paid" && status !== "paid") {
-    return NextResponse.json({ error: "Paid Razorpay payments are locked" }, { status: 400 });
+  if (existingPayment.paymentMethod === "razorpay" && existingPayment.status === "paid") {
+    await updatePaymentNotes({
+      projectId,
+      paymentId,
+      notes: String(formData.get("notes") ?? "").trim()
+    });
+    await createActivityLog({
+      actorRole: "admin",
+      actorId: admin.id,
+      entityType: "project",
+      entityId: projectId,
+      action: "payment_reconciliation_note_updated",
+      description: `${admin.name} updated a Razorpay reconciliation note.`,
+      metadata: { paymentId }
+    });
+    return NextResponse.redirect(new URL(`/admin/projects/${projectId}/finance`, request.url), 303);
   }
 
   const payment = await updatePaymentStatus({

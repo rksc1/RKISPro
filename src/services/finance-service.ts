@@ -336,7 +336,6 @@ export async function getPendingRazorpayPayment(input: {
     .eq("payment_type", input.paymentType)
     .eq("payment_method", "razorpay")
     .eq("status", "pending")
-    .not("razorpay_order_id", "is", null)
     .order("created_at", { ascending: false })
     .limit(1)
     .maybeSingle<PaymentRow>();
@@ -399,6 +398,27 @@ export async function updatePaymentStatus(input: {
 
   if (error) throw new Error(error.message);
   await recalculateProjectFinancial(input.projectId);
+  return mapPayment(data);
+}
+
+export async function updatePaymentNotes(input: {
+  paymentId: string;
+  projectId: string;
+  notes?: string | null;
+}) {
+  const supabase = getSupabase();
+  const { data, error } = await supabase
+    .from("payments")
+    .update({
+      notes: input.notes || null,
+      updated_at: new Date().toISOString()
+    })
+    .eq("id", input.paymentId)
+    .eq("project_id", input.projectId)
+    .select("*")
+    .single<PaymentRow>();
+
+  if (error) throw new Error(error.message);
   return mapPayment(data);
 }
 

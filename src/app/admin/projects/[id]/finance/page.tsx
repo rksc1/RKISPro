@@ -99,9 +99,21 @@ export default async function AdminProjectFinancePage({ params }: { params: Prom
             key={payment.id}
             payment={payment}
             actions={isLockedRazorpayPayment ? (
-              <p className="rounded-md bg-canvas p-3 text-sm font-semibold text-muted">
-                Paid Razorpay payments are locked. Add a separate adjustment or note record if finance needs reconciliation.
-              </p>
+              <form action={`/api/admin/projects/${id}/payments/${payment.id}`} className="grid gap-3 border-t border-line pt-4 md:grid-cols-[1fr_auto]" method="post">
+                <input name="status" type="hidden" value="paid" />
+                <label className="grid gap-2 text-sm font-semibold">
+                  Manual reconciliation note
+                  <input
+                    className="min-h-10 rounded-md border border-line px-3 text-sm"
+                    name="notes"
+                    placeholder="Internal note for Razorpay reconciliation"
+                    defaultValue={payment.notes ?? ""}
+                  />
+                </label>
+                <div className="flex items-end">
+                  <Button type="submit">Save note</Button>
+                </div>
+              </form>
             ) : (
               <form action={`/api/admin/projects/${id}/payments/${payment.id}`} className="grid gap-3 border-t border-line pt-4 md:grid-cols-5" method="post">
                 <select className="min-h-10 rounded-md border border-line bg-white px-3 text-sm" name="status" defaultValue={payment.status}>
