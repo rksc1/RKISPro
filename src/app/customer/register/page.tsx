@@ -1,21 +1,30 @@
-import Link from "next/link";
-import { AuthShell } from "@/components/layout/AuthShell";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { AuthBackground } from "@/components/ui/AuthBackground";
+import { AuthField } from "@/components/ui/AuthField";
+import { AuthFormCard } from "@/components/ui/AuthFormCard";
 
 export default function CustomerRegisterPage() {
   return (
-    <AuthShell title="Customer registration" description="Create a customer profile for future requirement submissions.">
-      <form className="form-grid" action="/api/customer/register" method="post">
-        <Input label="Name" name="name" required />
-        <Input label="Phone" name="phone" required />
-        <Input label="Email" name="email" type="email" required />
-        <Input label="Company name" name="companyName" required />
-        <Input label="Location" name="location" required />
-        <Input label="Password" name="password" type="password" minLength={8} required />
-        <Button type="submit">Create Account</Button>
-      </form>
-      <p className="text-sm text-muted">Already registered? <Link className="font-semibold text-brand" href="/customer/login">Login</Link></p>
-    </AuthShell>
+    <AuthBackground>
+      <AuthFormCard
+        action="/api/customer/register"
+        roleHref="/auth"
+        submitLabel="Create Customer Account"
+        subtitle="Post RFQs, compare verified quotations, and manage industrial projects."
+        switchHref="/customer/login"
+        switchLabel="Login"
+        switchText="Already registered?"
+        title="Customer registration"
+      >
+        <AuthField autoComplete="name" label="Full name" name="name" required />
+        <AuthField label="Company name (optional)" name="companyName" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <AuthField autoComplete="tel" label="Phone number" name="phone" required />
+          <AuthField label="City" name="city" required />
+        </div>
+        <AuthField label="State" name="state" required />
+        <AuthField autoComplete="email" label="Email" name="email" type="email" required />
+        <AuthField autoComplete="new-password" label="Password" name="password" type="password" minLength={8} required />
+      </AuthFormCard>
+    </AuthBackground>
   );
 }

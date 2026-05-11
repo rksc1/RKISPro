@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getVendorFromCookie } from "@/lib/auth";
 import { createActivityLog } from "@/services/notification-service";
 import { markVendorRfqViewed } from "@/services/vendor-notification-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 
 export async function POST(
   request: NextRequest,
@@ -11,6 +12,10 @@ export async function POST(
 
   if (!vendor) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!(await isApprovedVendor(vendor.id))) {
+    return NextResponse.json({ error: "Vendor account must be approved before accessing RFQs" }, { status: 403 });
   }
 
   const { notificationId } = await params;

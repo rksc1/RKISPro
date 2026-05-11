@@ -32,13 +32,13 @@ export function StickyNavbar() {
         <div className="hidden flex-[1_1_30%] items-center justify-end gap-3 md:flex">
           <Link
             className="rounded-lg px-3 py-2 text-sm font-semibold text-white/80 transition-colors duration-300 hover:text-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
-            href="/customer/login"
+            href="/auth?mode=login"
           >
             Login
           </Link>
           <Link
             className="inline-flex min-h-9 items-center justify-center rounded-xl bg-teal-500 px-4 text-sm font-bold text-white shadow-md shadow-teal-950/25 ring-1 ring-teal-300/25 transition-all duration-300 hover:-translate-y-px hover:bg-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
-            href="/customer/request/new"
+            href="/auth"
           >
             Post Requirement
           </Link>
@@ -61,10 +61,10 @@ export function StickyNavbar() {
                 </Link>
               ))}
               <div className="my-2 h-px bg-white/10" />
-              <Link className="rounded-xl px-3 py-3 text-sm font-semibold text-white/85 transition hover:bg-white/5 hover:text-teal-300" href="/customer/login">
+              <Link className="rounded-xl px-3 py-3 text-sm font-semibold text-white/85 transition hover:bg-white/5 hover:text-teal-300" href="/auth?mode=login">
                 Login
               </Link>
-              <Link className="mt-1 inline-flex min-h-10 items-center justify-center rounded-xl bg-teal-500 px-4 text-sm font-black text-white shadow-md shadow-teal-950/30 transition hover:bg-teal-400" href="/customer/request/new">
+              <Link className="mt-1 inline-flex min-h-10 items-center justify-center rounded-xl bg-teal-500 px-4 text-sm font-black text-white shadow-md shadow-teal-950/30 transition hover:bg-teal-400" href="/auth">
                 Post Requirement
               </Link>
             </nav>

@@ -343,3 +343,43 @@ create index if not exists quick_bookings_customer_id_idx on public.quick_bookin
 create index if not exists quick_bookings_status_idx on public.quick_bookings (status);
 create index if not exists quick_bookings_service_type_idx on public.quick_bookings (service_type);
 create index if not exists quick_bookings_assigned_vendor_id_idx on public.quick_bookings (assigned_vendor_id);
+
+create table if not exists public.profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  role text not null check (role in ('customer', 'vendor', 'admin')),
+  full_name text not null,
+  company_name text,
+  phone text,
+  city text,
+  state text,
+  avatar_url text,
+  is_verified boolean not null default false,
+  is_approved boolean not null default false,
+  status text not null default 'active'
+    check (status in ('active', 'pending', 'approved', 'rejected', 'verified', 'suspended', 'inactive')),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+alter table public.customers
+  add column if not exists profile_id uuid references public.profiles(id) on delete set null,
+  add column if not exists company_type text,
+  add column if not exists billing_address text,
+  add column if not exists city text,
+  add column if not exists state text;
+
+alter table public.vendors
+  add column if not exists profile_id uuid references public.profiles(id) on delete set null,
+  add column if not exists pan_number text,
+  add column if not exists agreement_accepted boolean not null default false,
+  add column if not exists agreement_accepted_at timestamptz,
+  add column if not exists verification_documents text[] not null default '{}',
+  add column if not exists business_type text,
+  add column if not exists is_suspended boolean not null default false;
+
+create index if not exists profiles_role_idx on public.profiles (role);
+create index if not exists profiles_status_idx on public.profiles (status);
+create index if not exists profiles_city_state_idx on public.profiles (city, state);
+create index if not exists customers_profile_id_idx on public.customers (profile_id);
+create index if not exists vendors_profile_id_idx on public.vendors (profile_id);
+create index if not exists vendors_agreement_accepted_idx on public.vendors (agreement_accepted);

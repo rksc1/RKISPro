@@ -4,13 +4,22 @@ import { roleFromPath } from "@/lib/routes";
 
 const protectedPrefixes = [
   "/customer/dashboard",
+  "/customer/notifications",
   "/customer/projects",
+  "/customer/quick-booking",
+  "/customer/quick-bookings",
   "/customer/requests",
   "/customer/request",
   "/vendor/dashboard",
+  "/vendor/notifications",
+  "/vendor/quick-bookings",
   "/vendor/rfqs",
   "/vendor/projects",
+  "/admin/activity",
   "/admin/dashboard",
+  "/admin/finance",
+  "/admin/notifications",
+  "/admin/quick-bookings",
   "/admin/vendors",
   "/admin/requests",
   "/admin/quotes",
@@ -25,6 +34,16 @@ export async function getRouteSession(request: NextRequest) {
   const session = await verifySession(token);
 
   return { role, session };
+}
+
+export async function getAnyRouteSession(request: NextRequest) {
+  for (const role of ["customer", "vendor", "admin"] as const) {
+    const token = request.cookies.get(cookieByRole[role])?.value;
+    const session = await verifySession(token);
+    if (session?.role === role) return session;
+  }
+
+  return null;
 }
 
 export function isProtectedRoute(pathname: string) {

@@ -31,6 +31,9 @@ export type VendorRow = {
   state: string | null;
   verification_status: VendorVerificationStatus;
   verification_notes: string | null;
+  pan_number?: string | null;
+  agreement_accepted?: boolean;
+  agreement_accepted_at?: string | null;
   rating: number;
   completed_projects_count: number;
   trust_score: number;

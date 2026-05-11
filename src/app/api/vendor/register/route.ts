@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { setRoleCookie } from "@/lib/auth";
 import { uploadFile, uploadFiles, uploadFolders } from "@/lib/upload-file";
 import { createVendor } from "@/services/vendor-service";
 import type { VendorType } from "@/types/auth";
@@ -57,15 +56,22 @@ export async function POST(request: NextRequest) {
     workshopImages: [] as string[],
     availableForLargeWork: formData.get("availableForLargeWork") === "true",
     city,
-    state: required(formData.get("state"))
+    state: required(formData.get("state")),
+    panNumber: required(formData.get("panNumber")),
+    agreementAccepted: formData.get("agreementAccepted") === "on",
+    agreementAcceptedAt: new Date().toISOString()
   };
 
   const missingCommon = !input.phone || !input.email || input.password.length < 8 || Number.isNaN(input.experienceYears);
   const missingIndividual = type === "individual" && (!input.fullName || input.services.length === 0 || !input.city);
-  const missingCompany = type === "company" && (!input.companyName || !input.ownerName || !input.gstNumber || !input.workshopAddress || input.services.length === 0 || input.machinery.length === 0 || !input.capacity || Number.isNaN(input.workerCount));
+  const missingCompany = type === "company" && (!input.companyName || !input.ownerName || !input.workshopAddress || input.services.length === 0 || input.machinery.length === 0 || !input.capacity || Number.isNaN(input.workerCount));
 
   if (missingCommon || missingIndividual || missingCompany) {
     return NextResponse.json({ error: "Missing required vendor fields" }, { status: 400 });
+  }
+
+  if (!input.agreementAccepted) {
+    return NextResponse.json({ error: "Vendor agreement acceptance is required" }, { status: 400 });
   }
 
   try {
@@ -84,15 +90,9 @@ export async function POST(request: NextRequest) {
     input.workshopImages = workshopUploads.map((upload) => upload.secure_url);
     input.factoryImages = input.workshopImages;
 
-    const vendor = await createVendor(input);
-    await setRoleCookie({
-      id: vendor.id,
-      role: "vendor",
-      name: vendor.vendorType === "individual" ? vendor.fullName ?? vendor.ownerName : vendor.ownerName,
-      email: vendor.email
-    });
+    await createVendor(input);
 
-    return NextResponse.redirect(new URL("/vendor/dashboard", request.url), 303);
+    return NextResponse.redirect(new URL("/vendor/pending", request.url), 303);
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Registration failed" }, { status: 400 });
   }

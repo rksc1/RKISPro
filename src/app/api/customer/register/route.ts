@@ -13,10 +13,12 @@ export async function POST(request: NextRequest) {
     email: required(formData.get("email")).toLowerCase(),
     password: String(formData.get("password") ?? ""),
     companyName: required(formData.get("companyName")),
-    location: required(formData.get("location"))
+    city: required(formData.get("city")),
+    state: required(formData.get("state")),
+    location: required(formData.get("location")) || `${required(formData.get("city"))}, ${required(formData.get("state"))}`
   };
 
-  if (!input.name || !input.phone || !input.email || input.password.length < 8 || !input.companyName || !input.location) {
+  if (!input.name || !input.phone || !input.email || input.password.length < 8 || !input.city || !input.state) {
     return NextResponse.json({ error: "Missing required customer fields" }, { status: 400 });
   }
 

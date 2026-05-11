@@ -1,5 +1,6 @@
 import { getSupabase } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/lib/password";
+import { createSupabaseAuthUser, upsertAuthProfile, verifySupabasePassword } from "@/lib/supabase-auth";
 import type { CustomerProfile, CustomerRow } from "@/models/Customer";
 
 function mapCustomer(row: CustomerRow): CustomerProfile {
@@ -21,6 +22,8 @@ export async function createCustomer(input: {
   password: string;
   companyName: string;
   location: string;
+  city?: string;
+  state?: string;
 }) {
   const supabase = getSupabase();
   const email = input.email.toLowerCase();
@@ -32,6 +35,27 @@ export async function createCustomer(input: {
     .maybeSingle();
 
   if (existing) throw new Error("Customer already exists");
+
+  const authUser = await createSupabaseAuthUser({
+    email,
+    password: input.password,
+    role: "customer",
+    fullName: input.name
+  });
+
+  if (authUser) {
+    await upsertAuthProfile({
+      authUserId: authUser.id,
+      role: "customer",
+      fullName: input.name,
+      companyName: input.companyName,
+      phone: input.phone,
+      city: input.city || input.location,
+      state: input.state || "",
+      status: "active",
+      isApproved: true
+    });
+  }
 
   const { data, error } = await supabase
     .from("customers")
@@ -52,6 +76,7 @@ export async function createCustomer(input: {
 
 export async function authenticateCustomer(email: string, password: string) {
   const supabase = getSupabase();
+  const authUser = await verifySupabasePassword(email.toLowerCase(), password);
 
   const { data, error } = await supabase
     .from("customers")
@@ -59,7 +84,21 @@ export async function authenticateCustomer(email: string, password: string) {
     .eq("email", email.toLowerCase())
     .maybeSingle<CustomerRow>();
 
-  if (error || !data || !(await verifyPassword(password, data.password))) return null;
+  if (error || !data) return null;
+  if (!authUser && !(await verifyPassword(password, data.password))) return null;
+  return mapCustomer(data);
+}
+
+export async function getCustomerByEmail(email: string) {
+  const supabase = getSupabase();
+
+  const { data, error } = await supabase
+    .from("customers")
+    .select("*")
+    .eq("email", email.toLowerCase())
+    .maybeSingle<CustomerRow>();
+
+  if (error || !data) return null;
   return mapCustomer(data);
 }
 

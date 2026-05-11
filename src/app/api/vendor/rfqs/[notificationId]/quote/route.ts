@@ -4,6 +4,7 @@ import { uploadFile, uploadFolders } from "@/lib/upload-file";
 import { getAdmins } from "@/services/admin-service";
 import { createActivityLog, createNotifications } from "@/services/notification-service";
 import { createVendorQuote } from "@/services/vendor-quote-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 
 export async function POST(
   request: NextRequest,
@@ -13,6 +14,10 @@ export async function POST(
 
   if (!vendor) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  if (!(await isApprovedVendor(vendor.id))) {
+    return NextResponse.json({ error: "Vendor account must be approved before submitting quotations" }, { status: 403 });
   }
 
   const formData = await request.formData();

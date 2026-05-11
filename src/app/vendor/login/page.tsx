@@ -1,17 +1,23 @@
-import Link from "next/link";
-import { AuthShell } from "@/components/layout/AuthShell";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { AuthBackground } from "@/components/ui/AuthBackground";
+import { AuthField } from "@/components/ui/AuthField";
+import { AuthFormCard } from "@/components/ui/AuthFormCard";
 
 export default function VendorLoginPage() {
   return (
-    <AuthShell title="Vendor login" description="Access your vendor dashboard and approval status.">
-      <form className="form-grid" action="/api/auth/vendor/login" method="post">
-        <Input label="Email" name="email" type="email" required />
-        <Input label="Password" name="password" type="password" required />
-        <Button type="submit">Login</Button>
-      </form>
-      <p className="text-sm text-muted">Need an account? <Link className="font-semibold text-brand" href="/vendor/register">Register</Link></p>
-    </AuthShell>
+    <AuthBackground>
+      <AuthFormCard
+        action="/api/auth/vendor/login"
+        roleHref="/auth?mode=login"
+        submitLabel="Login as Vendor"
+        subtitle="Access assigned RFQs, quotations, milestones, quick bookings, and payouts."
+        switchHref="/vendor/register"
+        switchLabel="Join as vendor"
+        switchText="Need an account?"
+        title="Vendor login"
+      >
+        <AuthField autoComplete="email" label="Email" name="email" type="email" required />
+        <AuthField autoComplete="current-password" label="Password" name="password" type="password" required />
+      </AuthFormCard>
+    </AuthBackground>
   );
 }

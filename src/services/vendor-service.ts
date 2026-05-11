@@ -1,5 +1,6 @@
 import { getSupabase } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/lib/password";
+import { createSupabaseAuthUser, upsertAuthProfile, verifySupabasePassword } from "@/lib/supabase-auth";
 import type { VendorProfile, VendorRow } from "@/models/Vendor";
 import type { VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
 
@@ -78,6 +79,9 @@ export async function createVendor(input: {
   availableForLargeWork?: boolean;
   city?: string;
   state?: string;
+  panNumber?: string;
+  agreementAccepted?: boolean;
+  agreementAcceptedAt?: string;
 }) {
   const supabase = getSupabase();
   const email = input.email.toLowerCase();
@@ -89,6 +93,28 @@ export async function createVendor(input: {
     .maybeSingle();
 
   if (existing) throw new Error("Vendor already exists");
+
+  const fullName = input.fullName || input.ownerName || input.companyName;
+  const authUser = await createSupabaseAuthUser({
+    email,
+    password: input.password,
+    role: "vendor",
+    fullName
+  });
+
+  if (authUser) {
+    await upsertAuthProfile({
+      authUserId: authUser.id,
+      role: "vendor",
+      fullName,
+      companyName: input.companyName,
+      phone: input.phone,
+      city: input.city || input.location || "",
+      state: input.state || "",
+      status: "pending",
+      isApproved: false
+    });
+  }
 
   const { data, error } = await supabase
     .from("vendors")
@@ -126,11 +152,30 @@ export async function createVendor(input: {
     .single<VendorRow>();
 
   if (error) throw new Error(error.message);
+  await updateVendorAuthMetadata(data.id, {
+    pan_number: input.panNumber || null,
+    agreement_accepted: input.agreementAccepted ?? false,
+    agreement_accepted_at: input.agreementAcceptedAt ?? new Date().toISOString()
+  });
   return mapVendor(data);
+}
+
+async function updateVendorAuthMetadata(vendorId: string, values: Record<string, unknown>) {
+  const supabase = getSupabase() as unknown as {
+    from: (table: string) => {
+      update: (payload: Record<string, unknown>) => {
+        eq: (column: string, value: string) => Promise<{ error: { message: string } | null }>;
+      };
+    };
+  };
+
+  const { error } = await supabase.from("vendors").update(values).eq("id", vendorId);
+  if (error) throw new Error(error.message);
 }
 
 export async function authenticateVendor(email: string, password: string) {
   const supabase = getSupabase();
+  const authUser = await verifySupabasePassword(email.toLowerCase(), password);
 
   const { data, error } = await supabase
     .from("vendors")
@@ -138,7 +183,8 @@ export async function authenticateVendor(email: string, password: string) {
     .eq("email", email.toLowerCase())
     .maybeSingle<VendorRow>();
 
-  if (error || !data || !(await verifyPassword(password, data.password))) return null;
+  if (error || !data) return null;
+  if (!authUser && !(await verifyPassword(password, data.password))) return null;
   return mapVendor(data);
 }
 
