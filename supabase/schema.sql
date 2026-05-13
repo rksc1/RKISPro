@@ -72,6 +72,14 @@ alter table public.vendor_notifications
   add column if not exists quote_file_urls text[] not null default '{}';
 
 alter table public.marketplace_requests
+  add column if not exists technical_requirements text,
+  add column if not exists quantity text,
+  add column if not exists quality_expectations text,
+  add column if not exists budget_range text,
+  add column if not exists inspection_requirement text,
+  add column if not exists gst_requirement boolean not null default false;
+
+alter table public.marketplace_requests
   drop constraint if exists marketplace_requests_status_check;
 
 alter table public.marketplace_requests
@@ -172,6 +180,9 @@ create table if not exists public.vendor_quotes (
 alter table public.vendor_quotes
   add column if not exists status text not null default 'pending',
   add column if not exists admin_notes text,
+  add column if not exists risk_notes text,
+  add column if not exists is_recommended boolean not null default false,
+  add column if not exists execution_fit_score numeric,
   add column if not exists reviewed_at timestamptz,
   add column if not exists reviewed_by uuid references public.admins(id),
   add column if not exists updated_at timestamptz not null default now();

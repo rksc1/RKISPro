@@ -2,6 +2,7 @@ import { CustomerLayout } from "@/components/layout/CustomerLayout";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ServiceModeCard } from "@/components/ui/ServiceModeCard";
+import { formatStatus, normalizeStatus } from "@/lib/status";
 import { getCustomerFromCookie } from "@/lib/auth";
 import { getCustomerById } from "@/services/customer-service";
 import { getCustomerMarketplaceRequests } from "@/services/marketplace-request-service";
@@ -14,26 +15,47 @@ export default async function CustomerDashboardPage() {
     ? await Promise.all([getCustomerById(session.id), getCustomerMarketplaceRequests(session.id)])
     : [null, []];
 
+  const countByStatus = (statuses: string[]) => requests.filter((request) => statuses.includes(normalizeStatus(request.status))).length;
+  const summaryCards = [
+    { label: "RFQs Under Review", value: countByStatus(["pending"]), note: "Requirements awaiting RKISPro review" },
+    { label: "Vendors Shortlisted", value: countByStatus(["distributed"]), note: "RFQs shared with selected vendors" },
+    { label: "Quotes Awaiting Review", value: countByStatus(["approved", "distributed"]), note: "Structured quotations in progress" },
+    { label: "Awarded Projects", value: countByStatus(["awarded"]), note: "RFQs converted into projects" },
+    { label: "Ongoing Projects", value: countByStatus(["awarded"]), note: "Track execution and milestones" },
+    { label: "Pending Payments", value: 0, note: "Payment visibility appears after award" }
+  ];
+
   return (
-    <CustomerLayout title="Customer dashboard">
+    <CustomerLayout title="Procurement pipeline">
+      <div className="grid gap-4 md:grid-cols-3">
+        {summaryCards.map((card) => (
+          <Card key={card.label}>
+            <span className="text-sm font-semibold text-muted">{card.label}</span>
+            <strong className="mt-2 block text-3xl text-slate-950">{card.value}</strong>
+            <p className="mt-2 text-sm text-muted">{card.note}</p>
+          </Card>
+        ))}
+      </div>
+
       <div className="grid gap-5 lg:grid-cols-2">
         <ServiceModeCard
           icon="QB"
           title="Quick Booking"
-          subtitle="Hire a welder, mechanic, repair person, installer, or maintenance worker for small urgent jobs."
+          subtitle="For urgent same-day field work such as repair visits, installers, and maintenance helpers."
           examples={["Welding repair", "Machine breakdown", "Installer visit", "Maintenance helper"]}
           cta="Book Now"
           href="/customer/quick-booking/new"
         />
         <ServiceModeCard
           icon="RFQ"
-          title="Project RFQ"
-          subtitle="Post fabrication requirements, upload drawings, compare quotations, and award project."
+          title="Managed RFQ"
+          subtitle="For fabrication, drawings, technical work, project value, and multiple structured quotations."
           examples={["Fabrication project", "CNC machining", "Shed construction", "Heavy fabrication"]}
           cta="Post Requirement"
           href="/customer/request/new"
         />
       </div>
+
       <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <Card>
           <h2 className="text-xl font-bold">Profile</h2>
@@ -47,8 +69,8 @@ export default async function CustomerDashboardPage() {
         </Card>
         <Card>
           <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 id="requests" className="text-xl font-bold">Submitted RFQs</h2>
-            <Button href="/customer/request/new">New RFQ</Button>
+            <h2 id="requests" className="text-xl font-bold">Managed RFQs</h2>
+            <Button href="/customer/request/new">New Managed RFQ</Button>
           </div>
           <div className="mt-4 grid gap-3">
             {requests.map((request) => (
@@ -56,10 +78,10 @@ export default async function CustomerDashboardPage() {
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <h3 className="font-bold">{request.projectTitle}</h3>
-                    <p className="mt-1 text-sm text-muted">{request.serviceType} · {request.materialType}</p>
+                    <p className="mt-1 text-sm text-muted">{request.serviceType} | {request.materialType}</p>
                   </div>
                   <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800">
-                    {request.status}
+                    {formatStatus(request.status)}
                   </span>
                 </div>
                 <p className="mt-3 line-clamp-2 text-sm text-muted">{request.description}</p>
@@ -70,13 +92,13 @@ export default async function CustomerDashboardPage() {
                 </div>
                 <div className="mt-4">
                   <Button href={`/customer/requests/${request.id}/quotes`} variant="secondary">
-                    Compare Quotes
+                    Compare Structured Quotations
                   </Button>
                 </div>
               </div>
             ))}
             {requests.length === 0 ? (
-              <p className="text-sm text-muted">No RFQs submitted yet.</p>
+              <p className="text-sm text-muted">No managed RFQs submitted yet.</p>
             ) : null}
           </div>
         </Card>

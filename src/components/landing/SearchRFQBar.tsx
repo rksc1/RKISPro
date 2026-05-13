@@ -16,7 +16,7 @@ export function SearchRFQBar() {
           name="location"
           placeholder="City or industrial area"
         />
-        <Button type="submit" className="min-h-12 px-6">Get Quotes</Button>
+        <Button type="submit" className="min-h-12 px-6">Start RFQ</Button>
       </form>
       <div className="flex flex-wrap gap-2 px-2 pb-2 pt-3">
         {chips.map((chip) => (

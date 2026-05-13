@@ -5,6 +5,7 @@ import { ProjectDetailContent } from "@/components/ui/ProjectDetailContent";
 import { getVendorFromCookie } from "@/lib/auth";
 import type { ProjectMilestone } from "@/models/ProjectMilestone";
 import { getProjectDetailForRole } from "@/services/project-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +34,7 @@ function VendorMilestoneControls({ projectId, milestone }: { projectId: string; 
 export default async function VendorProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [{ id }, vendor] = await Promise.all([params, getVendorFromCookie()]);
   if (!vendor) notFound();
+  if (!(await isApprovedVendor(vendor.id))) notFound();
 
   const project = await getProjectDetailForRole({ projectId: id, role: "vendor", userId: vendor.id });
   if (!project) notFound();

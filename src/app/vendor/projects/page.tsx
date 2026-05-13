@@ -4,16 +4,20 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import { ProjectCard } from "@/components/ui/ProjectCard";
 import { getVendorFromCookie } from "@/lib/auth";
 import { getVendorProjects } from "@/services/project-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
 
 export default async function VendorProjectsPage() {
   const vendor = await getVendorFromCookie();
-  const projects = vendor ? await getVendorProjects(vendor.id) : [];
+  const isApproved = vendor ? await isApprovedVendor(vendor.id) : false;
+  const projects = vendor && isApproved ? await getVendorProjects(vendor.id) : [];
 
   return (
     <VendorLayout title="My projects">
-      {projects.length === 0 ? (
+      {!isApproved ? (
+        <EmptyState title="Approval required" description="Project access unlocks after vendor approval and category verification." />
+      ) : projects.length === 0 ? (
         <EmptyState title="No assigned projects yet" description="Awarded projects from selected quotations will appear here." />
       ) : (
         <div className="grid gap-4">

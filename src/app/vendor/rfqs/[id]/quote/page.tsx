@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { getVendorFromCookie } from "@/lib/auth";
 import { getVendorNotificationById } from "@/services/vendor-notification-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
 
@@ -15,6 +16,7 @@ export default async function VendorQuotePage({
   params: Promise<{ id: string }>;
 }) {
   const [{ id }, vendor] = await Promise.all([params, getVendorFromCookie()]);
+  if (vendor && !(await isApprovedVendor(vendor.id))) notFound();
   const notification = vendor ? await getVendorNotificationById(id, vendor.id) : null;
 
   if (!notification) notFound();

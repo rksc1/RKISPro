@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/Input";
 
 export default function AdminLoginPage() {
   return (
-    <AuthShell title="Admin login" description="Access marketplace operations.">
+    <AuthShell title="Admin login" description="Access procurement coordination operations.">
       <form className="form-grid" action="/api/auth/admin/login" method="post">
         <Input label="Email" name="email" type="email" required />
         <Input label="Password" name="password" type="password" required />

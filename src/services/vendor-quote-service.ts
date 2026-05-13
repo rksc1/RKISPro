@@ -21,6 +21,9 @@ function mapQuote(row: VendorQuoteRow): VendorQuote {
     attachmentUrl: row.attachment_url,
     status: row.status,
     adminNotes: row.admin_notes,
+    riskNotes: row.risk_notes,
+    isRecommended: row.is_recommended ?? false,
+    executionFitScore: row.execution_fit_score,
     reviewedAt: row.reviewed_at,
     reviewedBy: row.reviewed_by,
     createdAt: row.created_at,
@@ -39,7 +42,12 @@ function mapQuoteWithRelations(
           companyName: row.vendors.company_name,
           ownerName: row.vendors.owner_name,
           location: row.vendors.location,
-          services: listText(row.vendors.services)
+          services: listText(row.vendors.services),
+          machinery: listText(row.vendors.machinery),
+          capacity: row.vendors.capacity,
+          verificationStatus: row.vendors.verification_status,
+          city: row.vendors.city,
+          state: row.vendors.state
         }
       : null,
     request: row.marketplace_requests
@@ -140,6 +148,8 @@ export async function getApprovedQuotesForCustomerRequest(requestId: string, cus
     .select("*, vendors(*)")
     .eq("request_id", requestId)
     .eq("status", "approved")
+    .order("is_recommended", { ascending: false })
+    .order("execution_fit_score", { ascending: false, nullsFirst: false })
     .order("amount", { ascending: true })
     .returns<Array<VendorQuoteRow & { vendors: VendorRow | null }>>();
 
@@ -155,7 +165,12 @@ export async function getApprovedQuotesForCustomerRequest(requestId: string, cus
             companyName: row.vendors.company_name,
             ownerName: row.vendors.owner_name,
             location: row.vendors.location,
-            services: listText(row.vendors.services)
+            services: listText(row.vendors.services),
+            machinery: listText(row.vendors.machinery),
+            capacity: row.vendors.capacity,
+            verificationStatus: row.vendors.verification_status,
+            city: row.vendors.city,
+            state: row.vendors.state
           }
         : null
     }))

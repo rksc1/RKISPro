@@ -10,6 +10,9 @@ export type VendorQuoteRow = {
   attachment_url: string | null;
   status: VendorQuoteStatus;
   admin_notes: string | null;
+  risk_notes: string | null;
+  is_recommended: boolean;
+  execution_fit_score: number | null;
   reviewed_at: string | null;
   reviewed_by: string | null;
   created_at: string;
@@ -26,6 +29,9 @@ export type VendorQuote = {
   attachmentUrl: string | null;
   status: VendorQuoteStatus;
   adminNotes: string | null;
+  riskNotes: string | null;
+  isRecommended: boolean;
+  executionFitScore: number | null;
   reviewedAt: string | null;
   reviewedBy: string | null;
   createdAt: string;

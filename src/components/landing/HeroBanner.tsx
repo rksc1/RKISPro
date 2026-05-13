@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/Button";
 import { SearchRFQBar } from "@/components/landing/SearchRFQBar";
 
-const trustBadges = ["Verified vendors", "Fast RFQ routing", "Industrial categories", "Admin-reviewed leads"];
+const trustBadges = [
+  "Admin-reviewed RFQs",
+  "3-5 shortlisted vendors",
+  "Structured quotations",
+  "Vendor verification",
+  "Project tracking",
+  "Payment visibility"
+];
 
 export function HeroBanner() {
   return (
@@ -18,18 +25,18 @@ export function HeroBanner() {
             ))}
           </div>
           <div className="grid gap-5">
-            <p className="text-sm font-black uppercase tracking-[0.22em] text-brand-gold">B2B Industrial RFQ Marketplace</p>
+            <p className="text-sm font-black uppercase tracking-[0.22em] text-brand-gold">Managed Industrial RFQ Platform</p>
             <h1 className="max-w-4xl text-4xl font-black leading-tight sm:text-5xl lg:text-6xl">
-              India&apos;s Smart Industrial Marketplace for Fabricators & Manufacturers
+              Managed Industrial RFQs. Verified Vendors. Tracked Execution.
             </h1>
             <p className="max-w-2xl text-lg leading-8 text-slate-300">
-              Connect with verified welders, mechanics, fabricators, machine shops, and industrial vendors near you.
+              RKISPro helps factories, contractors, warehouses, and industrial businesses submit fabrication and service requirements, receive structured quotations from 3-5 shortlisted vendors, and track execution through completion.
             </p>
           </div>
           <SearchRFQBar />
           <div className="flex flex-wrap gap-3">
-            <Button href="/customer/register">Post Requirement</Button>
-            <Button href="/vendor/register" variant="secondary">Become a Vendor</Button>
+            <Button href="/auth">Post Requirement</Button>
+            <Button href="/vendor/register" variant="secondary">Apply as Verified Vendor</Button>
           </div>
         </div>
         <div className="grid gap-4 lg:justify-self-end">
@@ -37,8 +44,8 @@ export function HeroBanner() {
             <div className="aspect-[4/3] rounded-2xl bg-[url('https://images.unsplash.com/photo-1565008447742-97f6f38c985c?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center" />
             <div className="mt-4 grid gap-3 sm:grid-cols-3">
               <div className="rounded-2xl bg-white p-4 text-slate-950">
-                <strong className="text-2xl">4.8x</strong>
-                <p className="text-xs font-bold text-slate-500">Faster vendor discovery</p>
+                <strong className="text-2xl">3-5</strong>
+                <p className="text-xs font-bold text-slate-500">Shortlisted vendors</p>
               </div>
               <div className="rounded-2xl bg-brand-gold p-4 text-slate-950">
                 <strong className="text-2xl">24h</strong>
@@ -46,7 +53,7 @@ export function HeroBanner() {
               </div>
               <div className="rounded-2xl bg-slate-900 p-4">
                 <strong className="text-2xl">360</strong>
-                <p className="text-xs font-bold text-slate-400">Industrial services</p>
+                <p className="text-xs font-bold text-slate-400">Execution checkpoints</p>
               </div>
             </div>
           </div>

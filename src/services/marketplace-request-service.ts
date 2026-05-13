@@ -13,6 +13,12 @@ function mapRequest(row: MarketplaceRequestRow): MarketplaceRequest {
     location: row.location,
     deadline: row.deadline,
     drawingUrls: row.drawing_urls ?? [],
+    technicalRequirements: row.technical_requirements,
+    quantity: row.quantity,
+    qualityExpectations: row.quality_expectations,
+    budgetRange: row.budget_range,
+    inspectionRequirement: row.inspection_requirement,
+    gstRequirement: row.gst_requirement ?? false,
     status: row.status,
     createdAt: row.created_at
   };
@@ -27,6 +33,12 @@ export async function createMarketplaceRequest(input: {
   location: string;
   deadline: string;
   drawingUrls: string[];
+  technicalRequirements?: string;
+  quantity?: string;
+  qualityExpectations?: string;
+  budgetRange?: string;
+  inspectionRequirement?: string;
+  gstRequirement?: boolean;
 }) {
   const supabase = getSupabase();
 
@@ -41,6 +53,12 @@ export async function createMarketplaceRequest(input: {
       location: input.location,
       deadline: input.deadline,
       drawing_urls: input.drawingUrls,
+      technical_requirements: input.technicalRequirements || null,
+      quantity: input.quantity || null,
+      quality_expectations: input.qualityExpectations || null,
+      budget_range: input.budgetRange || null,
+      inspection_requirement: input.inspectionRequirement || null,
+      gst_requirement: input.gstRequirement ?? false,
       status: "Pending"
     })
     .select("*")

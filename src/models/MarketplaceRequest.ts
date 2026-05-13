@@ -10,6 +10,12 @@ export type MarketplaceRequestRow = {
   location: string;
   deadline: string;
   drawing_urls: string[];
+  technical_requirements: string | null;
+  quantity: string | null;
+  quality_expectations: string | null;
+  budget_range: string | null;
+  inspection_requirement: string | null;
+  gst_requirement: boolean;
   status: MarketplaceRequestStatus;
   created_at: string;
 };
@@ -24,6 +30,12 @@ export type MarketplaceRequest = {
   location: string;
   deadline: string;
   drawingUrls: string[];
+  technicalRequirements: string | null;
+  quantity: string | null;
+  qualityExpectations: string | null;
+  budgetRange: string | null;
+  inspectionRequirement: string | null;
+  gstRequirement: boolean;
   status: MarketplaceRequestStatus;
   createdAt: string;
 };

@@ -23,7 +23,13 @@ export async function POST(request: NextRequest) {
     serviceType: required(formData.get("serviceType")),
     materialType: required(formData.get("materialType")),
     location: required(formData.get("location")),
-    deadline: required(formData.get("expectedDeadline"))
+    deadline: required(formData.get("expectedDeadline")),
+    technicalRequirements: required(formData.get("technicalRequirements")),
+    quantity: required(formData.get("quantity")),
+    qualityExpectations: required(formData.get("qualityExpectations")),
+    budgetRange: required(formData.get("budgetRange")),
+    inspectionRequirement: required(formData.get("inspectionRequirement")),
+    gstRequirement: formData.get("gstRequirement") === "true"
   };
 
   if (

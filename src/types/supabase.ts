@@ -203,6 +203,12 @@ export type Database = {
           location: string;
           deadline: string;
           drawing_urls: string[];
+          technical_requirements: string | null;
+          quantity: string | null;
+          quality_expectations: string | null;
+          budget_range: string | null;
+          inspection_requirement: string | null;
+          gst_requirement: boolean;
           status: MarketplaceRequestStatus;
           created_at: string;
         };
@@ -216,6 +222,12 @@ export type Database = {
           location: string;
           deadline: string;
           drawing_urls?: string[];
+          technical_requirements?: string | null;
+          quantity?: string | null;
+          quality_expectations?: string | null;
+          budget_range?: string | null;
+          inspection_requirement?: string | null;
+          gst_requirement?: boolean;
           status?: MarketplaceRequestStatus;
           created_at?: string;
         };
@@ -228,6 +240,12 @@ export type Database = {
           location?: string;
           deadline?: string;
           drawing_urls?: string[];
+          technical_requirements?: string | null;
+          quantity?: string | null;
+          quality_expectations?: string | null;
+          budget_range?: string | null;
+          inspection_requirement?: string | null;
+          gst_requirement?: boolean;
           status?: MarketplaceRequestStatus;
           created_at?: string;
         };
@@ -299,6 +317,9 @@ export type Database = {
           attachment_url: string | null;
           status: VendorQuoteStatus;
           admin_notes: string | null;
+          risk_notes: string | null;
+          is_recommended: boolean;
+          execution_fit_score: number | null;
           reviewed_at: string | null;
           reviewed_by: string | null;
           created_at: string;
@@ -314,6 +335,9 @@ export type Database = {
           attachment_url?: string | null;
           status?: VendorQuoteStatus;
           admin_notes?: string | null;
+          risk_notes?: string | null;
+          is_recommended?: boolean;
+          execution_fit_score?: number | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
           created_at?: string;
@@ -328,6 +352,9 @@ export type Database = {
           attachment_url?: string | null;
           status?: VendorQuoteStatus;
           admin_notes?: string | null;
+          risk_notes?: string | null;
+          is_recommended?: boolean;
+          execution_fit_score?: number | null;
           reviewed_at?: string | null;
           reviewed_by?: string | null;
           created_at?: string;

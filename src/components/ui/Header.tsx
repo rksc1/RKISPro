@@ -15,7 +15,7 @@ export function Header() {
           <Link href="/vendor/login">Vendor</Link>
           <Link href="/admin/login">Admin</Link>
         </nav>
-        <Button href="/customer/register">Submit Requirement</Button>
+        <Button href="/auth">Post Requirement</Button>
       </div>
     </header>
   );

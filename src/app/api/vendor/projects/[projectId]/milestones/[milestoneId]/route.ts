@@ -4,6 +4,7 @@ import { getAdmins } from "@/services/admin-service";
 import { createActivityLog, createNotifications } from "@/services/notification-service";
 import { updateMilestone } from "@/services/project-milestone-service";
 import { getProjectDetailForRole } from "@/services/project-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 import type { MilestoneStatus } from "@/types/auth";
 
 function isVendorMilestoneStatus(value: string): value is Extract<MilestoneStatus, "in_progress" | "completed" | "delayed"> {
@@ -16,6 +17,9 @@ export async function POST(
 ) {
   const vendor = await getVendorFromCookie();
   if (!vendor) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!(await isApprovedVendor(vendor.id))) {
+    return NextResponse.json({ error: "Vendor account must be approved before updating project milestones" }, { status: 403 });
+  }
 
   const { projectId, milestoneId } = await params;
   const project = await getProjectDetailForRole({ projectId, role: "vendor", userId: vendor.id });

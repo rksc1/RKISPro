@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { getVendorFromCookie } from "@/lib/auth";
 import { getVendorAssignedRfqs } from "@/services/vendor-notification-service";
+import { isApprovedVendor } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
 
@@ -15,11 +16,17 @@ const statusClasses = {
 
 export default async function VendorRfqsPage() {
   const vendor = await getVendorFromCookie();
-  const rfqs = vendor ? await getVendorAssignedRfqs(vendor.id) : [];
+  const isApproved = vendor ? await isApprovedVendor(vendor.id) : false;
+  const rfqs = vendor && isApproved ? await getVendorAssignedRfqs(vendor.id) : [];
 
   return (
     <VendorLayout title="Assigned RFQs">
       <div className="grid gap-4">
+        {!isApproved ? (
+          <Card>
+            <p className="text-sm text-muted">RFQ access unlocks after vendor approval and category verification.</p>
+          </Card>
+        ) : null}
         {rfqs.map((notification) => (
           <Card key={notification.id}>
             <div className="grid gap-4">
@@ -74,7 +81,7 @@ export default async function VendorRfqsPage() {
           </Card>
         ))}
 
-        {rfqs.length === 0 ? (
+        {isApproved && rfqs.length === 0 ? (
           <Card>
             <p className="text-sm text-muted">No RFQs have been assigned to your vendor account yet.</p>
           </Card>

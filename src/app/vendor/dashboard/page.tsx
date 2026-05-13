@@ -11,9 +11,35 @@ export const dynamic = "force-dynamic";
 export default async function VendorDashboardPage() {
   const session = await getVendorFromCookie();
   const vendor = session ? await getVendorById(session.id) : null;
+  const profileItems = [
+    { label: "Verification Status", value: vendor?.verificationStatus ?? "pending", note: "Approval controls curated RFQ access" },
+    { label: "Profile Completeness", value: vendor?.services && vendor?.machinery && vendor?.capacity ? "Ready" : "Needs details", note: "Services, machinery, capacity, and location" },
+    { label: "Approved Service Categories", value: vendor?.services || "Under review", note: "Used for RFQ eligibility" },
+    { label: "RFQ Eligibility", value: vendor?.status === "Approved" ? "Eligible" : "Pending approval", note: "Curated RFQs require approval" },
+    { label: "Pending Quotations", value: 0, note: "Open quotation tasks" },
+    { label: "Awarded Work", value: vendor?.completedProjectsCount ?? 0, note: "Completed and awarded project history" },
+    { label: "Payout Status", value: "Visible after award", note: "Track payouts from project records" }
+  ];
 
   return (
-    <VendorLayout title="Vendor dashboard">
+    <VendorLayout title="Verified Vendor Network">
+      <Card>
+        <h2 className="text-xl font-bold">Apply as Verified Vendor</h2>
+        <p className="mt-3 text-sm leading-6 text-muted">
+          Vendors receive curated RFQs only after approval and category verification.
+        </p>
+      </Card>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        {profileItems.map((item) => (
+          <Card key={item.label}>
+            <span className="text-sm font-semibold text-muted">{item.label}</span>
+            <strong className="mt-2 block text-xl text-slate-950">{item.value}</strong>
+            <p className="mt-2 text-sm text-muted">{item.note}</p>
+          </Card>
+        ))}
+      </div>
+
       <div className="grid gap-5 lg:grid-cols-[1fr_1fr]">
         <Card>
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -43,16 +69,6 @@ export default async function VendorDashboardPage() {
         </Card>
         {vendor ? <VendorCapabilityCard vendor={vendor} /> : null}
       </div>
-      <Card>
-        <h2 className="text-xl font-bold">
-          {vendor?.vendorType === "individual" ? "Quick Booking Workbench" : "RFQ & Project Workbench"}
-        </h2>
-        <p className="mt-3 text-sm text-muted">
-          {vendor?.vendorType === "individual"
-            ? "Assigned urgent service jobs and field work updates are available from Quick Bookings."
-            : "Approved company vendors receive RFQs, submit quotations, and manage awarded projects from the RFQ and Projects menus."}
-        </p>
-      </Card>
     </VendorLayout>
   );
 }

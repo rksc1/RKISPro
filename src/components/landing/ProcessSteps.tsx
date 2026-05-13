@@ -1,8 +1,8 @@
 const steps = [
-  { step: "01", title: "Post Requirement", body: "Share drawings, material details, deadline, and job location." },
-  { step: "02", title: "Receive Quotes", body: "Approved vendors receive RFQs and respond with structured quotations." },
-  { step: "03", title: "Compare Vendors", body: "Review pricing, timeline, capabilities, location, and vendor profile." },
-  { step: "04", title: "Hire & Complete Work", body: "Select the best-fit industrial partner and track the job lifecycle." }
+  { step: "01", title: "Start Managed RFQ", body: "Share drawings, material details, deadline, quality needs, and site location." },
+  { step: "02", title: "Admin Review", body: "RKISPro reviews scope and prepares the requirement for the right vendor category." },
+  { step: "03", title: "Vendor Shortlisting", body: "3-5 verified vendors are matched by capability, machinery, location, timeline, and reliability." },
+  { step: "04", title: "Award & Track", body: "Compare structured quotations, select an execution-fit vendor, and track delivery through completion." }
 ];
 
 export function ProcessSteps() {
@@ -11,7 +11,7 @@ export function ProcessSteps() {
       <div className="page-shell grid gap-10">
         <div className="max-w-2xl">
           <p className="text-sm font-black uppercase tracking-[0.18em] text-brand-gold">How RKISPro Works</p>
-          <h2 className="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">From requirement to verified vendor in a clean workflow.</h2>
+          <h2 className="mt-3 text-3xl font-black text-slate-950 sm:text-4xl">From industrial requirement to coordinated execution.</h2>
         </div>
         <div className="grid gap-4 lg:grid-cols-4">
           {steps.map((item) => (

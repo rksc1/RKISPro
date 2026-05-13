@@ -11,7 +11,7 @@ const classes: Record<VendorQuoteStatus, string> = {
 export function QuoteStatusBadge({ status }: { status: VendorQuoteStatus }) {
   return (
     <span className={`w-max rounded-full px-2.5 py-1 text-xs font-bold ${classes[status]}`}>
-      {status.replace("_", " ")}
+      {status === "selected" ? "awarded" : status.replace("_", " ")}
     </span>
   );
 }

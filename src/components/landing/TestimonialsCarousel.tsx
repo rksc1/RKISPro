@@ -5,7 +5,7 @@ const testimonials = [
     company: "Packaging Machinery Manufacturer"
   },
   {
-    quote: "The RFQs are clearer than normal marketplace leads. We understand scope, location, and drawings upfront.",
+    quote: "The RFQs are clearer than normal lead portals. We understand scope, location, and drawings upfront.",
     name: "Owner",
     company: "Precision Fabrication Unit"
   },

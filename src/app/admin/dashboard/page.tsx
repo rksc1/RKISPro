@@ -7,17 +7,38 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
   const stats = await getAdminDashboardStats();
+  const queueCards = [
+    { label: "RFQ Intake Queue", value: stats.rfqIntakeQueue, note: "review new requirements" },
+    { label: "Vendor Matching Queue", value: stats.vendorMatchingQueue, note: "shortlist and distribute RFQs" },
+    { label: "Quote Review Queue", value: stats.quoteReviewQueue, note: "compare quotations before customer view" },
+    { label: "Vendor Verification Queue", value: stats.vendorVerificationQueue, note: "approve categories and verification" },
+    { label: "Project Risk Queue", value: stats.projectRiskQueue, note: "track delayed or blocked execution" },
+    { label: "Payment Queue", value: stats.paymentQueue, note: "settle pending payments and payouts" }
+  ];
 
   return (
-    <AdminLayout title="Admin dashboard">
+    <AdminLayout title="Operations command center">
       <div className="grid gap-5 md:grid-cols-3">
-        <StatCard label="Total customers" value={stats.totalCustomers} note="Registered customer accounts" />
-        <StatCard label="Total vendors" value={stats.totalVendors} note="Registered vendor profiles" />
-        <StatCard label="Pending approvals" value={stats.pendingVendorApprovals} note="Vendor profiles awaiting review" />
+        <StatCard label="Total customers" value={stats.totalCustomers} note="Registered buying organizations" />
+        <StatCard label="Verified Vendor Network" value={stats.totalVendors} note="Registered vendor profiles" />
+        <StatCard label="Pending verification" value={stats.pendingVendorApprovals} note="Vendor profiles awaiting review" />
       </div>
+
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {queueCards.map((card) => (
+          <Card key={card.label}>
+            <span className="text-sm font-semibold text-muted">{card.label}</span>
+            <strong className="mt-2 block text-3xl text-slate-950">{card.value}</strong>
+            <p className="mt-2 text-sm text-muted">{card.note}</p>
+          </Card>
+        ))}
+      </div>
+
       <Card>
-        <h2 id="requests" className="text-xl font-bold">Requests placeholder</h2>
-        <p className="mt-3 text-sm text-muted">Customer request review will be implemented when the RFQ engine is built.</p>
+        <h2 id="workflow" className="text-xl font-bold">Managed RFQ workflow</h2>
+        <p className="mt-3 text-sm leading-6 text-muted">
+          Review intake, shortlist vendors, distribute RFQs, compare structured quotations, award execution-fit vendors, track milestones, and settle payments.
+        </p>
       </Card>
     </AdminLayout>
   );

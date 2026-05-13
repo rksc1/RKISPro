@@ -24,7 +24,7 @@ export default async function CustomerQuoteComparisonPage({
   if (!request) notFound();
 
   return (
-    <CustomerLayout title="Compare quotes">
+    <CustomerLayout title="Compare structured quotations">
       <Card>
         <div className="grid gap-3">
           <h2 className="text-2xl font-black text-slate-950">{request.project_title}</h2>
@@ -35,6 +35,9 @@ export default async function CustomerQuoteComparisonPage({
             <span><strong>Location:</strong> {request.location}</span>
             <span><strong>Deadline:</strong> {request.deadline}</span>
           </div>
+          <p className="text-sm text-muted">
+            Review amount alongside delivery timeline, vendor capability, verification status, admin notes, and execution risk before awarding.
+          </p>
         </div>
       </Card>
 
@@ -51,13 +54,13 @@ export default async function CustomerQuoteComparisonPage({
               quote={quote}
               footer={
                 <ConfirmDialog
-                  title="Select this vendor?"
-                  description="This will award the project to the selected vendor and mark other approved quotes as not selected."
-                  actionLabel="Select Vendor"
+                  title="Award to this vendor?"
+                  description="This will award the project to the selected vendor and mark other approved quotations as not selected."
+                  actionLabel="Award Vendor"
                 >
                   <form action={`/api/customer/requests/${request.id}/select-vendor`} method="post">
                     <input type="hidden" name="quoteId" value={quote.id} />
-                    <Button type="submit">Confirm Selection</Button>
+                    <Button type="submit">Confirm Award</Button>
                   </form>
                 </ConfirmDialog>
               }
