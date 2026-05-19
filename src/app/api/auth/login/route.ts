@@ -14,72 +14,77 @@ function confirmedAt(user: { email_confirmed_at?: string | null; confirmed_at?: 
 }
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  const password = String(formData.get("password") ?? "");
+  try {
+    const formData = await request.formData();
+    const email = String(formData.get("email") ?? "").trim().toLowerCase();
+    const password = String(formData.get("password") ?? "");
 
-  if (!email || !password) {
-    return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
-  }
+    if (!email || !password) {
+      return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
+    }
 
-  const supabase = getSupabase();
-  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const supabase = getSupabase();
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-  if (error || !data.user) {
-    const needsConfirmation = /confirm/i.test(error?.message ?? "");
-    return NextResponse.json({
-      error: needsConfirmation ? "Please confirm your email before logging in." : "Invalid credentials",
-      needsConfirmation
-    }, { status: 401 });
-  }
+    if (error || !data.user) {
+      const needsConfirmation = /confirm/i.test(error?.message ?? "");
+      return NextResponse.json({
+        error: needsConfirmation ? "Please confirm your email before logging in." : "Invalid credentials",
+        needsConfirmation
+      }, { status: 401 });
+    }
 
-  const emailConfirmedAt = confirmedAt(data.user);
-  if (!emailConfirmedAt) {
-    await supabase.auth.signOut();
-    return NextResponse.json({
-      error: "Please confirm your email before logging in.",
-      needsConfirmation: true
-    }, { status: 403 });
-  }
+    const emailConfirmedAt = confirmedAt(data.user);
+    if (!emailConfirmedAt) {
+      await supabase.auth.signOut();
+      return NextResponse.json({
+        error: "Please confirm your email before logging in.",
+        needsConfirmation: true
+      }, { status: 403 });
+    }
 
-  let profile = await getProfileById(data.user.id);
-  const metadataRole = data.user.user_metadata?.role;
+    let profile = await getProfileById(data.user.id);
+    const metadataRole = data.user.user_metadata?.role;
 
-  if (!profile && validRole(metadataRole)) {
-    profile = await syncProfile({
-      authUserId: data.user.id,
-      email,
-      role: metadataRole,
-      fullName: String(data.user.user_metadata?.full_name ?? email),
-      status: metadataRole === "vendor" ? "pending" : "active",
-      isApproved: metadataRole !== "vendor"
+    if (!profile && validRole(metadataRole)) {
+      profile = await syncProfile({
+        authUserId: data.user.id,
+        email,
+        role: metadataRole,
+        fullName: String(data.user.user_metadata?.full_name ?? email),
+        status: metadataRole === "vendor" ? "pending" : "active",
+        isApproved: metadataRole !== "vendor"
+      });
+    }
+
+    if (!profile) {
+      return NextResponse.json({ error: "No RKISPro profile is linked to this account" }, { status: 403 });
+    }
+
+    if (isBlockedProfile(profile)) {
+      return NextResponse.json({ error: "This account is not active. Please contact RKISPro support." }, { status: 403 });
+    }
+
+    const account = await resolveRoleAccount(profile);
+    if (!account) {
+      return NextResponse.json({ error: "Role account setup is incomplete. Please contact RKISPro support." }, { status: 403 });
+    }
+
+    await setRoleCookie({
+      id: account.id,
+      role: profile.role,
+      name: account.name,
+      email: account.email,
+      emailConfirmedAt
     });
+
+    return NextResponse.json({
+      ok: true,
+      role: profile.role,
+      redirectTo: redirectPathByRole(profile.role)
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unexpected login error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
-
-  if (!profile) {
-    return NextResponse.json({ error: "No RKISPro profile is linked to this account" }, { status: 403 });
-  }
-
-  if (isBlockedProfile(profile)) {
-    return NextResponse.json({ error: "This account is not active. Please contact RKISPro support." }, { status: 403 });
-  }
-
-  const account = await resolveRoleAccount(profile);
-  if (!account) {
-    return NextResponse.json({ error: "Role account setup is incomplete. Please contact RKISPro support." }, { status: 403 });
-  }
-
-  await setRoleCookie({
-    id: account.id,
-    role: profile.role,
-    name: account.name,
-    email: account.email,
-    emailConfirmedAt
-  });
-
-  return NextResponse.json({
-    ok: true,
-    role: profile.role,
-    redirectTo: redirectPathByRole(profile.role)
-  });
 }
