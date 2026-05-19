@@ -5,6 +5,7 @@ export type SessionPayload = {
   role: Role;
   name: string;
   email: string;
+  emailConfirmedAt: string;
 };
 
 export type VendorStatus = "Pending" | "Approved" | "Rejected" | "Inactive";

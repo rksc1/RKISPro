@@ -33,14 +33,24 @@ export async function getRouteSession(request: NextRequest) {
   const token = request.cookies.get(cookieByRole[role])?.value;
   const session = await verifySession(token);
 
-  return { role, session };
+  return { role, session: session?.emailConfirmedAt ? session : null };
 }
 
 export async function getAnyRouteSession(request: NextRequest) {
   for (const role of ["customer", "vendor", "admin"] as const) {
     const token = request.cookies.get(cookieByRole[role])?.value;
     const session = await verifySession(token);
-    if (session?.role === role) return session;
+    if (session?.role === role && session.emailConfirmedAt) return session;
+  }
+
+  return null;
+}
+
+export async function getAnyUnconfirmedRouteSession(request: NextRequest) {
+  for (const role of ["customer", "vendor", "admin"] as const) {
+    const token = request.cookies.get(cookieByRole[role])?.value;
+    const session = await verifySession(token);
+    if (session?.role === role && !session.emailConfirmedAt) return session;
   }
 
   return null;

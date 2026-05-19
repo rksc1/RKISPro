@@ -1,20 +1,6 @@
 import { getSupabase } from "@/lib/db";
-import { verifyPassword } from "@/lib/password";
 import type { AdminRow } from "@/models/Admin";
 import type { MarketplaceRequestStatus, PaymentStatus, ProjectStatus, VendorQuoteStatus, VendorStatus } from "@/types/auth";
-
-export async function authenticateAdmin(email: string, password: string) {
-  const supabase = getSupabase();
-
-  const { data, error } = await supabase
-    .from("admins")
-    .select("*")
-    .eq("email", email.toLowerCase())
-    .maybeSingle<AdminRow>();
-
-  if (error || !data || !(await verifyPassword(password, data.password))) return null;
-  return data;
-}
 
 async function countCustomers() {
   const supabase = getSupabase();

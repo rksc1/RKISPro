@@ -23,7 +23,7 @@ export default async function AdminFinancePage({
   }>;
 }) {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const filters = await searchParams;
   const finance = await getAdminFinance(filters);

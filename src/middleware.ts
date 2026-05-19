@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { dashboardByRole, loginByRole } from "@/lib/routes";
-import { getAnyRouteSession, getRouteSession, isProtectedRoute } from "@/middleware/route-protection";
+import { getAnyRouteSession, getAnyUnconfirmedRouteSession, getRouteSession, isProtectedRoute } from "@/middleware/route-protection";
 
 const authPages = [
   "/auth",
@@ -14,10 +14,16 @@ const authPages = [
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { role, session } = await getRouteSession(request);
-  const activeSession = session ?? (pathname.startsWith("/auth") ? await getAnyRouteSession(request) : null);
+  const activeSession = session ?? await getAnyRouteSession(request);
+  const unconfirmedSession = activeSession ? null : await getAnyUnconfirmedRouteSession(request);
 
   if (isProtectedRoute(pathname) && (!role || !session || session.role !== role)) {
-    return NextResponse.redirect(new URL(loginByRole[role ?? "customer"], request.url));
+    const redirectPath = unconfirmedSession
+      ? "/auth?mode=login&message=confirm-email"
+      : activeSession
+        ? dashboardByRole[activeSession.role]
+        : loginByRole[role ?? "customer"];
+    return NextResponse.redirect(new URL(redirectPath, request.url));
   }
 
   if (activeSession && authPages.some((path) => pathname.startsWith(path))) {

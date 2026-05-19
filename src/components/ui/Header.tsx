@@ -11,9 +11,7 @@ export function Header() {
           <Link href="/about">About</Link>
           <Link href="/services">Services</Link>
           <Link href="/contact">Contact</Link>
-          <Link href="/customer/login">Customer</Link>
-          <Link href="/vendor/login">Vendor</Link>
-          <Link href="/admin/login">Admin</Link>
+          <Link href="/auth?mode=login">Login</Link>
         </nav>
         <Button href="/auth">Post Requirement</Button>
       </div>

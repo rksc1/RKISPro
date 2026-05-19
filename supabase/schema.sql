@@ -357,6 +357,7 @@ create index if not exists quick_bookings_assigned_vendor_id_idx on public.quick
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
+  email text unique,
   role text not null check (role in ('customer', 'vendor', 'admin')),
   full_name text not null,
   company_name text,
@@ -388,9 +389,64 @@ alter table public.vendors
   add column if not exists business_type text,
   add column if not exists is_suspended boolean not null default false;
 
+alter table public.profiles
+  add column if not exists email text;
+
+alter table public.profiles
+  drop constraint if exists profiles_role_check,
+  add constraint profiles_role_check check (role in ('customer', 'vendor', 'admin'));
+
+alter table public.profiles
+  drop constraint if exists profiles_status_check,
+  add constraint profiles_status_check check (status in ('active', 'pending', 'approved', 'rejected', 'verified', 'suspended', 'inactive'));
+
 create index if not exists profiles_role_idx on public.profiles (role);
 create index if not exists profiles_status_idx on public.profiles (status);
 create index if not exists profiles_city_state_idx on public.profiles (city, state);
+create unique index if not exists profiles_email_lower_idx on public.profiles (lower(email)) where email is not null;
 create index if not exists customers_profile_id_idx on public.customers (profile_id);
 create index if not exists vendors_profile_id_idx on public.vendors (profile_id);
 create index if not exists vendors_agreement_accepted_idx on public.vendors (agreement_accepted);
+
+create or replace function public.handle_new_auth_user()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  requested_role text := coalesce(new.raw_user_meta_data ->> 'role', 'customer');
+begin
+  if requested_role not in ('customer', 'vendor', 'admin') then
+    requested_role := 'customer';
+  end if;
+
+  insert into public.profiles (
+    id,
+    email,
+    role,
+    full_name,
+    status,
+    is_approved
+  )
+  values (
+    new.id,
+    lower(new.email),
+    requested_role,
+    coalesce(new.raw_user_meta_data ->> 'full_name', new.email),
+    case when requested_role = 'vendor' then 'pending' else 'active' end,
+    requested_role <> 'vendor'
+  )
+  on conflict (id) do update
+    set
+      email = excluded.email,
+      updated_at = now();
+
+  return new;
+end;
+$$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_auth_user();

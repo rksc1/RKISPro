@@ -10,7 +10,7 @@ import { getQuickBookingAssignableVendors } from "@/services/vendor-service";
 
 export default async function AdminQuickBookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const { id } = await params;
   const [booking, vendors] = await Promise.all([

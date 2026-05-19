@@ -10,7 +10,7 @@ export default function CustomerRegisterPage() {
         roleHref="/auth"
         submitLabel="Create Customer Account"
         subtitle="Post RFQs, compare verified quotations, and manage industrial projects."
-        switchHref="/customer/login"
+        switchHref="/auth?mode=login"
         switchLabel="Login"
         switchText="Already registered?"
         title="Customer registration"

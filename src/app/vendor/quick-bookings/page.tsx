@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export default async function VendorQuickBookingsPage() {
   const vendor = await getVendorFromCookie();
-  if (!vendor) redirect("/vendor/login");
+  if (!vendor) redirect("/auth?mode=login");
 
   const bookings = await getVendorQuickBookings(vendor.id);
 

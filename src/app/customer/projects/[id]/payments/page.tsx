@@ -10,7 +10,7 @@ import { getProjectFinanceForRole } from "@/services/finance-service";
 
 export default async function CustomerProjectPaymentsPage({ params }: { params: Promise<{ id: string }> }) {
   const customer = await getCustomerFromCookie();
-  if (!customer) redirect("/customer/login");
+  if (!customer) redirect("/auth?mode=login");
 
   const { id } = await params;
   const finance = await getProjectFinanceForRole({ projectId: id, role: "customer", userId: customer.id });

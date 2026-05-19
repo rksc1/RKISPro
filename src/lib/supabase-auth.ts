@@ -3,6 +3,7 @@ import type { Role } from "@/types/auth";
 
 type ProfileInput = {
   authUserId: string;
+  email: string;
   role: Role;
   fullName: string;
   companyName?: string;
@@ -18,38 +19,25 @@ export async function createSupabaseAuthUser(input: {
   password: string;
   role: Role;
   fullName: string;
+  emailRedirectTo?: string;
 }) {
   const supabase = getSupabase();
-  const { data, error } = await supabase.auth.admin.createUser({
+  const { data, error } = await supabase.auth.signUp({
     email: input.email,
     password: input.password,
-    email_confirm: true,
-    user_metadata: {
-      role: input.role,
-      full_name: input.fullName
+    options: {
+      emailRedirectTo: input.emailRedirectTo,
+      data: {
+        role: input.role,
+        full_name: input.fullName
+      }
     }
   });
 
   if (error) {
     if (error.message.toLowerCase().includes("already")) return null;
-    const canFallbackToSignup = /not allowed|service|permission|jwt/i.test(error.message);
-    if (!canFallbackToSignup) throw new Error(error.message);
-
-    const fallback = await supabase.auth.signUp({
-      email: input.email,
-      password: input.password,
-      options: {
-        data: {
-          role: input.role,
-          full_name: input.fullName
-        }
-      }
-    });
-
-    if (fallback.error) throw new Error(fallback.error.message);
-    return fallback.data.user;
+    throw new Error(error.message);
   }
-
   return data.user;
 }
 
@@ -76,6 +64,7 @@ export async function upsertAuthProfile(input: ProfileInput) {
     .from("profiles")
     .upsert({
       id: input.authUserId,
+      email: input.email.toLowerCase(),
       role: input.role,
       full_name: input.fullName,
       company_name: input.companyName ?? null,

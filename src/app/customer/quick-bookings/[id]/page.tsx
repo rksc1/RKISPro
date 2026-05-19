@@ -8,7 +8,7 @@ import { getQuickBookingForRole } from "@/services/quick-booking-service";
 
 export default async function CustomerQuickBookingDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const customer = await getCustomerFromCookie();
-  if (!customer) redirect("/customer/login");
+  if (!customer) redirect("/auth?mode=login");
 
   const { id } = await params;
   const booking = await getQuickBookingForRole({ bookingId: id, role: "customer", userId: customer.id });

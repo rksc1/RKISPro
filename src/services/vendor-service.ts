@@ -82,6 +82,7 @@ export async function createVendor(input: {
   panNumber?: string;
   agreementAccepted?: boolean;
   agreementAcceptedAt?: string;
+  emailRedirectTo?: string;
 }) {
   const supabase = getSupabase();
   const email = input.email.toLowerCase();
@@ -99,12 +100,14 @@ export async function createVendor(input: {
     email,
     password: input.password,
     role: "vendor",
-    fullName
+    fullName,
+    emailRedirectTo: input.emailRedirectTo
   });
 
   if (authUser) {
     await upsertAuthProfile({
       authUserId: authUser.id,
+      email,
       role: "vendor",
       fullName,
       companyName: input.companyName,

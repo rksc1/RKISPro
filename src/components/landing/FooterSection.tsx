@@ -33,7 +33,7 @@ export function FooterSection() {
           <h3 className="text-sm font-black uppercase tracking-[0.16em] text-slate-200">Vendors</h3>
           <div className="mt-5 grid gap-2.5 text-sm text-slate-400">
             <Link href="/vendor/register">Apply as Verified Vendor</Link>
-            <Link href="/vendor/login">Vendor Login</Link>
+            <Link href="/auth?mode=login">Login</Link>
             <span>support@rkispro.com</span>
             <span>India</span>
           </div>

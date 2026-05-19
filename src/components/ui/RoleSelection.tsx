@@ -29,8 +29,8 @@ const vendorFeatures = [
 ];
 
 export function RoleSelection({ mode = "register" }: { mode?: "login" | "register" }) {
-  const customerHref = mode === "login" ? "/customer/login" : "/customer/register";
-  const vendorHref = mode === "login" ? "/vendor/login" : "/vendor/register";
+  const customerHref = mode === "login" ? "/auth?mode=login" : "/customer/register";
+  const vendorHref = mode === "login" ? "/auth?mode=login" : "/vendor/register";
 
   return (
     <div className="w-full max-w-5xl">

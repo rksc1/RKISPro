@@ -6,7 +6,7 @@ import { getUserNotifications } from "@/services/notification-service";
 
 export default async function AdminNotificationsPage() {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const notifications = await getUserNotifications({
     userRole: "admin",

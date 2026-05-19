@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export default async function CustomerQuickBookingsPage() {
   const customer = await getCustomerFromCookie();
-  if (!customer) redirect("/customer/login");
+  if (!customer) redirect("/auth?mode=login");
 
   const bookings = await getCustomerQuickBookings(customer.id);
 

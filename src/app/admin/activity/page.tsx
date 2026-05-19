@@ -16,7 +16,7 @@ export default async function AdminActivityPage({
   searchParams: Promise<{ entityType?: string; actorRole?: Role | "" }>;
 }) {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const filters = await searchParams;
   const logs = await getActivityLogs({

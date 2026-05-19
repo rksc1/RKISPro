@@ -20,8 +20,8 @@ export default function VendorPendingPage() {
           </div>
         </div>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
-          <Link className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-teal-500 px-5 text-sm font-black text-white hover:bg-teal-400" href="/vendor/login">
-            Go to vendor login
+          <Link className="inline-flex min-h-11 items-center justify-center rounded-2xl bg-teal-500 px-5 text-sm font-black text-white hover:bg-teal-400" href="/auth?mode=login">
+            Go to login
           </Link>
           <Link className="inline-flex min-h-11 items-center justify-center rounded-2xl border border-white/10 px-5 text-sm font-bold text-white/80 hover:text-teal-300" href="/">
             Back to home

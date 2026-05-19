@@ -24,6 +24,7 @@ function vendorType(value: string): VendorType {
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
+  const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
   const type = vendorType(required(formData.get("vendorType")));
   const fullName = required(formData.get("fullName"));
   const companyName = required(formData.get("companyName"));
@@ -59,7 +60,8 @@ export async function POST(request: NextRequest) {
     state: required(formData.get("state")),
     panNumber: required(formData.get("panNumber")),
     agreementAccepted: formData.get("agreementAccepted") === "on",
-    agreementAcceptedAt: new Date().toISOString()
+    agreementAcceptedAt: new Date().toISOString(),
+    emailRedirectTo: `${origin}/auth/callback`
   };
 
   const missingCommon = !input.phone || !input.email || input.password.length < 8 || Number.isNaN(input.experienceYears);
@@ -92,7 +94,7 @@ export async function POST(request: NextRequest) {
 
     await createVendor(input);
 
-    return NextResponse.redirect(new URL("/vendor/pending", request.url), 303);
+    return NextResponse.redirect(new URL(`/auth/check-email?role=vendor&email=${encodeURIComponent(input.email)}`, request.url), 303);
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Registration failed" }, { status: 400 });
   }

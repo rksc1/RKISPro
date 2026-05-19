@@ -14,7 +14,7 @@ const paymentStatuses: PaymentStatus[] = ["pending", "paid", "failed", "refunded
 
 export default async function AdminProjectFinancePage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const { id } = await params;
   const finance = await getProjectFinanceForRole({ projectId: id, role: "admin", userId: admin.id });

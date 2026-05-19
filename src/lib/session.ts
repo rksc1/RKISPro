@@ -38,7 +38,8 @@ export async function verifySession(token?: string) {
       id: String(payload.id),
       role: payload.role as Role,
       name: String(payload.name),
-      email: String(payload.email)
+      email: String(payload.email),
+      emailConfirmedAt: String(payload.emailConfirmedAt ?? "")
     } satisfies SessionPayload;
   } catch {
     return null;

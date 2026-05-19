@@ -10,7 +10,7 @@ import { isApprovedVendor } from "@/services/vendor-service";
 
 export default async function VendorProjectPaymentsPage({ params }: { params: Promise<{ id: string }> }) {
   const vendor = await getVendorFromCookie();
-  if (!vendor) redirect("/vendor/login");
+  if (!vendor) redirect("/auth?mode=login");
   if (!(await isApprovedVendor(vendor.id))) redirect("/vendor/pending");
 
   const { id } = await params;

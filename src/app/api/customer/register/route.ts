@@ -7,6 +7,7 @@ function required(value: FormDataEntryValue | null) {
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
+  const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
   const input = {
     name: required(formData.get("name")),
     phone: required(formData.get("phone")),
@@ -15,7 +16,8 @@ export async function POST(request: NextRequest) {
     companyName: required(formData.get("companyName")),
     city: required(formData.get("city")),
     state: required(formData.get("state")),
-    location: required(formData.get("location")) || `${required(formData.get("city"))}, ${required(formData.get("state"))}`
+    location: required(formData.get("location")) || `${required(formData.get("city"))}, ${required(formData.get("state"))}`,
+    emailRedirectTo: `${origin}/auth/callback`
   };
 
   if (!input.name || !input.phone || !input.email || input.password.length < 8 || !input.city || !input.state) {
@@ -24,7 +26,7 @@ export async function POST(request: NextRequest) {
 
   try {
     await createCustomer(input);
-    return NextResponse.redirect(new URL("/customer/login", request.url), 303);
+    return NextResponse.redirect(new URL(`/auth/check-email?role=customer&email=${encodeURIComponent(input.email)}`, request.url), 303);
   } catch (error) {
     return NextResponse.json({ error: error instanceof Error ? error.message : "Registration failed" }, { status: 400 });
   }

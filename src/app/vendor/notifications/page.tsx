@@ -6,7 +6,7 @@ import { getUserNotifications } from "@/services/notification-service";
 
 export default async function VendorNotificationsPage() {
   const vendor = await getVendorFromCookie();
-  if (!vendor) redirect("/vendor/login");
+  if (!vendor) redirect("/auth?mode=login");
 
   const notifications = await getUserNotifications({
     userRole: "vendor",

@@ -80,7 +80,7 @@ export function AuthFormCard({
       transition={{ duration: 0.4 }}
     >
       <Link className="text-sm font-semibold text-teal-300 hover:text-teal-200" href={roleHref}>
-        ← Switch role
+        Back to role selection
       </Link>
       <div className="mt-5 flex items-start gap-3">
         <div className="grid size-11 place-items-center rounded-2xl bg-teal-400/10 text-teal-300 ring-1 ring-teal-300/20">

@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   const customer = await getCustomerFromCookie();
 
   if (!customer) {
-    return NextResponse.redirect(new URL("/customer/login", request.url), 303);
+    return NextResponse.redirect(new URL("/auth?mode=login", request.url), 303);
   }
 
   const formData = await request.formData();

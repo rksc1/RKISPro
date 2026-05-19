@@ -11,7 +11,7 @@ import type { VendorStatus } from "@/types/auth";
 
 export default async function AdminVendorDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const { id } = await params;
   const vendor = await getVendorById(id);

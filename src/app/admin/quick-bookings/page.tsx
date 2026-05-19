@@ -21,7 +21,7 @@ export default async function AdminQuickBookingsPage({
   searchParams: Promise<{ status?: QuickBookingStatus | ""; serviceType?: QuickBookingServiceType | ""; urgency?: QuickBookingUrgency | ""; location?: string }>;
 }) {
   const admin = await getAdminFromCookie();
-  if (!admin) redirect("/admin/login");
+  if (!admin) redirect("/auth?mode=login");
 
   const filters = await searchParams;
   const bookings = await getAdminQuickBookings(filters);

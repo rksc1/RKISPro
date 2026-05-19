@@ -7,9 +7,9 @@ export const dashboardByRole: Record<Role, string> = {
 };
 
 export const loginByRole: Record<Role, string> = {
-  customer: "/customer/login",
-  vendor: "/vendor/login",
-  admin: "/admin/login"
+  customer: "/auth?mode=login",
+  vendor: "/auth?mode=login",
+  admin: "/auth?mode=login"
 };
 
 export function roleFromPath(pathname: string): Role | null {

@@ -1,15 +1,5 @@
-import { AuthShell } from "@/components/layout/AuthShell";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
+import { redirect } from "next/navigation";
 
 export default function AdminLoginPage() {
-  return (
-    <AuthShell title="Admin login" description="Access procurement coordination operations.">
-      <form className="form-grid" action="/api/auth/admin/login" method="post">
-        <Input label="Email" name="email" type="email" required />
-        <Input label="Password" name="password" type="password" required />
-        <Button type="submit">Login</Button>
-      </form>
-    </AuthShell>
-  );
+  redirect("/auth?mode=login");
 }

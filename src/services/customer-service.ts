@@ -24,6 +24,7 @@ export async function createCustomer(input: {
   location: string;
   city?: string;
   state?: string;
+  emailRedirectTo?: string;
 }) {
   const supabase = getSupabase();
   const email = input.email.toLowerCase();
@@ -40,12 +41,14 @@ export async function createCustomer(input: {
     email,
     password: input.password,
     role: "customer",
-    fullName: input.name
+    fullName: input.name,
+    emailRedirectTo: input.emailRedirectTo
   });
 
   if (authUser) {
     await upsertAuthProfile({
       authUserId: authUser.id,
+      email,
       role: "customer",
       fullName: input.name,
       companyName: input.companyName,
