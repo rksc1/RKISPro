@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { setRoleCookie } from "@/lib/auth";
-import { getSupabase } from "@/lib/db";
+import { getSupabaseAuthClient } from "@/lib/db";
 import { redirectPathByRole } from "@/lib/auth/redirect-by-role";
 import { getProfileById, isBlockedProfile, resolveRoleAccount, syncProfile } from "@/services/auth-service";
 import type { Role } from "@/types/auth";
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
     }
 
-    const supabase = getSupabase();
+    const supabase = getSupabaseAuthClient();
     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error || !data.user) {

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getSupabase } from "@/lib/db";
+import { getSupabaseAuthClient } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   }
 
   const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
-  const { error } = await getSupabase().auth.resend({
+  const { error } = await getSupabaseAuthClient().auth.resend({
     type: "signup",
     email,
     options: {

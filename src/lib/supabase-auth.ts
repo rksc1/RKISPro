@@ -1,4 +1,4 @@
-import { getSupabase } from "@/lib/db";
+import { getSupabase, getSupabaseAuthClient } from "@/lib/db";
 import type { Role } from "@/types/auth";
 
 type ProfileInput = {
@@ -21,7 +21,7 @@ export async function createSupabaseAuthUser(input: {
   fullName: string;
   emailRedirectTo?: string;
 }) {
-  const supabase = getSupabase();
+  const supabase = getSupabaseAuthClient();
   const { data, error } = await supabase.auth.signUp({
     email: input.email,
     password: input.password,
@@ -42,7 +42,7 @@ export async function createSupabaseAuthUser(input: {
 }
 
 export async function verifySupabasePassword(email: string, password: string) {
-  const supabase = getSupabase();
+  const supabase = getSupabaseAuthClient();
   const { data, error } = await supabase.auth.signInWithPassword({ email, password });
   if (error || !data.user) return null;
   return data.user;

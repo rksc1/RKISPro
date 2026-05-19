@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { getSupabase } from "@/lib/db";
+import { getSupabaseAuthClient } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
   const formData = await request.formData();
@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
   }
 
   const redirectTo = new URL("/auth?mode=login", request.url).toString();
-  const { error } = await getSupabase().auth.resetPasswordForEmail(email, { redirectTo });
+  const { error } = await getSupabaseAuthClient().auth.resetPasswordForEmail(email, { redirectTo });
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 400 });

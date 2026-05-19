@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { setRoleCookie } from "@/lib/auth";
-import { getSupabase } from "@/lib/db";
+import { getSupabaseAuthClient } from "@/lib/db";
 import { redirectPathByRole } from "@/lib/auth/redirect-by-role";
 import { getProfileById, isBlockedProfile, resolveRoleAccount, syncProfile } from "@/services/auth-service";
 import type { Role } from "@/types/auth";
@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  const supabase = getSupabase();
+  const supabase = getSupabaseAuthClient();
   const { data, error } = await supabase.auth.exchangeCodeForSession(code);
 
   if (error || !data.user) {
