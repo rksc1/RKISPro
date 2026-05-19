@@ -83,7 +83,8 @@ export async function getProfileById(id: string) {
     .eq("id", id)
     .maybeSingle<ProfileRow>();
 
-  if (error || !data) return null;
+  if (error) throw new Error(`Profile lookup failed: ${error.message}`);
+  if (!data) return null;
   return mapProfile(data);
 }
 
@@ -94,7 +95,8 @@ export async function getProfileByEmail(email: string) {
     .eq("email", email.toLowerCase())
     .maybeSingle<ProfileRow>();
 
-  if (error || !data) return null;
+  if (error) throw new Error(`Profile lookup failed: ${error.message}`);
+  if (!data) return null;
   return mapProfile(data);
 }
 
