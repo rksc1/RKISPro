@@ -37,7 +37,7 @@ export function StickyNavbar() {
 
         <div className="hidden items-center justify-end gap-4 md:flex">
           <Link
-            className="rounded-lg px-2.5 py-2 text-sm font-medium tracking-tight text-white/78 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
+            className="rounded-lg px-2.5 py-2 text-sm font-medium tracking-tight text-white/80 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
             href="/auth?mode=login"
           >
             Login
@@ -52,7 +52,7 @@ export function StickyNavbar() {
 
         <div className="flex items-center gap-2.5 md:hidden">
           <Link
-            className="inline-flex h-9 items-center justify-center rounded-lg bg-teal-500 px-3 text-xs font-medium text-white shadow-sm shadow-teal-950/20 ring-1 ring-teal-300/20 transition hover:bg-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200"
+            className="inline-flex h-9 max-w-[9.5rem] items-center justify-center rounded-lg bg-teal-500 px-3 text-center text-xs font-semibold leading-tight text-white shadow-sm shadow-teal-950/20 ring-1 ring-teal-300/20 transition hover:bg-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200"
             href="/auth"
           >
             Post Requirement
@@ -66,14 +66,14 @@ export function StickyNavbar() {
               <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:-translate-y-2 group-open:-rotate-45" />
             </span>
           </summary>
-          <div className="absolute right-0 mt-3 w-60 overflow-hidden rounded-xl border border-white/10 bg-slate-950/98 p-2.5 shadow-xl shadow-slate-950/55 ring-1 ring-teal-300/10 backdrop-blur-xl">
+          <div className="absolute right-0 mt-3 w-60 overflow-hidden rounded-xl border border-white/10 bg-slate-950 p-2.5 shadow-xl shadow-slate-950/55 ring-1 ring-teal-300/10">
             <nav aria-label="Mobile navigation" className="grid gap-1">
-              <Link className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/82 transition hover:bg-white/5 hover:text-teal-300" href="/auth?mode=login">
+              <Link className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/90 transition hover:bg-white/5 hover:text-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300" href="/auth?mode=login">
                 Login
               </Link>
               <div className="my-1 h-px bg-white/10" />
               {mobileLinks.map((link) => (
-                <Link className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/82 transition hover:bg-white/5 hover:text-teal-300" href={link.href} key={`${link.href}-${link.label}`}>
+                <Link className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/90 transition hover:bg-white/5 hover:text-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300" href={link.href} key={`${link.href}-${link.label}`}>
                   {link.label}
                 </Link>
               ))}
