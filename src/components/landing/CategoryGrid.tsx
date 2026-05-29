@@ -13,8 +13,8 @@ const categories = [
 
 export function CategoryGrid() {
   return (
-    <section className="bg-slate-950 py-20 text-white">
-      <div className="page-shell grid gap-10">
+    <section className="bg-slate-950 py-14 text-white sm:py-16 lg:py-20">
+      <div className="page-shell grid gap-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl">
             <p className="text-sm font-black uppercase tracking-[0.18em] text-brand-gold">Industrial Service Categories</p>
@@ -24,7 +24,7 @@ export function CategoryGrid() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {categories.map((category, index) => (
             <a
-              className="group min-h-36 rounded-2xl border border-white/10 bg-white/[0.06] p-5 transition hover:-translate-y-1 hover:border-brand-gold hover:bg-white/[0.1]"
+              className="group min-h-32 rounded-lg border border-white/10 bg-white/[0.06] p-5 transition hover:-translate-y-1 hover:border-brand-gold hover:bg-white/[0.1]"
               href="/customer/request/new"
               key={category}
             >

@@ -38,13 +38,27 @@ export default async function CustomerQuoteComparisonPage({
           <p className="text-sm text-muted">
             Review amount alongside delivery timeline, vendor capability, verification status, admin notes, and execution risk before awarding.
           </p>
+          <div className="grid gap-3 pt-2 md:grid-cols-3">
+            <div className="rounded-lg border border-line bg-canvas p-4">
+              <span className="text-xs font-bold uppercase tracking-wide text-muted">Comparison priority</span>
+              <strong className="mt-1 block text-slate-950">Execution fit first</strong>
+            </div>
+            <div className="rounded-lg border border-line bg-canvas p-4">
+              <span className="text-xs font-bold uppercase tracking-wide text-muted">Approved quotations</span>
+              <strong className="mt-1 block text-slate-950">{quotes.length}</strong>
+            </div>
+            <div className="rounded-lg border border-line bg-canvas p-4">
+              <span className="text-xs font-bold uppercase tracking-wide text-muted">Decision support</span>
+              <strong className="mt-1 block text-slate-950">Timeline, capability, risk</strong>
+            </div>
+          </div>
         </div>
       </Card>
 
       {quotes.length === 0 ? (
         <EmptyState
           title="Quotes are under review"
-          description="Quotes are under review. You'll see verified quotations here once approved by RKISPro admin."
+          description="RKISPro is reviewing vendor submissions. Approved structured quotations will appear here with capability, timeline, verification, and execution-risk context."
         />
       ) : (
         <div className="grid gap-4">

@@ -12,9 +12,9 @@ export default async function CustomerProjectsPage() {
   const projects = customer ? await getCustomerProjects(customer.id) : [];
 
   return (
-    <CustomerLayout title="My projects">
+    <CustomerLayout title="Execution tracking">
       {projects.length === 0 ? (
-        <EmptyState title="No awarded projects yet" description="Selected vendors and awarded RFQs will appear here." />
+        <EmptyState title="No awarded projects yet" description="Awarded requirements will appear here with vendor, delivery, milestone, and payment tracking." />
       ) : (
         <div className="grid gap-4">
           {projects.map((project) => (

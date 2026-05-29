@@ -15,12 +15,12 @@ export default async function CustomerQuickBookingsPage() {
   const bookings = await getCustomerQuickBookings(customer.id);
 
   return (
-    <CustomerLayout title="My Quick Bookings">
+    <CustomerLayout title="Quick Service Visits">
       <div className="flex justify-end">
-        <Button href="/customer/quick-booking/new">Book Now</Button>
+        <Button href="/customer/quick-booking/new">Book Service Visit</Button>
       </div>
       {bookings.length === 0 ? (
-        <EmptyState title="No quick bookings yet" description="Small urgent service jobs will appear here after booking." />
+        <EmptyState title="No quick service visits yet" description="Urgent site visits, breakdown support, repair work, and small service jobs will appear here after booking." />
       ) : (
         <div className="grid gap-4">
           {bookings.map((booking) => (

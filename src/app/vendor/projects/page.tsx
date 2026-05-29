@@ -14,11 +14,11 @@ export default async function VendorProjectsPage() {
   const projects = vendor && isApproved ? await getVendorProjects(vendor.id) : [];
 
   return (
-    <VendorLayout title="My projects">
+    <VendorLayout title="Execution tracking">
       {!isApproved ? (
         <EmptyState title="Approval required" description="Project access unlocks after vendor approval and category verification." />
       ) : projects.length === 0 ? (
-        <EmptyState title="No assigned projects yet" description="Awarded projects from selected quotations will appear here." />
+        <EmptyState title="No assigned projects yet" description="Awarded work from selected quotations will appear here with milestones, payment visibility, and execution notes." />
       ) : (
         <div className="grid gap-4">
           {projects.map((project) => (

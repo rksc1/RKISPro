@@ -5,6 +5,10 @@ import type { getProjectDetailForRole } from "@/services/project-service";
 
 type ProjectDetail = NonNullable<Awaited<ReturnType<typeof getProjectDetailForRole>>>;
 
+function formatMoney(value: number | string | null | undefined) {
+  return value == null ? null : `INR ${Number(value).toLocaleString("en-IN")}`;
+}
+
 export function ProjectDetailContent({
   project,
   role,
@@ -14,6 +18,9 @@ export function ProjectDetailContent({
   role: "customer" | "vendor" | "admin";
   milestoneControls?: Parameters<typeof MilestoneTimeline>[0]["controls"];
 }) {
+  const completedMilestones = project.milestones.filter((milestone) => milestone.status === "completed").length;
+  const delayedMilestones = project.milestones.filter((milestone) => milestone.status === "delayed").length;
+
   return (
     <div className="grid gap-5">
       <ProjectDetailHeader
@@ -22,12 +29,30 @@ export function ProjectDetailContent({
         location={project.request?.location}
         status={project.status}
       />
+      <div className="grid gap-3 md:grid-cols-4">
+        <div className="rounded-lg border border-line bg-white p-4 shadow-soft">
+          <span className="text-xs font-bold uppercase tracking-wide text-muted">Project value</span>
+          <strong className="mt-1 block text-lg text-slate-950">{formatMoney(project.projectValue)}</strong>
+        </div>
+        <div className="rounded-lg border border-line bg-white p-4 shadow-soft">
+          <span className="text-xs font-bold uppercase tracking-wide text-muted">Expected delivery</span>
+          <strong className="mt-1 block text-lg text-slate-950">{project.expectedDeliveryDate ?? "Not set"}</strong>
+        </div>
+        <div className="rounded-lg border border-line bg-white p-4 shadow-soft">
+          <span className="text-xs font-bold uppercase tracking-wide text-muted">Milestones</span>
+          <strong className="mt-1 block text-lg text-slate-950">{completedMilestones}/{project.milestones.length} complete</strong>
+        </div>
+        <div className="rounded-lg border border-line bg-white p-4 shadow-soft">
+          <span className="text-xs font-bold uppercase tracking-wide text-muted">Risk watch</span>
+          <strong className="mt-1 block text-lg text-slate-950">{delayedMilestones ? `${delayedMilestones} delayed` : "No delays logged"}</strong>
+        </div>
+      </div>
       <div className="grid gap-5 lg:grid-cols-3">
         <ProjectInfoCard
-          title="Project Summary"
+          title="Execution Summary"
           items={[
-            { label: "Project value", value: `₹${Number(project.projectValue).toLocaleString("en-IN")}` },
-            ...(role === "admin" ? [{ label: "Commission", value: `₹${Number(project.commissionAmount).toLocaleString("en-IN")}` }] : []),
+            { label: "Project value", value: formatMoney(project.projectValue) },
+            ...(role === "admin" ? [{ label: "Commission", value: formatMoney(project.commissionAmount) }] : []),
             { label: "Expected delivery", value: project.expectedDeliveryDate },
             { label: "Actual delivery", value: project.actualDeliveryDate },
             { label: "Admin notes", value: project.adminNotes }
@@ -52,7 +77,7 @@ export function ProjectDetailContent({
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
         <ProjectInfoCard
-          title="RFQ Details"
+          title="Requirement Scope"
           items={[
             { label: "Title", value: project.request?.projectTitle },
             { label: "Service", value: project.request?.serviceType },
@@ -62,7 +87,7 @@ export function ProjectDetailContent({
         <ProjectInfoCard
           title="Selected Quote"
           items={[
-            { label: "Amount", value: project.quote ? `₹${Number(project.quote.amount).toLocaleString("en-IN")}` : null },
+            { label: "Amount", value: project.quote ? formatMoney(project.quote.amount) : null },
             { label: "Timeline", value: project.quote?.timeline },
             { label: "Notes", value: project.quote?.notes },
             { label: "Attachment", value: project.quote?.attachmentUrl ? "Available" : "Not attached" }

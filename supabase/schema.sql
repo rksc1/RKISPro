@@ -331,7 +331,7 @@ create unique index if not exists payments_active_pending_razorpay_idx
 create table if not exists public.quick_bookings (
   id uuid primary key default gen_random_uuid(),
   customer_id uuid not null references public.customers(id) on delete cascade,
-  service_type text not null check (service_type in ('welder', 'mechanic', 'repair', 'installer', 'maintenance', 'electrician', 'plumber', 'helper')),
+  service_type text not null check (service_type in ('welder', 'mechanic', 'repair', 'installer', 'maintenance', 'electrician', 'plumber', 'helper', 'welding_repair', 'fabrication_repair', 'machine_mechanic', 'cnc_machine_service', 'lathe_machine_service', 'electrical_repair', 'industrial_electrician', 'ac_repair', 'hvac_service', 'plumbing_repair', 'compressor_service', 'pump_motor_service', 'generator_service', 'panel_repair', 'installation_support', 'maintenance_visit', 'breakdown_support', 'inspection_visit', 'helper_manpower', 'other_site_service')),
   title text not null,
   description text,
   location text not null,
@@ -340,6 +340,12 @@ create table if not exists public.quick_bookings (
   urgency text not null default 'normal' check (urgency in ('normal', 'urgent', 'emergency')),
   budget numeric,
   images text[] not null default '{}',
+  contact_name text,
+  contact_phone text,
+  site_access_notes text,
+  machine_or_equipment text,
+  issue_started_at text,
+  safety_requirements text,
   status text not null default 'pending' check (status in ('pending', 'assigned', 'accepted', 'in_progress', 'completed', 'cancelled')),
   assigned_vendor_id uuid references public.vendors(id),
   assigned_worker_name text,
@@ -349,6 +355,18 @@ create table if not exists public.quick_bookings (
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
+
+alter table public.quick_bookings
+  add column if not exists contact_name text,
+  add column if not exists contact_phone text,
+  add column if not exists site_access_notes text,
+  add column if not exists machine_or_equipment text,
+  add column if not exists issue_started_at text,
+  add column if not exists safety_requirements text;
+
+alter table public.quick_bookings
+  drop constraint if exists quick_bookings_service_type_check,
+  add constraint quick_bookings_service_type_check check (service_type in ('welder', 'mechanic', 'repair', 'installer', 'maintenance', 'electrician', 'plumber', 'helper', 'welding_repair', 'fabrication_repair', 'machine_mechanic', 'cnc_machine_service', 'lathe_machine_service', 'electrical_repair', 'industrial_electrician', 'ac_repair', 'hvac_service', 'plumbing_repair', 'compressor_service', 'pump_motor_service', 'generator_service', 'panel_repair', 'installation_support', 'maintenance_visit', 'breakdown_support', 'inspection_visit', 'helper_manpower', 'other_site_service'));
 
 create index if not exists quick_bookings_customer_id_idx on public.quick_bookings (customer_id);
 create index if not exists quick_bookings_status_idx on public.quick_bookings (status);

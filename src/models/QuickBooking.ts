@@ -12,6 +12,12 @@ export type QuickBookingRow = {
   urgency: QuickBookingUrgency;
   budget: number | null;
   images: string[];
+  contact_name: string | null;
+  contact_phone: string | null;
+  site_access_notes: string | null;
+  machine_or_equipment: string | null;
+  issue_started_at: string | null;
+  safety_requirements: string | null;
   status: QuickBookingStatus;
   assigned_vendor_id: string | null;
   assigned_worker_name: string | null;
@@ -34,6 +40,12 @@ export type QuickBooking = {
   urgency: QuickBookingUrgency;
   budget: number | null;
   images: string[];
+  contactName: string | null;
+  contactPhone: string | null;
+  siteAccessNotes: string | null;
+  machineOrEquipment: string | null;
+  issueStartedAt: string | null;
+  safetyRequirements: string | null;
   status: QuickBookingStatus;
   assignedVendorId: string | null;
   assignedWorkerName: string | null;

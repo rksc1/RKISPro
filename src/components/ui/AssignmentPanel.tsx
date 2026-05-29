@@ -43,7 +43,7 @@ export function AssignmentPanel({
         Admin notes
         <textarea className="min-h-24 rounded-md border border-line px-3 py-2" name="adminNotes" defaultValue={booking.adminNotes ?? ""} />
       </label>
-      <Button type="submit">Update Assignment</Button>
+      <Button type="submit">Update Dispatch</Button>
     </form>
   );
 }

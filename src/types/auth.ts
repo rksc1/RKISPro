@@ -44,7 +44,27 @@ export type QuickBookingServiceType =
   | "maintenance"
   | "electrician"
   | "plumber"
-  | "helper";
+  | "helper"
+  | "welding_repair"
+  | "fabrication_repair"
+  | "machine_mechanic"
+  | "cnc_machine_service"
+  | "lathe_machine_service"
+  | "electrical_repair"
+  | "industrial_electrician"
+  | "ac_repair"
+  | "hvac_service"
+  | "plumbing_repair"
+  | "compressor_service"
+  | "pump_motor_service"
+  | "generator_service"
+  | "panel_repair"
+  | "installation_support"
+  | "maintenance_visit"
+  | "breakdown_support"
+  | "inspection_visit"
+  | "helper_manpower"
+  | "other_site_service";
 
 export type QuickBookingUrgency = "normal" | "urgent" | "emergency";
 

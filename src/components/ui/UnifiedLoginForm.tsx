@@ -7,6 +7,28 @@ import { Eye, EyeOff, Loader2, LogIn, ShieldCheck } from "lucide-react";
 import { AuthField } from "@/components/ui/AuthField";
 import { Logo } from "@/components/ui/Logo";
 
+function friendlyLoginError(message?: string) {
+  const normalizedMessage = String(message ?? "").toLowerCase();
+
+  if (normalizedMessage.includes("invalid credentials")) {
+    return "Email or password is incorrect. Please check the details and try again.";
+  }
+  if (normalizedMessage.includes("confirm your email")) {
+    return "Please confirm your email before logging in.";
+  }
+  if (normalizedMessage.includes("vendor") && normalizedMessage.includes("pending")) {
+    return "Your vendor account is still under RKISPro approval. You can log in after verification is complete.";
+  }
+  if (normalizedMessage.includes("profile") || normalizedMessage.includes("role account")) {
+    return "Your account profile is incomplete. Please contact RKISPro support to finish setup.";
+  }
+  if (normalizedMessage.includes("not active") || normalizedMessage.includes("blocked") || normalizedMessage.includes("rejected")) {
+    return "This account is not active. Please contact RKISPro support.";
+  }
+
+  return message ?? "Login failed. Please check your details and try again.";
+}
+
 export function UnifiedLoginForm({
   initialMessage,
   initialEmail = ""
@@ -37,7 +59,7 @@ export function UnifiedLoginForm({
       const payload = await response.json().catch(() => null);
 
       if (!response.ok) {
-        setToast({ type: "error", message: payload?.error ?? "Login failed. Please check your credentials." });
+        setToast({ type: "error", message: friendlyLoginError(payload?.error) });
         setNeedsConfirmation(Boolean(payload?.needsConfirmation));
         return;
       }
@@ -139,6 +161,13 @@ export function UnifiedLoginForm({
         <p>
           New to RKISPro? <Link className="font-bold text-teal-300 hover:text-teal-200" href="/auth">Create account</Link>
         </p>
+      </div>
+      <div className="mt-4 rounded-2xl border border-white/10 bg-slate-950/35 p-4 text-sm leading-6 text-slate-300">
+        Need help accessing your account?{" "}
+        <Link className="font-bold text-teal-300 hover:text-teal-200" href="/contact">
+          Contact RKISPro support
+        </Link>
+        .
       </div>
       <p className="mt-5 text-center text-xs leading-5 text-slate-400">
         By continuing, you agree to RKISPro Terms, Privacy Policy, Vendor Agreement, and Marketplace Policies.
