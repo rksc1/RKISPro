@@ -33,7 +33,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     createNotification({
       userRole: "customer",
       userId: updated.customerId,
-      title: status === "completed" ? "Quick booking completed" : "Quick booking updated",
+      title: status === "completed" ? "Service visit completed" : "Service visit updated",
       message: `${vendor.name} marked "${updated.title}" as ${status.replaceAll("_", " ")}.`,
       type: status === "completed" ? "success" : "info",
       link: `/customer/quick-bookings/${updated.id}`
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     createNotifications(admins.map((admin) => ({
       userRole: "admin",
       userId: admin.id,
-      title: "Vendor quick booking update",
+      title: "Vendor service visit update",
       message: `${vendor.name} marked "${updated.title}" as ${status.replaceAll("_", " ")}.`,
       type: status === "completed" ? "success" : "info",
       link: `/admin/quick-bookings/${updated.id}`
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       entityType: "quick_booking",
       entityId: updated.id,
       action: status,
-      description: `${vendor.name} updated quick booking "${updated.title}".`
+      description: `${vendor.name} updated service visit "${updated.title}".`
     })
   ]);
 

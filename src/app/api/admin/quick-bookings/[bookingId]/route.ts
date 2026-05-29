@@ -40,10 +40,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     createNotification({
       userRole: "customer",
       userId: updated.customerId,
-      title: "Quick booking updated",
+      title: "Service visit updated",
       message: vendor
         ? `${vendor.companyName} has been assigned to "${updated.title}".`
-        : `Your quick booking "${updated.title}" was updated by RKISPro.`,
+        : `Your service visit "${updated.title}" was updated by RKISPro.`,
       type: status === "cancelled" ? "warning" : "success",
       link: `/customer/quick-bookings/${updated.id}`
     })
@@ -52,8 +52,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     notifications.push(createNotification({
       userRole: "vendor",
       userId: updated.assignedVendorId,
-      title: "Quick booking assigned",
-      message: `RKISPro assigned you quick booking "${updated.title}".`,
+      title: "Service visit assigned",
+      message: `RKISPro assigned you service visit "${updated.title}".`,
       type: "info",
       link: "/vendor/quick-bookings"
     }));
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       entityType: "quick_booking",
       entityId: updated.id,
       action: "updated",
-      description: `${admin.name} updated quick booking "${updated.title}".`,
+      description: `${admin.name} updated service visit "${updated.title}".`,
       metadata: { status, assignedVendorId: updated.assignedVendorId }
     })
   ]);

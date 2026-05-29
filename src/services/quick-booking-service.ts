@@ -12,8 +12,100 @@ export const quickBookingServiceTypes: QuickBookingServiceType[] = [
   "maintenance",
   "electrician",
   "plumber",
-  "helper"
+  "helper",
+  "welding_repair",
+  "fabrication_repair",
+  "machine_mechanic",
+  "cnc_machine_service",
+  "lathe_machine_service",
+  "electrical_repair",
+  "industrial_electrician",
+  "ac_repair",
+  "hvac_service",
+  "plumbing_repair",
+  "compressor_service",
+  "pump_motor_service",
+  "generator_service",
+  "panel_repair",
+  "installation_support",
+  "maintenance_visit",
+  "breakdown_support",
+  "inspection_visit",
+  "helper_manpower",
+  "other_site_service"
 ];
+
+export const quickBookingServiceLabels: Record<QuickBookingServiceType, string> = {
+  welder: "Welding Repair",
+  mechanic: "Machine Mechanic",
+  repair: "General Repair",
+  installer: "Installation Support",
+  maintenance: "Maintenance Visit",
+  electrician: "Electrical Repair",
+  plumber: "Plumbing Repair",
+  helper: "Helper / Manpower",
+  welding_repair: "Welding Repair",
+  fabrication_repair: "Fabrication Repair",
+  machine_mechanic: "Machine Mechanic",
+  cnc_machine_service: "CNC Machine Service",
+  lathe_machine_service: "Lathe Machine Service",
+  electrical_repair: "Electrical Repair",
+  industrial_electrician: "Industrial Electrician",
+  ac_repair: "AC Repair",
+  hvac_service: "HVAC Service",
+  plumbing_repair: "Plumbing Repair",
+  compressor_service: "Compressor Service",
+  pump_motor_service: "Pump & Motor Service",
+  generator_service: "Generator Service",
+  panel_repair: "Electrical Panel Repair",
+  installation_support: "Installation Support",
+  maintenance_visit: "Maintenance Visit",
+  breakdown_support: "Breakdown Support",
+  inspection_visit: "Inspection Visit",
+  helper_manpower: "Helper / Manpower",
+  other_site_service: "Other Site Service"
+};
+
+export const quickBookingServiceGroups: Array<{ label: string; options: QuickBookingServiceType[] }> = [
+  {
+    label: "Emergency / Breakdown",
+    options: [
+      "breakdown_support",
+      "machine_mechanic",
+      "cnc_machine_service",
+      "lathe_machine_service",
+      "compressor_service",
+      "pump_motor_service",
+      "generator_service"
+    ]
+  },
+  {
+    label: "Repair",
+    options: [
+      "welding_repair",
+      "fabrication_repair",
+      "electrical_repair",
+      "ac_repair",
+      "hvac_service",
+      "plumbing_repair",
+      "panel_repair"
+    ]
+  },
+  {
+    label: "Site Support",
+    options: [
+      "installation_support",
+      "maintenance_visit",
+      "inspection_visit",
+      "helper_manpower",
+      "other_site_service"
+    ]
+  }
+];
+
+export function formatQuickBookingServiceType(serviceType: QuickBookingServiceType) {
+  return quickBookingServiceLabels[serviceType] ?? serviceType.replaceAll("_", " ");
+}
 
 export const quickBookingUrgencies: QuickBookingUrgency[] = ["normal", "urgent", "emergency"];
 export const quickBookingStatuses: QuickBookingStatus[] = ["pending", "assigned", "accepted", "in_progress", "completed", "cancelled"];
@@ -31,6 +123,12 @@ export function mapQuickBooking(row: QuickBookingRow): QuickBooking {
     urgency: row.urgency,
     budget: row.budget,
     images: row.images ?? [],
+    contactName: row.contact_name,
+    contactPhone: row.contact_phone,
+    siteAccessNotes: row.site_access_notes,
+    machineOrEquipment: row.machine_or_equipment,
+    issueStartedAt: row.issue_started_at,
+    safetyRequirements: row.safety_requirements,
     status: row.status,
     assignedVendorId: row.assigned_vendor_id,
     assignedWorkerName: row.assigned_worker_name,
@@ -65,6 +163,12 @@ export async function createQuickBooking(input: {
   urgency: QuickBookingUrgency;
   budget?: number | null;
   images: string[];
+  contactName?: string | null;
+  contactPhone?: string | null;
+  siteAccessNotes?: string | null;
+  machineOrEquipment?: string | null;
+  issueStartedAt?: string | null;
+  safetyRequirements?: string | null;
 }) {
   const supabase = getSupabase();
   const { data, error } = await supabase
@@ -80,6 +184,12 @@ export async function createQuickBooking(input: {
       urgency: input.urgency,
       budget: input.budget ?? null,
       images: input.images,
+      contact_name: input.contactName || null,
+      contact_phone: input.contactPhone || null,
+      site_access_notes: input.siteAccessNotes || null,
+      machine_or_equipment: input.machineOrEquipment || null,
+      issue_started_at: input.issueStartedAt || null,
+      safety_requirements: input.safetyRequirements || null,
       status: "pending"
     })
     .select("*")
@@ -126,6 +236,7 @@ export async function getAdminQuickBookings(filters: {
   serviceType?: QuickBookingServiceType | "";
   urgency?: QuickBookingUrgency | "";
   location?: string;
+  assignment?: "assigned" | "unassigned" | "";
 }) {
   const supabase = getSupabase();
   let query = supabase
@@ -137,6 +248,8 @@ export async function getAdminQuickBookings(filters: {
   if (filters.serviceType) query = query.eq("service_type", filters.serviceType);
   if (filters.urgency) query = query.eq("urgency", filters.urgency);
   if (filters.location) query = query.ilike("location", `%${filters.location}%`);
+  if (filters.assignment === "assigned") query = query.not("assigned_vendor_id", "is", null);
+  if (filters.assignment === "unassigned") query = query.is("assigned_vendor_id", null);
 
   const { data, error } = await query.returns<Array<QuickBookingRow & { customers: CustomerRow | null; vendors: VendorRow | null }>>();
   if (error) throw new Error(error.message);

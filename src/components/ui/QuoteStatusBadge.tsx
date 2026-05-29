@@ -9,9 +9,17 @@ const classes: Record<VendorQuoteStatus, string> = {
 };
 
 export function QuoteStatusBadge({ status }: { status: VendorQuoteStatus }) {
+  const labels: Record<VendorQuoteStatus, string> = {
+    pending: "Admin review",
+    approved: "Approved for comparison",
+    rejected: "Not approved",
+    selected: "Awarded",
+    not_selected: "Not selected"
+  };
+
   return (
     <span className={`w-max rounded-full px-2.5 py-1 text-xs font-bold ${classes[status]}`}>
-      {status === "selected" ? "awarded" : status.replace("_", " ")}
+      {labels[status]}
     </span>
   );
 }

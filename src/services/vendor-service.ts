@@ -2,7 +2,8 @@ import { getSupabase } from "@/lib/db";
 import { hashPassword, verifyPassword } from "@/lib/password";
 import { createSupabaseAuthUser, upsertAuthProfile, verifySupabasePassword } from "@/lib/supabase-auth";
 import type { VendorProfile, VendorRow } from "@/models/Vendor";
-import type { VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
+import { formatQuickBookingServiceType } from "@/services/quick-booking-service";
+import type { QuickBookingServiceType, VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
 
 function list(value: string[] | string | null | undefined) {
   if (Array.isArray(value)) return value.map((item) => item.trim()).filter(Boolean);
@@ -255,8 +256,13 @@ export async function getQuickBookingAssignableVendors(filters: {
   serviceType?: string;
   location?: string;
 }) {
+  const requestedService = filters.serviceType as QuickBookingServiceType | undefined;
+  const requestedServiceLabel = requestedService ? formatQuickBookingServiceType(requestedService) : "";
+  const normalizedRequestedService = [filters.serviceType, requestedServiceLabel]
+    .filter(Boolean)
+    .map((value) => String(value).toLowerCase());
+
   const vendors = await getVendors({
-    services: filters.serviceType,
     city: filters.location,
     verificationStatus: "verified"
   });
@@ -264,6 +270,11 @@ export async function getQuickBookingAssignableVendors(filters: {
   return vendors
     .filter((vendor) => vendor.availableForQuickBooking)
     .sort((a, b) => {
+      const aServices = a.serviceList.map((service) => service.toLowerCase());
+      const bServices = b.serviceList.map((service) => service.toLowerCase());
+      const aMatches = normalizedRequestedService.some((service) => aServices.includes(service));
+      const bMatches = normalizedRequestedService.some((service) => bServices.includes(service));
+      if (aMatches !== bMatches) return aMatches ? -1 : 1;
       if (a.vendorType !== b.vendorType) return a.vendorType === "individual" ? -1 : 1;
       return b.trustScore - a.trustScore;
     });

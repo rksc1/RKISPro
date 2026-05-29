@@ -14,6 +14,9 @@ export function ProjectCard({
   };
   footer?: ReactNode;
 }) {
+  const expectedDate = project.expectedDeliveryDate ?? "Not set";
+  const createdDate = new Date(project.createdAt).toLocaleDateString();
+
   return (
     <Card>
       <div className="grid gap-4">
@@ -26,12 +29,23 @@ export function ProjectCard({
           </div>
           <ProjectStatusBadge status={project.status} />
         </div>
-        <div className="grid gap-2 text-sm md:grid-cols-5">
+        <div className="grid gap-3 md:grid-cols-3">
+          <div className="rounded-lg border border-line bg-canvas p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Project value</span>
+            <strong className="mt-1 block text-slate-950">INR {Number(project.projectValue).toLocaleString("en-IN")}</strong>
+          </div>
+          <div className="rounded-lg border border-line bg-canvas p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Expected delivery</span>
+            <strong className="mt-1 block text-slate-950">{expectedDate}</strong>
+          </div>
+          <div className="rounded-lg border border-line bg-canvas p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Tracking opened</span>
+            <strong className="mt-1 block text-slate-950">{createdDate}</strong>
+          </div>
+        </div>
+        <div className="grid gap-2 text-sm md:grid-cols-2">
           <span><strong>Vendor:</strong> {project.vendor?.companyName ?? "Vendor"}</span>
           <span><strong>Customer:</strong> {project.customer?.companyName ?? "Customer"}</span>
-          <span><strong>Value:</strong> ₹{Number(project.projectValue).toLocaleString("en-IN")}</span>
-          <span><strong>Expected:</strong> {project.expectedDeliveryDate ?? "Not set"}</span>
-          <span><strong>Created:</strong> {new Date(project.createdAt).toLocaleDateString()}</span>
         </div>
         {footer}
       </div>

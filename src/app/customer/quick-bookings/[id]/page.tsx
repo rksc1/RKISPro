@@ -15,7 +15,7 @@ export default async function CustomerQuickBookingDetailPage({ params }: { param
   if (!booking) redirect("/customer/quick-bookings");
 
   return (
-    <CustomerLayout title="Quick Booking Detail">
+    <CustomerLayout title="Service Visit Detail">
       <QuickBookingCard
         booking={booking}
         footer={booking.status === "pending" ? (
@@ -26,7 +26,7 @@ export default async function CustomerQuickBookingDetailPage({ params }: { param
       />
       <div className="grid gap-4 lg:grid-cols-2">
         <Card>
-          <h2 className="text-lg font-black text-slate-950">Status Timeline</h2>
+          <h2 className="text-lg font-black text-slate-950">Visit Status Timeline</h2>
           <div className="mt-4 grid gap-3 text-sm">
             {["pending", "assigned", "accepted", "in_progress", "completed"].map((status) => (
               <div className={`rounded-md border p-3 ${booking.status === status ? "border-brand bg-amber-50" : "border-line"}`} key={status}>
@@ -36,7 +36,7 @@ export default async function CustomerQuickBookingDetailPage({ params }: { param
           </div>
         </Card>
         <Card>
-          <h2 className="text-lg font-black text-slate-950">Assignment</h2>
+          <h2 className="text-lg font-black text-slate-950">Dispatch Assignment</h2>
           <div className="mt-4 grid gap-3 text-sm">
             <span><strong>Vendor:</strong> {booking.vendor?.companyName ?? "Not assigned"}</span>
             <span><strong>Vendor phone:</strong> {booking.vendor?.phone ?? "Not assigned"}</span>

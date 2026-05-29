@@ -28,6 +28,8 @@ type QuoteCardProps = {
 
 export function QuoteCard({ quote, footer }: QuoteCardProps) {
   const location = [quote.vendor?.city, quote.vendor?.state].filter(Boolean).join(", ") || quote.vendor?.location;
+  const executionFitLabel = quote.executionFitScore ? `${quote.executionFitScore}/100` : "Admin review pending";
+  const riskLabel = quote.riskNotes ?? "No admin risk notes";
   const recommendationLabel = quote.isRecommended
     ? "Recommended Vendor"
     : quote.executionFitScore && quote.executionFitScore >= 80
@@ -35,13 +37,13 @@ export function QuoteCard({ quote, footer }: QuoteCardProps) {
       : null;
 
   return (
-    <Card>
+    <Card className={quote.isRecommended ? "border-brand-gold" : ""}>
       <div className="grid gap-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-xl font-black text-slate-950">{quote.request?.projectTitle ?? quote.vendor?.companyName ?? "Vendor quote"}</h2>
+            <h2 className="text-xl font-black text-slate-950">{quote.vendor?.companyName ?? "Vendor quote"}</h2>
             <p className="mt-1 text-sm text-muted">
-              {quote.request?.serviceType ?? quote.vendor?.services} | {quote.request?.location ?? location}
+              {quote.vendor?.services ?? quote.request?.serviceType ?? "Industrial service"} | {location ?? quote.request?.location ?? "Location under review"}
             </p>
           </div>
           <div className="flex flex-wrap justify-end gap-2">
@@ -51,21 +53,34 @@ export function QuoteCard({ quote, footer }: QuoteCardProps) {
             <QuoteStatusBadge status={quote.status} />
           </div>
         </div>
-        <div className="grid gap-2 text-sm md:grid-cols-3">
-          <span><strong>Vendor:</strong> {quote.vendor?.companyName ?? "Vendor"}</span>
-          <span><strong>Quote amount:</strong> INR {Number(quote.amount).toLocaleString("en-IN")}</span>
-          <span><strong>Timeline:</strong> {quote.timeline}</span>
+        <div className="grid gap-3 md:grid-cols-4">
+          <div className="rounded-lg border border-line bg-canvas p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Execution fit</span>
+            <strong className="mt-1 block text-lg text-slate-950">{executionFitLabel}</strong>
+          </div>
+          <div className="rounded-lg border border-line bg-canvas p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Delivery timeline</span>
+            <strong className="mt-1 block text-lg text-slate-950">{quote.timeline}</strong>
+          </div>
+          <div className="rounded-lg border border-line bg-canvas p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Verification</span>
+            <strong className="mt-1 block text-lg text-slate-950">{quote.vendor?.verificationStatus ?? "Under review"}</strong>
+          </div>
+          <div className="rounded-lg border border-line bg-white p-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted">Quote amount</span>
+            <strong className="mt-1 block text-base text-slate-800">INR {Number(quote.amount).toLocaleString("en-IN")}</strong>
+          </div>
+        </div>
+        <div className="grid gap-2 text-sm md:grid-cols-2">
           <span><strong>Vendor capability:</strong> {quote.vendor?.services ?? "Under review"}</span>
-          <span><strong>Vendor location:</strong> {location ?? "Under review"}</span>
           <span><strong>Machinery/capacity:</strong> {[quote.vendor?.machinery, quote.vendor?.capacity].filter(Boolean).join(" / ") || "Under review"}</span>
-          <span><strong>Verification:</strong> {quote.vendor?.verificationStatus ?? "Under review"}</span>
-          <span><strong>Execution fit:</strong> {quote.executionFitScore ? `${quote.executionFitScore}/100` : "Admin review pending"}</span>
-          <span><strong>Risk indicators:</strong> {quote.riskNotes ?? "No admin risk notes"}</span>
+          <span><strong>Vendor location:</strong> {location ?? "Under review"}</span>
+          <span><strong>Risk indicators:</strong> {riskLabel}</span>
         </div>
         {quote.adminNotes ? (
           <p className="rounded-md bg-canvas p-3 text-sm leading-6 text-muted"><strong>Admin review notes:</strong> {quote.adminNotes}</p>
         ) : null}
-        <p className="text-sm leading-6 text-muted">{quote.notes}</p>
+        <p className="rounded-md border border-line bg-white p-3 text-sm leading-6 text-muted"><strong>Vendor notes:</strong> {quote.notes}</p>
         {quote.attachmentUrl ? (
           <Button href={quote.attachmentUrl} variant="secondary">View Attachment</Button>
         ) : null}

@@ -5,6 +5,7 @@ import { getAdmins } from "@/services/admin-service";
 import { createActivityLog, createNotifications } from "@/services/notification-service";
 import {
   createQuickBooking,
+  formatQuickBookingServiceType,
   quickBookingServiceTypes,
   quickBookingUrgencies
 } from "@/services/quick-booking-service";
@@ -50,7 +51,13 @@ export async function POST(request: NextRequest) {
       preferredTime: text(formData.get("preferredTime")),
       urgency,
       budget: Number.isFinite(budget) && budget > 0 ? budget : null,
-      images: uploads.map((upload) => upload.secure_url)
+      images: uploads.map((upload) => upload.secure_url),
+      contactName: text(formData.get("contactName")),
+      contactPhone: text(formData.get("contactPhone")),
+      siteAccessNotes: text(formData.get("siteAccessNotes")),
+      machineOrEquipment: text(formData.get("machineOrEquipment")),
+      issueStartedAt: text(formData.get("issueStartedAt")),
+      safetyRequirements: text(formData.get("safetyRequirements"))
     });
 
     const admins = await getAdmins();
@@ -58,8 +65,8 @@ export async function POST(request: NextRequest) {
       createNotifications(admins.map((admin) => ({
         userRole: "admin",
         userId: admin.id,
-        title: "New quick booking",
-        message: `${customer.name} requested ${booking.serviceType}: ${booking.title}.`,
+        title: "New service visit request",
+        message: `${customer.name} requested ${formatQuickBookingServiceType(booking.serviceType)}: ${booking.title}.`,
         type: booking.urgency === "emergency" ? "warning" : "info",
         link: `/admin/quick-bookings/${booking.id}`
       }))),

@@ -15,9 +15,9 @@ export default async function VendorQuickBookingsPage() {
   const bookings = await getVendorQuickBookings(vendor.id);
 
   return (
-    <VendorLayout title="Assigned Quick Bookings">
+    <VendorLayout title="Assigned Service Visits">
       {bookings.length === 0 ? (
-        <EmptyState title="No quick bookings assigned" description="Admin-assigned small service jobs will appear here." />
+        <EmptyState title="No assigned service visits yet" description="Admin-assigned service visits for urgent repairs, breakdowns, installation support, and small field jobs will appear here." />
       ) : (
         <div className="grid gap-4">
           {bookings.map((booking) => (
@@ -27,12 +27,12 @@ export default async function VendorQuickBookingsPage() {
               footer={
                 <form action={`/api/vendor/quick-bookings/${booking.id}`} className="grid gap-3 border-t border-line pt-4 md:grid-cols-[1fr_1fr_auto]" method="post">
                   <select className="min-h-10 rounded-md border border-line bg-white px-3 text-sm" name="status" defaultValue={booking.status}>
-                    <option value="accepted">Accepted</option>
-                    <option value="in_progress">In progress</option>
-                    <option value="completed">Completed</option>
+                    <option value="accepted">Accept visit</option>
+                    <option value="in_progress">Start work</option>
+                    <option value="completed">Mark completed</option>
                   </select>
-                  <input className="min-h-10 rounded-md border border-line px-3 text-sm" name="vendorNotes" placeholder="Progress notes" defaultValue={booking.vendorNotes ?? ""} />
-                  <Button type="submit">Update</Button>
+                  <input className="min-h-10 rounded-md border border-line px-3 text-sm" name="vendorNotes" placeholder="Service visit note" defaultValue={booking.vendorNotes ?? ""} />
+                  <Button type="submit">Update Visit</Button>
                 </form>
               }
             />

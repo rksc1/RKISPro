@@ -4,6 +4,7 @@ import { StatusBadge } from "@/components/ui/StatusBadge";
 import { VendorCapabilityCard } from "@/components/ui/VendorCapabilityCard";
 import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
 import { getVendorFromCookie } from "@/lib/auth";
+import { normalizeStatus } from "@/lib/status";
 import { getVendorById } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
@@ -11,11 +12,13 @@ export const dynamic = "force-dynamic";
 export default async function VendorDashboardPage() {
   const session = await getVendorFromCookie();
   const vendor = session ? await getVendorById(session.id) : null;
+  const vendorStatus = normalizeStatus(vendor?.status);
+  const isEligible = vendorStatus === "approved";
   const profileItems = [
     { label: "Verification Status", value: vendor?.verificationStatus ?? "pending", note: "Approval controls curated RFQ access" },
     { label: "Profile Completeness", value: vendor?.services && vendor?.machinery && vendor?.capacity ? "Ready" : "Needs details", note: "Services, machinery, capacity, and location" },
     { label: "Approved Service Categories", value: vendor?.services || "Under review", note: "Used for RFQ eligibility" },
-    { label: "RFQ Eligibility", value: vendor?.status === "Approved" ? "Eligible" : "Pending approval", note: "Curated RFQs require approval" },
+    { label: "RFQ Eligibility", value: isEligible ? "Eligible" : "Pending approval", note: "Curated RFQs require approval" },
     { label: "Pending Quotations", value: 0, note: "Open quotation tasks" },
     { label: "Awarded Work", value: vendor?.completedProjectsCount ?? 0, note: "Completed and awarded project history" },
     { label: "Payout Status", value: "Visible after award", note: "Track payouts from project records" }
@@ -24,15 +27,24 @@ export default async function VendorDashboardPage() {
   return (
     <VendorLayout title="Verified Vendor Network">
       <Card>
-        <h2 className="text-xl font-bold">Apply as Verified Vendor</h2>
+        <h2 className="text-xl font-bold">Verified Vendor Network</h2>
         <p className="mt-3 text-sm leading-6 text-muted">
           Vendors receive curated RFQs only after approval and category verification.
         </p>
+        {!isEligible ? (
+          <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
+            Your profile is not eligible for curated RFQs yet. Complete service categories, machinery, capacity, location, and verification details for review.
+          </div>
+        ) : (
+          <div className="mt-4 rounded-lg border border-emerald-200 bg-emerald-50 p-4 text-sm leading-6 text-emerald-900">
+            Your vendor profile is eligible for curated RKISPro requirements in approved categories.
+          </div>
+        )}
       </Card>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {profileItems.map((item) => (
-          <Card key={item.label}>
+          <Card className={item.label === "Verification Status" || item.label === "RFQ Eligibility" ? "border-l-4 border-l-brand-gold" : ""} key={item.label}>
             <span className="text-sm font-semibold text-muted">{item.label}</span>
             <strong className="mt-2 block text-xl text-slate-950">{item.value}</strong>
             <p className="mt-2 text-sm text-muted">{item.note}</p>

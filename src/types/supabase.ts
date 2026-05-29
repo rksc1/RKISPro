@@ -728,6 +728,12 @@ export type Database = {
           urgency: QuickBookingUrgency;
           budget: number | null;
           images: string[];
+          contact_name: string | null;
+          contact_phone: string | null;
+          site_access_notes: string | null;
+          machine_or_equipment: string | null;
+          issue_started_at: string | null;
+          safety_requirements: string | null;
           status: QuickBookingStatus;
           assigned_vendor_id: string | null;
           assigned_worker_name: string | null;
@@ -749,6 +755,12 @@ export type Database = {
           urgency?: QuickBookingUrgency;
           budget?: number | null;
           images?: string[];
+          contact_name?: string | null;
+          contact_phone?: string | null;
+          site_access_notes?: string | null;
+          machine_or_equipment?: string | null;
+          issue_started_at?: string | null;
+          safety_requirements?: string | null;
           status?: QuickBookingStatus;
           assigned_vendor_id?: string | null;
           assigned_worker_name?: string | null;
@@ -769,6 +781,12 @@ export type Database = {
           urgency?: QuickBookingUrgency;
           budget?: number | null;
           images?: string[];
+          contact_name?: string | null;
+          contact_phone?: string | null;
+          site_access_notes?: string | null;
+          machine_or_equipment?: string | null;
+          issue_started_at?: string | null;
+          safety_requirements?: string | null;
           status?: QuickBookingStatus;
           assigned_vendor_id?: string | null;
           assigned_worker_name?: string | null;

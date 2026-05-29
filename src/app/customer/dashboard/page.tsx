@@ -29,7 +29,7 @@ export default async function CustomerDashboardPage() {
     <CustomerLayout title="Procurement pipeline">
       <div className="grid gap-4 md:grid-cols-3">
         {summaryCards.map((card) => (
-          <Card key={card.label}>
+          <Card className="border-l-4 border-l-brand-gold" key={card.label}>
             <span className="text-sm font-semibold text-muted">{card.label}</span>
             <strong className="mt-2 block text-3xl text-slate-950">{card.value}</strong>
             <p className="mt-2 text-sm text-muted">{card.note}</p>
@@ -41,16 +41,16 @@ export default async function CustomerDashboardPage() {
         <ServiceModeCard
           icon="QB"
           title="Quick Booking"
-          subtitle="For urgent same-day field work such as repair visits, installers, and maintenance helpers."
-          examples={["Welding repair", "Machine breakdown", "Installer visit", "Maintenance helper"]}
-          cta="Book Now"
+          subtitle="For urgent same-day field work such as repair visits, breakdowns, AC service, electrical faults, and installation support."
+          examples={["Welding repair", "AC repair", "Electrical fault", "Machine breakdown", "Plumbing repair", "Installation support"]}
+          cta="Book Service Visit"
           href="/customer/quick-booking/new"
         />
         <ServiceModeCard
           icon="RFQ"
           title="Managed RFQ"
           subtitle="For fabrication, drawings, technical work, project value, and multiple structured quotations."
-          examples={["Fabrication project", "CNC machining", "Shed construction", "Heavy fabrication"]}
+          examples={["Fabrication", "CNC machining", "Shed construction", "Drawing-based work", "Multiple quotations"]}
           cta="Post Requirement"
           href="/customer/request/new"
         />
@@ -70,7 +70,7 @@ export default async function CustomerDashboardPage() {
         <Card>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <h2 id="requests" className="text-xl font-bold">Managed RFQs</h2>
-            <Button href="/customer/request/new">New Managed RFQ</Button>
+            <Button href="/customer/request/new">Post Requirement</Button>
           </div>
           <div className="mt-4 grid gap-3">
             {requests.map((request) => (
@@ -98,9 +98,31 @@ export default async function CustomerDashboardPage() {
               </div>
             ))}
             {requests.length === 0 ? (
-              <p className="text-sm text-muted">No managed RFQs submitted yet.</p>
+              <div className="rounded-lg border border-dashed border-line bg-canvas p-5">
+                <h3 className="font-bold text-slate-950">No requirements posted yet</h3>
+                <p className="mt-2 text-sm leading-6 text-muted">
+                  Post your first fabrication, machining, repair, or project requirement. RKISPro will review it before sharing with shortlisted vendors.
+                </p>
+                <div className="mt-4">
+                  <Button href="/customer/request/new">Post Requirement</Button>
+                </div>
+              </div>
             ) : null}
           </div>
+        </Card>
+      </div>
+      <div className="grid gap-5 lg:grid-cols-2">
+        <Card>
+          <h2 className="text-xl font-bold">Quotation review</h2>
+          <p className="mt-3 text-sm leading-6 text-muted">
+            Structured quotations will appear after RKISPro reviews your requirement and shortlisted vendors respond.
+          </p>
+        </Card>
+        <Card>
+          <h2 className="text-xl font-bold">Project tracking</h2>
+          <p className="mt-3 text-sm leading-6 text-muted">
+            Awarded work, milestones, documents, and payment visibility will appear here once a requirement moves into execution.
+          </p>
         </Card>
       </div>
     </CustomerLayout>

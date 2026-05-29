@@ -4,8 +4,8 @@ import { QuickBookingForm } from "@/components/ui/QuickBookingForm";
 
 export default function NewQuickBookingPage() {
   return (
-    <CustomerLayout title="New Quick Booking">
-      <Card className="max-w-3xl">
+    <CustomerLayout title="Book Service Visit">
+      <Card className="max-w-4xl">
         <QuickBookingForm />
       </Card>
     </CustomerLayout>
