@@ -468,3 +468,63 @@ drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute function public.handle_new_auth_user();
+
+-- Security: Row Level Security (RLS)
+alter table public.profiles enable row level security;
+alter table public.customers enable row level security;
+alter table public.vendors enable row level security;
+alter table public.admins enable row level security;
+alter table public.marketplace_requests enable row level security;
+alter table public.vendor_notifications enable row level security;
+alter table public.vendor_quotes enable row level security;
+alter table public.projects enable row level security;
+
+create policy "Service role bypass" on public.profiles for all using (true);
+create policy "Service role bypass" on public.customers for all using (true);
+create policy "Service role bypass" on public.vendors for all using (true);
+create policy "Service role bypass" on public.admins for all using (true);
+create policy "Service role bypass" on public.marketplace_requests for all using (true);
+create policy "Service role bypass" on public.vendor_notifications for all using (true);
+create policy "Service role bypass" on public.vendor_quotes for all using (true);
+create policy "Service role bypass" on public.projects for all using (true);
+
+create policy "Users can view their own profile" on public.profiles for select using (auth.uid() = id);
+create policy "Customers can view their own record" on public.customers for select using (auth.uid() = profile_id);
+create policy "Vendors can view their own record" on public.vendors for select using (auth.uid() = profile_id);
+
+create policy "Vendors can view their own notifications" on public.vendor_notifications for select using (
+  vendor_id in (select id from public.vendors where profile_id = auth.uid())
+);
+create policy "Vendors can view their own quotes" on public.vendor_quotes for select using (
+  vendor_id in (select id from public.vendors where profile_id = auth.uid())
+);
+
+create policy "Customers can view their own requests" on public.marketplace_requests for select using (
+  customer_id in (select id from public.customers where profile_id = auth.uid())
+);
+create policy "Customers can view quotes for their requests" on public.vendor_quotes for select using (
+  request_id in (select id from public.marketplace_requests where customer_id in (select id from public.customers where profile_id = auth.uid()))
+);
+
+create table if not exists public.reviews (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid not null unique references public.projects(id) on delete cascade,
+  customer_id uuid not null references public.customers(id) on delete cascade,
+  vendor_id uuid not null references public.vendors(id) on delete cascade,
+  rating integer not null check (rating >= 1 and rating <= 5),
+  comment text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists reviews_vendor_id_idx on public.reviews (vendor_id);
+create index if not exists reviews_customer_id_idx on public.reviews (customer_id);
+create index if not exists reviews_rating_idx on public.reviews (rating);
+
+alter table public.reviews enable row level security;
+create policy "Service role bypass" on public.reviews for all using (true);
+
+create policy "Anyone can read reviews" on public.reviews for select using (true);
+
+create policy "Customers can write reviews for their own projects" on public.reviews for insert with check (
+  customer_id in (select id from public.customers where profile_id = auth.uid())
+);
