@@ -2,8 +2,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseAuthClient } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const body = await request.json().catch(() => ({}));
+  const email = String(body.email ?? "").trim().toLowerCase();
 
   if (!email) {
     return NextResponse.json({ error: "Email is required" }, { status: 400 });
