@@ -2,11 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getAdminFromCookie } from "@/lib/auth";
 import { recordVendorPayout } from "@/services/finance-service";
 
-export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ projectId: string }> }) {
   const admin = await getAdminFromCookie();
   if (!admin) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { id } = await params;
+  const { projectId } = await params;
   const body = await request.json().catch(() => null);
 
   if (!body || !body.vendorId || !body.amount || !body.referenceNumber) {
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
   try {
     const payment = await recordVendorPayout({
-      projectId: id,
+      projectId,
       vendorId: body.vendorId,
       amount: Number(body.amount),
       referenceNumber: body.referenceNumber,
