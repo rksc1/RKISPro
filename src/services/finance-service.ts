@@ -523,3 +523,80 @@ export async function getAdminFinance(filters: {
     }
   };
 }
+
+export async function getVendorFinanceSummary(vendorId: string) {
+  const supabase = getSupabase();
+  const { data: payments, error } = await supabase
+    .from("payments")
+    .select("*, projects(*, marketplace_requests(*), customers(*), vendors(*))")
+    .eq("vendor_id", vendorId)
+    .order("created_at", { ascending: false })
+    .returns<Array<PaymentRow & { projects: (ProjectRow & { marketplace_requests: MarketplaceRequestRow | null; customers: CustomerRow | null; vendors: VendorRow | null }) | null }>>();
+
+  if (error) throw new Error(error.message);
+
+  const { data: projects, error: projectsError } = await supabase
+    .from("projects")
+    .select("id")
+    .eq("vendor_id", vendorId)
+    .returns<{ id: string }[]>();
+
+  if (projectsError) throw new Error(projectsError.message);
+
+  const projectIds = projects.map((p) => p.id);
+  const { data: financialsRows, error: financialsError } = await supabase
+    .from("project_financials")
+    .select("*")
+    .in("project_id", projectIds)
+    .returns<ProjectFinancialRow[]>();
+
+  if (financialsError && projectIds.length > 0) throw new Error(financialsError.message);
+
+  const mappedPayments = payments.map((row) => ({
+    ...mapPayment(row),
+    project: row.projects
+      ? {
+          id: row.projects.id,
+          title: row.projects.marketplace_requests?.project_title ?? "Project",
+          customer: row.projects.customers?.company_name ?? "Customer",
+          vendor: row.projects.vendors?.company_name ?? "Vendor"
+        }
+      : null
+  }));
+
+  const financials = (financialsRows || []).map(mapFinancial);
+  const totalEarnings = financials.reduce((sum, f) => sum + Number(f.vendorPaid), 0);
+  const pendingPayouts = financials.reduce((sum, f) => sum + Number(f.pendingVendorPayout), 0);
+  const totalProjectValue = financials.reduce((sum, f) => sum + Number(f.projectValue), 0);
+
+  return {
+    payments: mappedPayments,
+    stats: {
+      totalEarnings,
+      pendingPayouts,
+      totalProjectValue
+    }
+  };
+}
+
+export async function recordVendorPayout(input: {
+  projectId: string;
+  vendorId: string;
+  amount: number;
+  referenceNumber: string;
+  adminId: string;
+}) {
+  const payment = await createPayment({
+    projectId: input.projectId,
+    paymentType: "final", // or milestone/advance depending on context, we'll use final
+    paymentDirection: "platform_to_vendor",
+    amount: input.amount,
+    status: "paid",
+    paymentMethod: "wire_transfer",
+    referenceNumber: input.referenceNumber,
+    createdByRole: "admin",
+    createdById: input.adminId
+  });
+
+  return payment;
+}

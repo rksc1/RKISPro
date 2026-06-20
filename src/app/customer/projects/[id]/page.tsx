@@ -46,7 +46,7 @@ export default async function CustomerProjectDetailPage({ params }: { params: Pr
               ))}
             </div>
             {existingReview.comment && (
-              <p className="mt-2 text-sm text-slate-700">"{existingReview.comment}"</p>
+              <p className="mt-2 text-sm text-slate-700">&quot;{existingReview.comment}&quot;</p>
             )}
           </div>
         )}

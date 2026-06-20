@@ -64,8 +64,8 @@ export default function NewCustomerRequestPage() {
                 <Input label="Budget range" name="budgetRange" placeholder="e.g. ₹50,000 - ₹1,00,000 (Kept private from vendors)" />
                 
                 <div>
-                  <label className="mb-2 block text-sm font-semibold text-slate-950">Drawings / Documents</label>
                   <Input
+                    label="Drawings / Documents"
                     name="drawings"
                     type="file"
                     accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.dwg,.dxf"

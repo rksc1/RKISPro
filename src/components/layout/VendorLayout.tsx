@@ -14,7 +14,7 @@ export async function VendorLayout({ title, children }: { title: string; childre
       { href: "/vendor/rfqs", label: "RFQs" },
       { href: "/vendor/projects", label: "Projects" }
     ] : []),
-    { href: "/vendor/projects", label: "Payments" },
+    { href: "/vendor/finance", label: "Finance & Payments" },
     { href: "/vendor/notifications", label: "Reviews" },
     { href: "/vendor/notifications", label: "Notifications" }
   ];
