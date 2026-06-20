@@ -22,7 +22,7 @@ export type VendorQuoteStatus = "pending" | "approved" | "rejected" | "selected"
 
 export type ProjectStatus = "awarded" | "in_progress" | "on_hold" | "completed" | "cancelled";
 
-export type MilestoneStatus = "pending" | "in_progress" | "completed" | "delayed" | "cancelled";
+export type MilestoneStatus = "pending" | "in_progress" | "in_review" | "completed" | "delayed" | "cancelled";
 
 export type MilestoneCreatorRole = "admin" | "vendor";
 

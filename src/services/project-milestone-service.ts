@@ -9,6 +9,7 @@ export function mapMilestone(row: ProjectMilestoneRow): ProjectMilestone {
     title: row.title,
     description: row.description,
     status: row.status,
+    attachmentUrls: row.attachment_urls || [],
     dueDate: row.due_date,
     completedAt: row.completed_at,
     createdByRole: row.created_by_role,
@@ -65,6 +66,7 @@ export async function updateMilestone(input: {
   description?: string | null;
   dueDate?: string | null;
   status?: MilestoneStatus;
+  attachmentUrls?: string[];
 }) {
   const supabase = getSupabase();
   const completedAt = input.status === "completed" ? new Date().toISOString() : null;
@@ -75,6 +77,7 @@ export async function updateMilestone(input: {
       ...(input.description !== undefined ? { description: input.description || null } : {}),
       ...(input.dueDate !== undefined ? { due_date: input.dueDate || null } : {}),
       ...(input.status ? { status: input.status, completed_at: completedAt } : {}),
+      ...(input.attachmentUrls !== undefined ? { attachment_urls: input.attachmentUrls } : {}),
       updated_at: new Date().toISOString()
     })
     .eq("id", input.milestoneId)

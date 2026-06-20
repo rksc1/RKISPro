@@ -466,6 +466,7 @@ export type Database = {
           title: string;
           description: string | null;
           status: MilestoneStatus;
+          attachment_urls: string[];
           due_date: string | null;
           completed_at: string | null;
           created_by_role: MilestoneCreatorRole;
@@ -479,6 +480,7 @@ export type Database = {
           title: string;
           description?: string | null;
           status?: MilestoneStatus;
+          attachment_urls?: string[];
           due_date?: string | null;
           completed_at?: string | null;
           created_by_role: MilestoneCreatorRole;
@@ -491,6 +493,7 @@ export type Database = {
           title?: string;
           description?: string | null;
           status?: MilestoneStatus;
+          attachment_urls?: string[];
           due_date?: string | null;
           completed_at?: string | null;
           created_by_role?: MilestoneCreatorRole;
@@ -501,6 +504,46 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "project_milestones_project_id_fkey";
+            columns: ["project_id"];
+            isOneToOne: false;
+            referencedRelation: "projects";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      project_messages: {
+        Row: {
+          id: string;
+          project_id: string;
+          sender_role: Role;
+          sender_id: string;
+          content: string;
+          attachment_urls: string[];
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          project_id: string;
+          sender_role: Role;
+          sender_id: string;
+          content: string;
+          attachment_urls?: string[];
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          project_id?: string;
+          sender_role?: Role;
+          sender_id?: string;
+          content?: string;
+          attachment_urls?: string[];
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "project_messages_project_id_fkey";
             columns: ["project_id"];
             isOneToOne: false;
             referencedRelation: "projects";

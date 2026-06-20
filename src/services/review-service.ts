@@ -98,3 +98,49 @@ export async function getReviewForProject(projectId: string) {
   if (error) return null;
   return data ? mapReview(data) : null;
 }
+
+export async function getVendorReviews(vendorId: string) {
+  const supabase = getSupabase();
+  const { data, error } = await supabase
+    .from("reviews")
+    .select(`
+      id,
+      project_id,
+      customer_id,
+      vendor_id,
+      rating,
+      comment,
+      created_at,
+      customers (
+        name,
+        company_name
+      )
+    `)
+    .eq("vendor_id", vendorId)
+    .order("created_at", { ascending: false });
+
+  if (error) return [];
+  
+  return data.map((row: {
+    id: string;
+    project_id: string;
+    customer_id: string;
+    vendor_id: string;
+    rating: number;
+    comment: string | null;
+    created_at: string;
+    customers: { name: string; company_name: string } | null;
+  }) => ({
+    id: row.id,
+    projectId: row.project_id,
+    customerId: row.customer_id,
+    vendorId: row.vendor_id,
+    rating: row.rating,
+    comment: row.comment,
+    createdAt: row.created_at,
+    customer: {
+      name: row.customers?.name,
+      companyName: row.customers?.company_name
+    }
+  }));
+}

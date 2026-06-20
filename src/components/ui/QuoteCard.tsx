@@ -41,7 +41,12 @@ export function QuoteCard({ quote, footer }: QuoteCardProps) {
       <div className="grid gap-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-xl font-black text-slate-950">{quote.vendor?.companyName ?? "Vendor quote"}</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-xl font-black text-slate-950">{quote.vendor?.companyName ?? "Vendor quote"}</h2>
+              <a href={`/customer/vendors/${quote.vendorId}`} target="_blank" className="text-sm font-bold text-brand hover:underline">
+                View Profile &rarr;
+              </a>
+            </div>
             <p className="mt-1 text-sm text-muted">
               {quote.vendor?.services ?? quote.request?.serviceType ?? "Industrial service"} | {location ?? quote.request?.location ?? "Location under review"}
             </p>

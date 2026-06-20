@@ -226,7 +226,8 @@ create table if not exists public.project_milestones (
   project_id uuid not null references public.projects(id) on delete cascade,
   title text not null,
   description text,
-  status text not null default 'pending' check (status in ('pending', 'in_progress', 'completed', 'delayed', 'cancelled')),
+  status text not null default 'pending' check (status in ('pending', 'in_progress', 'in_review', 'completed', 'delayed', 'cancelled')),
+  attachment_urls text[] not null default '{}',
   due_date date,
   completed_at timestamptz,
   created_by_role text not null check (created_by_role in ('admin', 'vendor')),
@@ -235,9 +236,29 @@ create table if not exists public.project_milestones (
   updated_at timestamptz not null default now()
 );
 
+alter table public.project_milestones
+  add column if not exists attachment_urls text[] not null default '{}';
+
+alter table public.project_milestones drop constraint if exists project_milestones_status_check;
+alter table public.project_milestones add constraint project_milestones_status_check check (status in ('pending', 'in_progress', 'in_review', 'completed', 'delayed', 'cancelled'));
+
+
 create index if not exists project_milestones_project_id_idx on public.project_milestones (project_id);
 create index if not exists project_milestones_status_idx on public.project_milestones (status);
 create index if not exists project_milestones_due_date_idx on public.project_milestones (due_date);
+
+create table if not exists public.project_messages (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid not null references public.projects(id) on delete cascade,
+  sender_role text not null check (sender_role in ('customer', 'vendor', 'admin')),
+  sender_id uuid not null,
+  content text not null,
+  attachment_urls text[] not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists project_messages_project_id_created_at_idx on public.project_messages (project_id, created_at);
 
 create table if not exists public.notifications (
   id uuid primary key default gen_random_uuid(),

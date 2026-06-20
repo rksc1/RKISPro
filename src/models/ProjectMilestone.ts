@@ -6,6 +6,7 @@ export type ProjectMilestoneRow = {
   title: string;
   description: string | null;
   status: MilestoneStatus;
+  attachment_urls: string[];
   due_date: string | null;
   completed_at: string | null;
   created_by_role: MilestoneCreatorRole;
@@ -20,6 +21,7 @@ export type ProjectMilestone = {
   title: string;
   description: string | null;
   status: MilestoneStatus;
+  attachmentUrls: string[];
   dueDate: string | null;
   completedAt: string | null;
   createdByRole: MilestoneCreatorRole;

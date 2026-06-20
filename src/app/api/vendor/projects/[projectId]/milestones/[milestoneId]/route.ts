@@ -7,8 +7,10 @@ import { getProjectDetailForRole } from "@/services/project-service";
 import { isApprovedVendor } from "@/services/vendor-service";
 import type { MilestoneStatus } from "@/types/auth";
 
-function isVendorMilestoneStatus(value: string): value is Extract<MilestoneStatus, "in_progress" | "completed" | "delayed"> {
-  return value === "in_progress" || value === "completed" || value === "delayed";
+import { uploadFiles, uploadFolders } from "@/lib/upload-file";
+
+function isVendorMilestoneStatus(value: string): value is Extract<MilestoneStatus, "in_progress" | "in_review" | "completed" | "delayed"> {
+  return value === "in_progress" || value === "in_review" || value === "completed" || value === "delayed";
 }
 
 export async function POST(
@@ -30,12 +32,26 @@ export async function POST(
   if (!isVendorMilestoneStatus(status)) return NextResponse.json({ error: "Invalid milestone status" }, { status: 400 });
 
   const note = String(formData.get("progressNote") ?? "").trim();
+  const files = formData.getAll("attachments").filter((file): file is File => file instanceof File);
+  
+  let attachmentUrls: string[] = [];
+  if (files.length > 0) {
+    const uploads = await uploadFiles(files, uploadFolders.milestoneProof);
+    attachmentUrls = uploads.map((u) => u.secure_url);
+  }
+
   const milestone = project.milestones.find((item) => item.id === milestoneId);
+  
+  // Keep existing attachments if any
+  const existingUrls = milestone?.attachmentUrls || [];
+  const finalUrls = [...existingUrls, ...attachmentUrls];
+
   const updatedMilestone = await updateMilestone({
     projectId,
     milestoneId,
     description: note ? `${milestone?.description ?? ""}\nProgress note: ${note}`.trim() : undefined,
-    status
+    status,
+    attachmentUrls: finalUrls.length > 0 ? finalUrls : undefined
   });
 
   const admins = await getAdmins();
