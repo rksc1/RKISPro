@@ -56,7 +56,7 @@ export function VendorPayoutForm({
         <h3 className="text-lg font-black text-emerald-950">Record Vendor Payout</h3>
         <p className="mt-1 text-sm text-emerald-800">
           The vendor is owed <strong>₹{pendingPayout.toLocaleString()}</strong> for this project.
-          Only use this form AFTER you have successfully wired the funds to the vendor's bank account.
+          Only use this form AFTER you have successfully wired the funds to the vendor&apos;s bank account.
         </p>
       </div>
 
