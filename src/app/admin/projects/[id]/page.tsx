@@ -8,6 +8,7 @@ import { VendorPayoutForm } from "@/components/ui/VendorPayoutForm";
 import { getAdminFromCookie } from "@/lib/auth";
 import type { ProjectMilestone } from "@/models/ProjectMilestone";
 import { getProjectFinanceForRole } from "@/services/finance-service";
+import { getProjectDetailForRole } from "@/services/project-service";
 
 export const dynamic = "force-dynamic";
 
@@ -27,10 +28,14 @@ export default async function AdminProjectDetailPage({ params }: { params: Promi
   const [{ id }, admin] = await Promise.all([params, getAdminFromCookie()]);
   if (!admin) notFound();
 
-  const financeData = await getProjectFinanceForRole({ projectId: id, role: "admin", userId: admin.id });
-  if (!financeData) notFound();
+  const [project, financeData] = await Promise.all([
+    getProjectDetailForRole({ projectId: id, role: "admin", userId: admin.id }),
+    getProjectFinanceForRole({ projectId: id, role: "admin", userId: admin.id })
+  ]);
 
-  const { project, financial } = financeData;
+  if (!project || !financeData) notFound();
+
+  const { financial } = financeData;
 
   return (
     <AdminLayout title="Project execution">
