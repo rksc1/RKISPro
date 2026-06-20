@@ -53,7 +53,8 @@ export function UnifiedLoginForm({
 
     try {
       const response = await fetch("/api/auth/login", {
-        body: new FormData(event.currentTarget),
+        body: JSON.stringify({ email, password: event.currentTarget.password.value }),
+        headers: { "Content-Type": "application/json" },
         method: "POST"
       });
       const payload = await response.json().catch(() => null);
@@ -133,9 +134,11 @@ export function UnifiedLoginForm({
           onSubmit={async (event) => {
             event.preventDefault();
             setLoading(true);
-            const formData = new FormData();
-            formData.set("email", email);
-            const response = await fetch("/api/auth/resend-confirmation", { method: "POST", body: formData });
+            const response = await fetch("/api/auth/resend-confirmation", { 
+              method: "POST", 
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email }) 
+            });
             const payload = await response.json().catch(() => null);
             setToast(response.ok
               ? { type: "success", message: payload?.message ?? "Confirmation email sent again." }

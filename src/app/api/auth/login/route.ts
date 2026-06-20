@@ -15,9 +15,9 @@ function confirmedAt(user: { email_confirmed_at?: string | null; confirmed_at?: 
 
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData();
-    const email = String(formData.get("email") ?? "").trim().toLowerCase();
-    const password = String(formData.get("password") ?? "");
+    const body = await request.json().catch(() => ({}));
+    const email = String(body.email ?? "").trim().toLowerCase();
+    const password = String(body.password ?? "");
 
     if (!email || !password) {
       return NextResponse.json({ error: "Email and password are required" }, { status: 400 });
