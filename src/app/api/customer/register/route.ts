@@ -1,9 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createCustomer } from "@/services/customer-service";
 
-function required(value: FormDataEntryValue | null) {
-  return String(value ?? "").trim();
-}
 
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));

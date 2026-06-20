@@ -22,8 +22,9 @@ export async function GET() {
     
     steps.push("signInWithPassword completed!");
     return NextResponse.json({ steps, result });
-  } catch (err: any) {
-    steps.push("CAUGHT ERROR: " + err.message);
-    return NextResponse.json({ steps, error: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    steps.push("CAUGHT ERROR: " + message);
+    return NextResponse.json({ steps, error: message }, { status: 500 });
   }
 }
