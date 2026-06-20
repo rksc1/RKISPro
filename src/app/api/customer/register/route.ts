@@ -6,17 +6,17 @@ function required(value: FormDataEntryValue | null) {
 }
 
 export async function POST(request: NextRequest) {
-  const formData = await request.formData();
+  const body = await request.json().catch(() => ({}));
   const origin = request.headers.get("origin") || process.env.NEXT_PUBLIC_SITE_URL || request.nextUrl.origin;
   const input = {
-    name: required(formData.get("name")),
-    phone: required(formData.get("phone")),
-    email: required(formData.get("email")).toLowerCase(),
-    password: String(formData.get("password") ?? ""),
-    companyName: required(formData.get("companyName")),
-    city: required(formData.get("city")),
-    state: required(formData.get("state")),
-    location: required(formData.get("location")) || `${required(formData.get("city"))}, ${required(formData.get("state"))}`,
+    name: String(body.name ?? "").trim(),
+    phone: String(body.phone ?? "").trim(),
+    email: String(body.email ?? "").trim().toLowerCase(),
+    password: String(body.password ?? ""),
+    companyName: String(body.companyName ?? "").trim(),
+    city: String(body.city ?? "").trim(),
+    state: String(body.state ?? "").trim(),
+    location: String(body.location ?? "").trim() || `${String(body.city ?? "").trim()}, ${String(body.state ?? "").trim()}`,
     emailRedirectTo: `${origin}/auth/callback`
   };
 

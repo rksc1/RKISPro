@@ -41,9 +41,11 @@ export function AuthFormCard({
     if (showPassword) formData.set("showPassword", "true");
 
     try {
+      const formProps = Object.fromEntries(formData.entries());
       const response = await fetch(action, {
-        body: formData,
         method: "POST",
+        body: JSON.stringify(formProps),
+        headers: { "Content-Type": "application/json" },
         redirect: "manual"
       });
 
