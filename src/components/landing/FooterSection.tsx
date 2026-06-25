@@ -153,19 +153,20 @@ export function FooterSection() {
         className="page-shell py-5"
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
       >
-        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs text-navy-100/40">
-            &copy; {new Date().getFullYear()} RKISPro. All rights reserved.
+            &copy; {new Date().getFullYear()} RKISPro pvt Ltd. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
-            <span className="text-xs text-navy-100/30">
-              Built for industrial India
-            </span>
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+            <Link href="/privacy" className="text-xs text-navy-100/60 transition hover:text-white">Privacy</Link>
+            <Link href="/terms" className="text-xs text-navy-100/60 transition hover:text-white">Terms</Link>
+            <Link href="/cookies" className="text-xs text-navy-100/60 transition hover:text-white">Cookies</Link>
+            <Link href="/refunds" className="text-xs text-navy-100/60 transition hover:text-white">Refunds</Link>
             <span
-              className="size-1.5 rounded-full"
+              className="hidden sm:block size-1.5 rounded-full"
               style={{ background: "#00C4CC" }}
             />
-            <span className="text-xs text-navy-100/40">v1.0</span>
+            <span className="text-xs text-navy-100/40">Built for industrial India</span>
           </div>
         </div>
       </div>
