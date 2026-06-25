@@ -18,7 +18,7 @@ export default function RefundsPage() {
       <div className="prose-legal">
         <section className="grid gap-4">
           <p className="text-sm leading-relaxed text-navy-100/80">
-            This Refunds & Cancellations Policy ("Policy") applies to the marketplace services provided by RKISPro pvt Ltd. Because RKISPro operates as a B2B facilitator matching buyers with industrial contractors, our policy reflects the nature of custom industrial execution.
+            This Refunds & Cancellations Policy (&quot;Policy&quot;) applies to the marketplace services provided by RKISPro pvt Ltd. Because RKISPro operates as a B2B facilitator matching buyers with industrial contractors, our policy reflects the nature of custom industrial execution.
           </p>
         </section>
 
@@ -42,7 +42,7 @@ export default function RefundsPage() {
         <section className="grid gap-4 mt-8">
           <h2 className="font-display text-xl font-bold text-white">3. Payment Disputes</h2>
           <p className="text-sm leading-relaxed text-navy-100/80">
-            If a dispute arises regarding payment or refunds for an executed job, RKISPro will provide access to the platform's audit trail (milestones, uploaded drawings, communications) to assist both parties. However, RKISPro pvt Ltd does not hold funds in escrow and is not responsible for initiating refunds between users.
+            If a dispute arises regarding payment or refunds for an executed job, RKISPro will provide access to the platform&apos;s audit trail (milestones, uploaded drawings, communications) to assist both parties. However, RKISPro pvt Ltd does not hold funds in escrow and is not responsible for initiating refunds between users.
           </p>
         </section>
 

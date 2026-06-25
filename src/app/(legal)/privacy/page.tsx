@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <div className="prose-legal">
         <section className="grid gap-4">
           <p className="text-sm leading-relaxed text-navy-100/80">
-            At RKISPro pvt Ltd ("RKISPro", "we", "us", or "our"), we respect your privacy and are committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and share your personal information when you use our website, platform, and services (the "Platform"). This Policy complies with the Information Technology Act, 2000, and the Digital Personal Data Protection Act (DPDP), 2023 of India.
+            At RKISPro pvt Ltd (&quot;RKISPro&quot;, &quot;we&quot;, &quot;us&quot;, or &quot;our&quot;), we respect your privacy and are committed to protecting your personal data. This Privacy Policy outlines how we collect, use, and share your personal information when you use our website, platform, and services (the &quot;Platform&quot;). This Policy complies with the Information Technology Act, 2000, and the Digital Personal Data Protection Act (DPDP), 2023 of India.
           </p>
         </section>
 

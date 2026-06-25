@@ -18,7 +18,7 @@ export default function TermsPage() {
       <div className="prose-legal">
         <section className="grid gap-4">
           <p className="text-sm leading-relaxed text-navy-100/80">
-            Welcome to RKISPro. These Terms & Conditions ("Terms") govern your access to and use of the marketplace platform operated by RKISPro pvt Ltd ("RKISPro", "we", "us"). By registering or using the Platform, you agree to be bound by these Terms.
+            Welcome to RKISPro. These Terms & Conditions (&quot;Terms&quot;) govern your access to and use of the marketplace platform operated by RKISPro pvt Ltd (&quot;RKISPro&quot;, &quot;we&quot;, &quot;us&quot;). By registering or using the Platform, you agree to be bound by these Terms.
           </p>
         </section>
 

@@ -18,7 +18,7 @@ export default function CookiesPage() {
       <div className="prose-legal">
         <section className="grid gap-4">
           <p className="text-sm leading-relaxed text-navy-100/80">
-            RKISPro pvt Ltd ("we", "our", or "us") uses cookies and similar tracking technologies on our platform to ensure security, understand usage patterns, and improve the user experience for both buyers and contractors.
+            RKISPro pvt Ltd (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) uses cookies and similar tracking technologies on our platform to ensure security, understand usage patterns, and improve the user experience for both buyers and contractors.
           </p>
         </section>
 
