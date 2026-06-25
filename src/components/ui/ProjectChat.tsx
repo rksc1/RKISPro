@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ProjectMessage } from "@/services/message-service";
-import type { Role } from "@/types/auth";
 import { Button } from "./Button";
 
 export function ProjectChat({

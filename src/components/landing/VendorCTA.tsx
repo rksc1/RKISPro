@@ -1,20 +1,98 @@
-import { Button } from "@/components/ui/Button";
+import Link from "next/link";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
+
+const vendorBenefits = [
+  "Verified business profile",
+  "Matched to jobs in your category",
+  "Clear job scope and documents upfront",
+  "See price quotes and payment status",
+  "No cold calls or chasing customers",
+  "Work tracking dashboard",
+];
 
 export function VendorCTA() {
   return (
-    <section className="bg-canvas py-14 sm:py-16 lg:py-20">
-      <div className="page-shell overflow-hidden rounded-lg bg-[linear-gradient(120deg,rgba(2,6,23,.94),rgba(15,23,42,.72)),url('https://images.unsplash.com/photo-1537462715879-360eeb61a0ad?auto=format&fit=crop&w=1800&q=80')] bg-cover bg-center p-6 text-white sm:p-10">
-        <div className="grid gap-8 lg:grid-cols-[1fr_.75fr] lg:items-center">
-          <div className="grid gap-5">
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-brand-gold">Verified Vendor Network</p>
-            <h2 className="text-3xl font-black sm:text-4xl">Apply as a Verified Industrial Vendor</h2>
-            <p className="max-w-2xl text-slate-300">Vendors receive curated RFQs only after approval and category verification, with clearer scope, documents, timelines, and execution expectations.</p>
-            <Button href="/vendor/register">Apply as Verified Vendor</Button>
-          </div>
-          <div className="grid gap-3 rounded-lg border border-white/15 bg-white/10 p-5 backdrop-blur">
-            {["Verified business profile", "Category approval", "Capability-based RFQ matching", "Quotation and payout visibility"].map((item) => (
-              <span className="rounded-lg bg-white/10 px-4 py-3 text-sm font-bold" key={item}>{item}</span>
-            ))}
+    <section
+      className="py-20 sm:py-24"
+      style={{ background: "#060E14", borderTop: "1px solid rgba(0,196,204,0.06)" }}
+    >
+      <div className="page-shell">
+        <div
+          className="relative overflow-hidden rounded-3xl p-8 sm:p-12"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(10,24,37,0.95) 0%, rgba(14,30,39,0.9) 60%, rgba(0,196,204,0.04) 100%)",
+            border: "1px solid rgba(0,196,204,0.15)",
+            boxShadow:
+              "0 24px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(0,196,204,0.06)",
+          }}
+        >
+          {/* Background glow */}
+          <div
+            className="pointer-events-none absolute right-0 top-0 h-64 w-64 opacity-20"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(circle at top right, rgba(0,196,204,0.5) 0%, transparent 70%)",
+            }}
+          />
+          <div
+            className="pointer-events-none absolute bottom-0 left-1/4 h-48 w-48 opacity-10"
+            aria-hidden="true"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(245,158,11,0.6) 0%, transparent 70%)",
+            }}
+          />
+
+          <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
+            {/* Left: Copy */}
+            <div className="grid gap-6">
+              <span className="section-label">Join as a Contractor</span>
+              <h2 className="font-display text-3xl font-extrabold leading-tight text-white sm:text-4xl">
+                Are You an Industrial{" "}
+                <span className="text-gradient-teal">Contractor or Manufacturer?</span>
+              </h2>
+              <p className="max-w-lg text-base leading-relaxed text-navy-100">
+                Join our verified network and receive job requests matched to your
+                specific skills and equipment — with clear scope, fair pricing, and
+                payment visibility built in.
+              </p>
+
+              <div className="flex flex-wrap gap-3">
+                <Link href="/vendor/register" className="btn-primary gap-2">
+                  Apply as a Contractor
+                  <ArrowRight className="size-4" />
+                </Link>
+                <Link href="/about" className="btn-secondary gap-2">
+                  Learn More
+                </Link>
+              </div>
+            </div>
+
+            {/* Right: Benefits checklist */}
+            <div
+              className="rounded-2xl p-6"
+              style={{
+                background: "rgba(14,30,39,0.7)",
+                border: "1px solid rgba(0,196,204,0.1)",
+              }}
+            >
+              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-teal-500">
+                What you get as a contractor
+              </p>
+              <ul className="grid gap-3">
+                {vendorBenefits.map((benefit) => (
+                  <li
+                    key={benefit}
+                    className="flex items-start gap-3 text-sm font-medium text-navy-100"
+                  >
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-teal-500" />
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

@@ -4,30 +4,42 @@ import { Logo } from "@/components/ui/Logo";
 const navLinks = [
   { href: "/about#how-it-works", label: "How It Works" },
   { href: "/services", label: "Services" },
-  { href: "/vendor/register", label: "Vendors" },
-  { href: "/about", label: "About" }
+  { href: "/vendor/register", label: "For Vendors" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
 ];
 
 const mobileLinks = [
   { href: "/services", label: "Services" },
-  { href: "/vendor/register", label: "Vendors" },
+  { href: "/vendor/register", label: "For Vendors" },
   { href: "/about", label: "About" },
-  { href: "/about#how-it-works", label: "How It Works" }
+  { href: "/about#how-it-works", label: "How It Works" },
+  { href: "/contact", label: "Contact" },
 ];
 
 export function StickyNavbar() {
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/90 shadow-[0_8px_24px_rgba(2,6,23,0.18)] backdrop-blur-xl">
-      <div className="mx-auto flex min-h-[72px] max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-8">
-        <div className="flex min-w-0 items-center gap-8">
-          <Logo className="drop-shadow-[0_0_8px_rgba(34,211,238,0.12)]" priority size="md" variant="light" />
+    <header
+      className="sticky top-0 z-50"
+      style={{
+        background: "rgba(6, 14, 20, 0.85)",
+        backdropFilter: "blur(24px)",
+        WebkitBackdropFilter: "blur(24px)",
+        borderBottom: "1px solid rgba(0, 196, 204, 0.08)",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+      }}
+    >
+      <div className="mx-auto flex min-h-[68px] max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-8">
+        {/* Logo + Nav */}
+        <div className="flex min-w-0 items-center gap-10">
+          <Logo className="" priority size="md" variant="light" />
 
-          <nav aria-label="Main navigation" className="hidden items-center gap-6 text-sm font-medium tracking-tight text-white/80 lg:flex">
+          <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
             {navLinks.map((link) => (
               <Link
-                className="rounded-md px-1 py-2 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
-                href={link.href}
                 key={`${link.href}-${link.label}`}
+                href={link.href}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-navy-100 transition-all duration-150 hover:bg-white/[0.05] hover:text-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
                 {link.label}
               </Link>
@@ -35,53 +47,74 @@ export function StickyNavbar() {
           </nav>
         </div>
 
-        <div className="hidden items-center justify-end gap-4 md:flex">
+        {/* Desktop CTAs */}
+        <div className="hidden items-center gap-3 md:flex">
           <Link
-            className="rounded-lg px-2.5 py-2 text-sm font-medium tracking-tight text-white/80 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300"
             href="/auth?mode=login"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-navy-100 transition-all duration-150 hover:bg-white/[0.05] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
           >
-            Login
+            Sign In
           </Link>
           <Link
-            className="inline-flex h-10 items-center justify-center rounded-lg bg-teal-500 px-5 text-sm font-medium tracking-tight text-white shadow-sm shadow-teal-950/20 ring-1 ring-teal-300/20 transition hover:bg-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950"
             href="/auth"
+            className="btn-primary font-semibold"
           >
-            Post Requirement
+            Post Your Job
           </Link>
         </div>
 
+        {/* Mobile CTAs */}
         <div className="flex items-center gap-2.5 md:hidden">
           <Link
-            className="inline-flex h-9 max-w-[9.5rem] items-center justify-center rounded-lg bg-teal-500 px-3 text-center text-xs font-semibold leading-tight text-white shadow-sm shadow-teal-950/20 ring-1 ring-teal-300/20 transition hover:bg-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200"
             href="/auth"
+            className="btn-primary text-xs px-4 py-2"
           >
-            Post Requirement
+            Post Your Job
           </Link>
           <details className="group relative">
-          <summary className="grid size-9 cursor-pointer list-none place-items-center rounded-lg border border-white/10 bg-white/[0.06] text-white shadow-sm transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300">
-            <span className="sr-only">Open navigation menu</span>
-            <span className="grid gap-1.5">
-              <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:translate-y-2 group-open:rotate-45" />
-              <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:opacity-0" />
-              <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:-translate-y-2 group-open:-rotate-45" />
-            </span>
-          </summary>
-          <div className="absolute right-0 mt-3 w-60 overflow-hidden rounded-xl border border-white/10 bg-slate-950 p-2.5 shadow-xl shadow-slate-950/55 ring-1 ring-teal-300/10">
-            <nav aria-label="Mobile navigation" className="grid gap-1">
-              <Link className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/90 transition hover:bg-white/5 hover:text-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300" href="/auth?mode=login">
-                Login
-              </Link>
-              <div className="my-1 h-px bg-white/10" />
-              {mobileLinks.map((link) => (
-                <Link className="rounded-lg px-3 py-2.5 text-sm font-medium text-white/90 transition hover:bg-white/5 hover:text-teal-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300" href={link.href} key={`${link.href}-${link.label}`}>
-                  {link.label}
+            <summary
+              className="grid size-9 cursor-pointer list-none place-items-center rounded-lg text-navy-100 transition hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              style={{ border: "1px solid rgba(0, 196, 204, 0.15)" }}
+            >
+              <span className="sr-only">Open navigation menu</span>
+              <span className="grid gap-[5px]">
+                <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:translate-y-[7px] group-open:rotate-45" />
+                <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:opacity-0" />
+                <span className="block h-0.5 w-5 rounded-full bg-current transition group-open:-translate-y-[7px] group-open:-rotate-45" />
+              </span>
+            </summary>
+            <div
+              className="absolute right-0 mt-3 w-64 overflow-hidden rounded-2xl p-2"
+              style={{
+                background: "rgba(10, 24, 37, 0.95)",
+                border: "1px solid rgba(0, 196, 204, 0.12)",
+                boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
+                backdropFilter: "blur(16px)",
+              }}
+            >
+              <nav aria-label="Mobile navigation" className="grid gap-0.5">
+                <Link
+                  href="/auth?mode=login"
+                  className="rounded-xl px-3 py-2.5 text-sm font-medium text-navy-100 transition hover:bg-white/[0.05] hover:text-teal-400"
+                >
+                  Sign In
                 </Link>
-              ))}
-            </nav>
-          </div>
+                <div className="divider-glow my-1" />
+                {mobileLinks.map((link) => (
+                  <Link
+                    key={`${link.href}-${link.label}`}
+                    href={link.href}
+                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-navy-100 transition hover:bg-white/[0.05] hover:text-teal-400"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
           </details>
         </div>
       </div>
     </header>
   );
 }
+

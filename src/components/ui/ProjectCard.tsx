@@ -1,11 +1,10 @@
-import { Card } from "@/components/ui/Card";
 import { ProjectStatusBadge } from "@/components/ui/ProjectStatusBadge";
 import type { Project } from "@/models/Project";
 import type { ReactNode } from "react";
 
 export function ProjectCard({
   project,
-  footer
+  footer,
 }: {
   project: Project & {
     vendor?: { companyName: string; ownerName: string; location: string } | null;
@@ -15,40 +14,79 @@ export function ProjectCard({
   footer?: ReactNode;
 }) {
   const expectedDate = project.expectedDeliveryDate ?? "Not set";
-  const createdDate = new Date(project.createdAt).toLocaleDateString();
+  const createdDate = new Date(project.createdAt).toLocaleDateString("en-IN");
+
+  const metaItems = [
+    { label: "Project Value", value: `₹${Number(project.projectValue).toLocaleString("en-IN")}` },
+    { label: "Expected Delivery", value: expectedDate },
+    { label: "Tracking Opened", value: createdDate },
+  ];
 
   return (
-    <Card>
+    <div
+      className="rounded-2xl p-5 transition-all duration-300 hover:translate-y-[-2px]"
+      style={{
+        background: "rgba(14, 30, 39, 0.8)",
+        border: "1px solid rgba(30, 52, 68, 0.8)",
+        boxShadow:
+          "0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
+      }}
+    >
       <div className="grid gap-4">
+        {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="text-xl font-black text-slate-950">{project.request?.projectTitle ?? "Project"}</h2>
-            <p className="mt-1 text-sm text-muted">
-              {project.request?.serviceType} | {project.request?.location}
+            <h2 className="font-display text-lg font-bold text-white">
+              {project.request?.projectTitle ?? "Project"}
+            </h2>
+            <p className="mt-1 text-sm text-navy-100/70">
+              {project.request?.serviceType}
+              {project.request?.location && ` · ${project.request.location}`}
             </p>
           </div>
           <ProjectStatusBadge status={project.status} />
         </div>
+
+        {/* Meta grid */}
         <div className="grid gap-3 md:grid-cols-3">
-          <div className="rounded-lg border border-line bg-canvas p-4">
-            <span className="text-xs font-bold uppercase tracking-wide text-muted">Project value</span>
-            <strong className="mt-1 block text-slate-950">INR {Number(project.projectValue).toLocaleString("en-IN")}</strong>
-          </div>
-          <div className="rounded-lg border border-line bg-canvas p-4">
-            <span className="text-xs font-bold uppercase tracking-wide text-muted">Expected delivery</span>
-            <strong className="mt-1 block text-slate-950">{expectedDate}</strong>
-          </div>
-          <div className="rounded-lg border border-line bg-canvas p-4">
-            <span className="text-xs font-bold uppercase tracking-wide text-muted">Tracking opened</span>
-            <strong className="mt-1 block text-slate-950">{createdDate}</strong>
-          </div>
+          {metaItems.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-xl p-3"
+              style={{
+                background: "rgba(0,196,204,0.04)",
+                border: "1px solid rgba(0,196,204,0.08)",
+              }}
+            >
+              <span className="text-[10px] font-bold uppercase tracking-widest text-navy-100/50">
+                {item.label}
+              </span>
+              <strong className="mt-1 block text-sm font-bold text-white">{item.value}</strong>
+            </div>
+          ))}
         </div>
-        <div className="grid gap-2 text-sm md:grid-cols-2">
-          <span><strong>Vendor:</strong> {project.vendor?.companyName ?? "Vendor"}</span>
-          <span><strong>Customer:</strong> {project.customer?.companyName ?? "Customer"}</span>
+
+        {/* Parties */}
+        <div
+          className="flex flex-wrap gap-x-6 gap-y-1 rounded-xl px-4 py-3 text-sm"
+          style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+        >
+          {project.vendor && (
+            <span className="text-navy-100/70">
+              <span className="font-semibold text-navy-100">Contractor:</span>{" "}
+              {project.vendor.companyName}
+            </span>
+          )}
+          {project.customer && (
+            <span className="text-navy-100/70">
+              <span className="font-semibold text-navy-100">Customer:</span>{" "}
+              {project.customer.companyName}
+            </span>
+          )}
         </div>
+
         {footer}
       </div>
-    </Card>
+    </div>
   );
 }

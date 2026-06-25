@@ -2,19 +2,28 @@ import type { TextareaHTMLAttributes } from "react";
 
 type TextareaProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   label: string;
+  error?: string;
 };
 
-export function Textarea({ label, id, className = "", ...props }: TextareaProps) {
+export function Textarea({ label, id, className = "", error, ...props }: TextareaProps) {
   const textareaId = id ?? props.name;
 
   return (
-    <label className="grid gap-1.5 text-sm font-semibold text-ink" htmlFor={textareaId}>
+    <label className="grid gap-1.5 text-sm font-semibold text-navy-100" htmlFor={textareaId}>
       {label}
       <textarea
         id={textareaId}
-        className={`rounded-md border border-line bg-white px-3 py-2 text-sm font-normal outline-none focus:border-brand ${className}`}
+        className={`rounded-xl border px-4 py-3 text-sm font-normal text-white outline-none transition-all duration-200 placeholder:text-navy-300 focus:ring-2 focus:ring-teal-500/30 ${
+          error
+            ? "border-red-500/50 bg-red-950/20"
+            : "border-navy-400 bg-navy-700 focus:border-teal-500"
+        } ${className}`}
+        style={{
+          background: error ? undefined : "rgba(14, 30, 39, 0.9)",
+        }}
         {...props}
       />
+      {error && <span className="text-xs font-medium text-red-400">{error}</span>}
     </label>
   );
 }
