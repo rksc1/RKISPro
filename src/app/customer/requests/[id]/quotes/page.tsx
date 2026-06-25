@@ -67,16 +67,22 @@ export default async function CustomerQuoteComparisonPage({
               key={quote.id}
               quote={quote}
               footer={
-                <ConfirmDialog
-                  title="Award to this vendor?"
-                  description="This will award the project to the selected vendor and mark other approved quotations as not selected."
-                  actionLabel="Award Vendor"
-                >
-                  <form action={`/api/customer/requests/${request.id}/select-vendor`} method="post">
-                    <input type="hidden" name="quoteId" value={quote.id} />
-                    <Button type="submit">Confirm Award</Button>
-                  </form>
-                </ConfirmDialog>
+                request.status === "quotes_ready" ? (
+                  <ConfirmDialog
+                    title="Award to this vendor?"
+                    description="This will award the project to the selected vendor and mark other approved quotations as not selected."
+                    actionLabel="Award Vendor"
+                  >
+                    <form action={`/api/customer/requests/${request.id}/select-vendor`} method="post">
+                      <input type="hidden" name="quoteId" value={quote.id} />
+                      <Button type="submit">Confirm Award</Button>
+                    </form>
+                  </ConfirmDialog>
+                ) : (
+                  <div className="rounded-md border border-line bg-canvas p-3 text-sm font-semibold text-muted text-center">
+                    RKISPro is finalising quotations for comparison. You&apos;ll be notified when ready.
+                  </div>
+                )
               }
             />
           ))}

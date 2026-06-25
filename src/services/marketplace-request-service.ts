@@ -118,7 +118,7 @@ export async function getMarketplaceRequests(filters: {
 
 export async function updateMarketplaceRequestStatus(
   requestId: string,
-  status: Extract<MarketplaceRequestStatus, "Approved" | "Rejected" | "Distributed" | "awarded">
+  status: Extract<MarketplaceRequestStatus, "Approved" | "Rejected" | "Distributed" | "quotes_ready" | "awarded">
 ) {
   const supabase = getSupabase();
 

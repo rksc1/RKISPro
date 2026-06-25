@@ -8,6 +8,7 @@ const classes: Record<Status, string> = {
   Rejected: "bg-red-100 text-red-800",
   Inactive: "bg-slate-200 text-slate-700",
   Distributed: "bg-blue-100 text-blue-800",
+  quotes_ready: "bg-fuchsia-100 text-fuchsia-800",
   awarded: "bg-indigo-100 text-indigo-800"
 };
 

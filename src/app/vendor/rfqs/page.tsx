@@ -73,9 +73,18 @@ export default async function VendorRfqsPage() {
               ) : null}
 
               <div>
-                <Button href={`/vendor/rfqs/${notification.id}/quote`}>
-                  {notification.status === "Quoted" ? "Submit Another Quote" : "Submit Quotation"}
-                </Button>
+                {notification.status === "Quoted" ? (
+                  <div className="flex flex-col gap-1.5 items-start">
+                    <span className="w-max rounded-full bg-emerald-100 px-3 py-1.5 text-sm font-bold text-emerald-800">
+                      Quote Submitted — Under Review
+                    </span>
+                    <span className="text-xs font-medium text-muted">RKISPro is reviewing your submission.</span>
+                  </div>
+                ) : notification.status === "awarded" ? null : (
+                  <Button href={`/vendor/rfqs/${notification.id}/quote`}>
+                    Submit Quotation
+                  </Button>
+                )}
               </div>
             </div>
           </Card>

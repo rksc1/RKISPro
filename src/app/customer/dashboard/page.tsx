@@ -98,13 +98,50 @@ export default async function CustomerDashboardPage() {
               </div>
             ))}
             {requests.length === 0 ? (
-              <div className="rounded-lg border border-dashed border-line bg-canvas p-5">
-                <h3 className="font-bold text-slate-950">No requirements posted yet</h3>
-                <p className="mt-2 text-sm leading-6 text-muted">
-                  Post your first fabrication, machining, repair, or project requirement. RKISPro will review it before sharing with shortlisted vendors.
+              <div className="rounded-lg border border-dashed border-brand-gold bg-canvas p-6 text-center">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-gold text-white">
+                  <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-slate-950">Let&apos;s start your first project</h3>
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-muted">
+                  RKISPro is a managed marketplace. Here is how it works:
                 </p>
-                <div className="mt-4">
-                  <Button href="/customer/request/new">Post Requirement</Button>
+                
+                <div className="mt-6 mb-6 grid gap-4 text-left text-sm md:grid-cols-2">
+                  <div className="flex gap-3">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 font-bold text-slate-600">1</div>
+                    <div>
+                      <strong className="block text-slate-950">Post your requirement</strong>
+                      <span className="text-muted text-xs">Share drawings, specs, and deadlines.</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 font-bold text-slate-600">2</div>
+                    <div>
+                      <strong className="block text-slate-950">We review & shortlist</strong>
+                      <span className="text-muted text-xs">Only verified vendors are invited.</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 font-bold text-slate-600">3</div>
+                    <div>
+                      <strong className="block text-slate-950">Compare structured quotes</strong>
+                      <span className="text-muted text-xs">Evaluate capability, risk, and price.</span>
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand font-bold text-white">4</div>
+                    <div>
+                      <strong className="block text-slate-950">Award & track execution</strong>
+                      <span className="text-muted text-xs">Monitor milestones and payments.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-center">
+                  <Button href="/customer/request/new">Post Your First Requirement &rarr;</Button>
                 </div>
               </div>
             ) : null}

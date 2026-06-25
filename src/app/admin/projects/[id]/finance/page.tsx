@@ -46,6 +46,51 @@ export default async function AdminProjectFinancePage({ params }: { params: Prom
         <FinancialSummaryCard label="Profit amount" amount={finance.financial.profitAmount} />
       </div>
 
+      <div className="grid gap-4 md:grid-cols-2">
+        {finance.financial.commissionAmount > 0 && finance.payments.filter((p) => p.paymentType === "commission").length === 0 ? (
+          <Card className="border-l-4 border-l-brand-gold">
+            <h3 className="font-bold text-slate-950">Quick-Record Commission</h3>
+            <p className="mt-1 text-sm text-muted">
+              Commission due: Rs. {Number(finance.financial.commissionAmount).toLocaleString("en-IN")} ({finance.financial.commissionPercentage}% of Rs. {Number(finance.financial.projectValue).toLocaleString("en-IN")})
+            </p>
+            <form action={`/api/admin/projects/${id}/payments`} method="post" className="mt-4">
+              <input type="hidden" name="paymentType" value="commission" />
+              <input type="hidden" name="paymentDirection" value="customer_to_platform" />
+              <input type="hidden" name="status" value="paid" />
+              <input type="hidden" name="amount" value={finance.financial.commissionAmount} />
+              <input type="hidden" name="notes" value="Auto-recorded commission deduction" />
+              <Button type="submit">Record Commission as Received &rarr;</Button>
+            </form>
+          </Card>
+        ) : null}
+
+        {finance.financial.pendingVendorPayout > 0 ? (
+          <Card className="border-l-4 border-l-emerald-500">
+            <h3 className="font-bold text-slate-950">Vendor Settlement Action</h3>
+            <div className="mt-2 grid grid-cols-[1fr_auto] gap-1 text-sm">
+              <span className="text-muted">Project Value:</span>
+              <span>Rs. {Number(finance.financial.projectValue).toLocaleString("en-IN")}</span>
+              <span className="text-muted">Advance Received:</span>
+              <span>Rs. {Number(finance.financial.advanceReceived).toLocaleString("en-IN")}</span>
+              <span className="text-muted">Commission ({finance.financial.commissionPercentage}%):</span>
+              <span className="text-red-600">- Rs. {Number(finance.financial.commissionAmount).toLocaleString("en-IN")}</span>
+              <span className="font-bold border-t border-line pt-1 mt-1">Net Vendor Payout:</span>
+              <span className="font-bold border-t border-line pt-1 mt-1">Rs. {Number(finance.financial.pendingVendorPayout).toLocaleString("en-IN")}</span>
+            </div>
+            <form action={`/api/admin/projects/${id}/payments`} method="post" className="mt-4">
+              <input type="hidden" name="paymentType" value="final" />
+              <input type="hidden" name="paymentDirection" value="platform_to_vendor" />
+              <input type="hidden" name="status" value="paid" />
+              <input type="hidden" name="amount" value={finance.financial.pendingVendorPayout} />
+              <div className="flex flex-col gap-2">
+                <input className="min-h-11 rounded-md border border-line px-3 text-sm" name="referenceNumber" placeholder="Bank Reference / UTR Number" required />
+                <Button type="submit">Record Vendor Payout &rarr;</Button>
+              </div>
+            </form>
+          </Card>
+        ) : null}
+      </div>
+
       <Card>
         <h3 className="text-lg font-black text-slate-950">Add payment record</h3>
         <form action={`/api/admin/projects/${id}/payments`} className="mt-4 grid gap-4 md:grid-cols-3" method="post">

@@ -59,9 +59,14 @@ export default async function AdminQuotesPage({
                   <span>Vendor: {quote.vendor?.companyName ?? "N/A"}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <form action={`/api/admin/quotes/${quote.id}/status`} method="post">
+                  <form className="flex gap-2" action={`/api/admin/quotes/${quote.id}/status`} method="post">
                     <input type="hidden" name="status" value="approved" />
                     <Button type="submit">Approve</Button>
+                  </form>
+                  <form className="flex gap-2" action={`/api/admin/quotes/${quote.id}/status`} method="post">
+                    <input type="hidden" name="status" value="approved" />
+                    <input type="hidden" name="quotesReady" value="true" />
+                    <Button type="submit" variant="secondary">Approve & Mark Comparison Ready</Button>
                   </form>
                   <form className="flex flex-wrap gap-2" action={`/api/admin/quotes/${quote.id}/status`} method="post">
                     <input type="hidden" name="status" value="rejected" />

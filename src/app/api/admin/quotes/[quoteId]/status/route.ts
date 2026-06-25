@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getAdminFromCookie } from "@/lib/auth";
 import { createActivityLog, createNotification } from "@/services/notification-service";
+import { updateMarketplaceRequestStatus } from "@/services/marketplace-request-service";
 import { getVendorQuoteWithRequest, updateVendorQuoteReview } from "@/services/vendor-quote-service";
 
 function isReviewStatus(value: string): value is "approved" | "rejected" {
@@ -19,6 +20,7 @@ export async function POST(
 
   const formData = await request.formData();
   const status = String(formData.get("status") ?? "");
+  const quotesReady = formData.get("quotesReady") === "true";
 
   if (!isReviewStatus(status)) {
     return NextResponse.json({ error: "Invalid quote status" }, { status: 400 });
@@ -32,6 +34,10 @@ export async function POST(
     adminNotes: String(formData.get("adminNotes") ?? "").trim()
   });
   const quoteWithRequest = await getVendorQuoteWithRequest(quoteId);
+
+  if (quotesReady && quoteWithRequest?.request) {
+    await updateMarketplaceRequestStatus(quoteWithRequest.request.id, "quotes_ready");
+  }
 
   if (status === "approved" && quoteWithRequest?.request?.customerId) {
     await createNotification({

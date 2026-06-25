@@ -1,6 +1,6 @@
 import { getSupabase } from "@/lib/db";
 import type { AdminRow } from "@/models/Admin";
-import type { MarketplaceRequestStatus, PaymentStatus, ProjectStatus, VendorQuoteStatus, VendorStatus } from "@/types/auth";
+import type { MarketplaceRequestStatus, PaymentStatus, VendorQuoteStatus, VendorStatus } from "@/types/auth";
 
 async function countCustomers() {
   const supabase = getSupabase();
@@ -43,16 +43,7 @@ async function countVendorQuotes(status: VendorQuoteStatus) {
   return count ?? 0;
 }
 
-async function countProjects(status: ProjectStatus) {
-  const supabase = getSupabase();
-  const { count, error } = await supabase
-    .from("projects")
-    .select("id", { count: "exact", head: true })
-    .eq("status", status);
 
-  if (error) throw new Error(error.message);
-  return count ?? 0;
-}
 
 async function countPayments(status: PaymentStatus) {
   const supabase = getSupabase();
@@ -63,6 +54,19 @@ async function countPayments(status: PaymentStatus) {
 
   if (error) throw new Error(error.message);
   return count ?? 0;
+}
+
+async function countOverdueMilestones() {
+  const supabase = getSupabase();
+  const { data, error } = await supabase
+    .from("project_milestones")
+    .select("project_id, projects!inner(status)")
+    .is("completed_at", null)
+    .lt("due_date", new Date().toISOString())
+    .eq("projects.status", "in_progress");
+
+  if (error) throw new Error(error.message);
+  return new Set(data.map((m: { project_id: string }) => m.project_id)).size;
 }
 
 export async function getAdminDashboardStats() {
@@ -82,7 +86,7 @@ export async function getAdminDashboardStats() {
     countMarketplaceRequests("Pending"),
     countMarketplaceRequests("Approved"),
     countVendorQuotes("pending"),
-    countProjects("on_hold"),
+    countOverdueMilestones(),
     countPayments("pending")
   ]);
 
