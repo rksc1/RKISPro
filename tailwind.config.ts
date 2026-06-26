@@ -15,6 +15,16 @@ const config: Config = {
           dark: "#00A8AF",
           gold: "#F59E0B"
         },
+        // Light Mode Dashboard Tokens
+        surface: {
+          DEFAULT: "#FFFFFF",
+          muted: "#F8FAFC",
+        },
+        edge: "#E2E8F0",
+        foreground: {
+          DEFAULT: "#0F172A",
+          muted: "#64748B",
+        },
         // New Premium Design System
         navy: {
           950: "#020D14",

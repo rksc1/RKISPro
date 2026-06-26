@@ -16,14 +16,14 @@ export function NotificationDropdown({
   role: "customer" | "vendor" | "admin";
 }) {
   return (
-    <div className="absolute right-0 z-20 mt-3 w-[min(24rem,calc(100vw-2rem))] rounded-lg border border-line bg-white p-3 shadow-xl">
+    <div className="absolute right-0 z-20 mt-3 w-[min(24rem,calc(100vw-2rem))] rounded-lg border border-edge bg-surface p-3 shadow-xl">
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="text-sm font-bold text-brand-dark">Notifications</p>
         <a className="text-xs font-bold text-brand" href={`/${role}/notifications`}>View all</a>
       </div>
 
       {notifications.length === 0 ? (
-        <p className="rounded-md bg-canvas p-4 text-sm text-muted">No notifications yet.</p>
+        <p className="rounded-md bg-surface-muted p-4 text-sm text-slate-500">No notifications yet.</p>
       ) : (
         <div className="grid max-h-96 gap-2 overflow-y-auto">
           {notifications.map((notification) => (
@@ -31,16 +31,16 @@ export function NotificationDropdown({
               <input name="redirectTo" type="hidden" value={notification.link ?? `/${role}/notifications`} />
               <button
                 className={`w-full rounded-md border p-3 text-left transition hover:border-brand ${
-                  notification.isRead ? "border-line bg-white" : "border-brand-gold bg-amber-50/60"
+                  notification.isRead ? "border-edge bg-surface" : "border-brand-gold bg-amber-50"
                 }`}
                 type="submit"
               >
                 <div className="flex items-start justify-between gap-2">
-                  <p className="text-sm font-bold text-brand-dark">{notification.title}</p>
+                  <p className="text-sm font-bold text-slate-900">{notification.title}</p>
                   <NotificationBadge type={notification.type} />
                 </div>
-                <p className="mt-1 line-clamp-2 text-xs text-muted">{notification.message}</p>
-                <p className="mt-2 text-[11px] font-semibold text-muted">{formatDate(notification.createdAt)}</p>
+                <p className="mt-1 line-clamp-2 text-xs text-slate-600">{notification.message}</p>
+                <p className="mt-2 text-[11px] font-semibold text-slate-400">{formatDate(notification.createdAt)}</p>
               </button>
             </form>
           ))}

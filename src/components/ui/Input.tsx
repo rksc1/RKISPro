@@ -9,21 +9,18 @@ export function Input({ label, id, className = "", error, ...props }: InputProps
   const inputId = id ?? props.name;
 
   return (
-    <label className="grid gap-1.5 text-sm font-semibold text-navy-100" htmlFor={inputId}>
+    <label className="grid gap-1.5 text-sm font-semibold text-slate-700" htmlFor={inputId}>
       {label}
       <input
         id={inputId}
-        className={`min-h-11 rounded-xl border px-4 text-sm font-normal text-white outline-none transition-all duration-200 placeholder:text-navy-300 focus:ring-2 focus:ring-teal-500/30 ${
+        className={`min-h-11 rounded-xl border px-4 text-sm font-normal outline-none transition-all duration-200 placeholder:text-slate-400 focus:ring-2 focus:ring-brand/30 ${
           error
-            ? "border-red-500/50 bg-red-950/20"
-            : "border-navy-400 bg-navy-700 focus:border-teal-500"
+            ? "border-red-500 bg-red-50 text-red-900"
+            : "border-slate-300 bg-white text-slate-900 focus:border-brand"
         } ${className}`}
-        style={{
-          background: error ? undefined : "rgba(14, 30, 39, 0.9)",
-        }}
         {...props}
       />
-      {error && <span className="text-xs font-medium text-red-400">{error}</span>}
+      {error && <span className="text-xs font-medium text-red-500">{error}</span>}
     </label>
   );
 }

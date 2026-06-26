@@ -10,8 +10,8 @@ function Section({ title, helper, children }: { title: string; helper: string; c
   return (
     <section className="grid gap-4">
       <div>
-        <h2 className="text-lg font-black text-slate-950">{title}</h2>
-        <p className="mt-1 text-sm leading-6 text-muted">{helper}</p>
+        <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+        <p className="mt-1 text-sm leading-6 text-slate-500">{helper}</p>
       </div>
       <div className="grid gap-4">
         {children}
@@ -24,11 +24,11 @@ export default function NewCustomerRequestPage() {
   return (
     <CustomerLayout title="Post Requirement">
       <Card className="mx-auto max-w-3xl">
-        <div className="mb-8 rounded-lg border border-brand/15 bg-brand/5 p-4">
-          <p className="text-sm font-semibold leading-6 text-ink">
+        <div className="mb-8 rounded-lg border border-brand/20 bg-brand/5 p-4">
+          <p className="text-sm font-semibold leading-6 text-slate-800">
             RKISPro reviews every requirement before sharing it with shortlisted vendors.
           </p>
-          <p className="mt-1 text-sm leading-6 text-muted">
+          <p className="mt-1 text-sm leading-6 text-slate-600">
             Add the core details to get started quickly. Optional technical specs can be added below.
           </p>
         </div>
@@ -51,12 +51,12 @@ export default function NewCustomerRequestPage() {
               </div>
             </Section>
 
-            <details className="group rounded-lg border border-line bg-slate-50/50">
-              <summary className="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-slate-950 hover:bg-slate-50">
+            <details className="group rounded-lg border border-edge bg-surface-muted">
+              <summary className="flex cursor-pointer list-none items-center justify-between p-4 font-semibold text-slate-900 hover:bg-slate-100/50">
                 <span>Advanced Specifications (Optional)</span>
-                <ChevronDown className="size-5 text-muted transition-transform group-open:-rotate-180" />
+                <ChevronDown className="size-5 text-slate-400 transition-transform group-open:-rotate-180" />
               </summary>
-              <div className="grid gap-6 border-t border-line bg-canvas p-4 sm:p-6">
+              <div className="grid gap-6 border-t border-edge bg-surface p-4 sm:p-6">
                 <Input label="Quantity" name="quantity" placeholder="e.g. 5 units" />
                 <Textarea label="Technical requirements" name="technicalRequirements" placeholder="Dimensions, tolerances, process notes..." rows={3} />
                 <Textarea label="Quality expectations" name="qualityExpectations" placeholder="Testing, finishing, or acceptance criteria..." rows={3} />
@@ -71,11 +71,11 @@ export default function NewCustomerRequestPage() {
                     accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.dwg,.dxf"
                     multiple
                   />
-                  <p className="mt-1 text-xs text-muted">Upload .dwg, .pdf, or images</p>
+                  <p className="mt-1 text-xs text-slate-500">Upload .dwg, .pdf, or images</p>
                 </div>
 
-                <label className="flex items-center gap-3 text-sm font-semibold text-ink">
-                  <input className="size-4 rounded border-line text-brand" name="gstRequirement" type="checkbox" value="true" />
+                <label className="flex items-center gap-3 text-sm font-semibold text-slate-800">
+                  <input className="size-4 rounded border-edge text-brand focus:ring-brand" name="gstRequirement" type="checkbox" value="true" />
                   GST invoice strictly required
                 </label>
               </div>

@@ -10,10 +10,10 @@ import type { ReactNode } from "react";
 
 function Section({ title, helper, children }: { title: string; helper: string; children: ReactNode }) {
   return (
-    <section className="grid gap-3 rounded-lg border border-line bg-canvas p-4 sm:p-5">
+    <section className="grid gap-3 rounded-lg border border-edge bg-surface p-4 sm:p-5">
       <div>
-        <h2 className="text-lg font-black text-slate-950">{title}</h2>
-        <p className="mt-1 text-sm leading-6 text-muted">{helper}</p>
+        <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+        <p className="mt-1 text-sm leading-6 text-slate-500">{helper}</p>
       </div>
       {children}
     </section>
@@ -23,14 +23,14 @@ function Section({ title, helper, children }: { title: string; helper: string; c
 export function QuickBookingForm() {
   return (
     <form action="/api/customer/quick-bookings" className="grid gap-5" encType="multipart/form-data" method="post">
-      <div className="rounded-lg border border-brand/15 bg-brand/5 p-4 text-sm leading-6 text-ink">
+      <div className="rounded-lg border border-brand/20 bg-brand/5 p-4 text-sm leading-6 text-slate-800">
         Use Quick Booking for urgent site visits, breakdowns, repair work, installation support, and small service jobs. Use Managed RFQ for fabrication, drawings, project work, bulk requirements, and structured quotations.
       </div>
 
       <Section title="Service Needed" helper="Choose the closest service category so RKISPro can route the visit to the right technician or vendor.">
-        <label className="grid gap-1.5 text-sm font-semibold text-ink">
+        <label className="grid gap-1.5 text-sm font-semibold text-slate-700">
           Service type
-          <select className="min-h-11 rounded-md border border-line bg-white px-3 text-sm font-normal outline-none focus:border-brand" name="serviceType" required>
+          <select className="min-h-11 rounded-xl border border-slate-300 bg-white px-3 text-sm font-normal text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/30 transition-all duration-200" name="serviceType" required>
             {quickBookingServiceGroups.map((group) => (
               <optgroup label={group.label} key={group.label}>
                 {group.options.map((type) => <option key={type} value={type}>{formatQuickBookingServiceType(type)}</option>)}
@@ -50,9 +50,9 @@ export function QuickBookingForm() {
         <div className="grid gap-4 md:grid-cols-3">
           <Input label="Preferred date" name="preferredDate" type="date" />
           <Input label="Preferred time" name="preferredTime" />
-          <label className="grid gap-1.5 text-sm font-semibold text-ink">
+          <label className="grid gap-1.5 text-sm font-semibold text-slate-700">
             Urgency
-            <select className="min-h-11 rounded-md border border-line bg-white px-3 text-sm font-normal outline-none focus:border-brand" name="urgency">
+            <select className="min-h-11 rounded-xl border border-slate-300 bg-white px-3 text-sm font-normal text-slate-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/30 transition-all duration-200" name="urgency">
               {quickBookingUrgencies.map((urgency) => <option key={urgency} value={urgency}>{urgency}</option>)}
             </select>
           </label>

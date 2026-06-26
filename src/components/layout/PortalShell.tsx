@@ -20,8 +20,7 @@ export async function PortalShell({
 }) {
   return (
     <div
-      className="min-h-screen lg:flex"
-      style={{ background: "#060E14" }}
+      className="min-h-screen lg:flex bg-surface-muted text-foreground"
     >
       <Sidebar title={sidebarTitle} links={links} />
 
@@ -29,15 +28,11 @@ export async function PortalShell({
         <div className="mx-auto grid max-w-6xl gap-6">
           {/* Page header */}
           <div
-            className="flex items-center justify-between gap-4 rounded-2xl px-5 py-4"
-            style={{
-              background: "rgba(14, 30, 39, 0.6)",
-              border: "1px solid rgba(0, 196, 204, 0.08)",
-            }}
+            className="flex items-center justify-between gap-4 rounded-2xl px-5 py-4 bg-surface border border-edge shadow-sm"
           >
             <div>
-              <h1 className="font-display text-2xl font-bold text-white">{title}</h1>
-              <p className="mt-0.5 text-xs text-navy-100/60 uppercase tracking-widest">
+              <h1 className="font-display text-2xl font-bold text-slate-900">{title}</h1>
+              <p className="mt-0.5 text-xs text-slate-500 uppercase tracking-widest">
                 RKISPro Dashboard
               </p>
             </div>
