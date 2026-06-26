@@ -4,15 +4,15 @@ import { AuthTextarea } from "@/components/ui/AuthTextarea";
 export function IndividualVendorForm() {
   return (
     <div className="grid gap-4">
-      <AuthField label="Full name" name="fullName" />
-      <AuthTextarea label="Skill categories" name="skillCategories" rows={3} placeholder="welder, repair, electrician" />
+      <AuthField label="Full name" name="fullName" required />
+      <AuthTextarea label="Skill categories" name="skillCategories" rows={3} placeholder="welder, repair, electrician" required />
       <div className="grid gap-4 sm:grid-cols-2">
-        <AuthField label="City" name="city" />
-        <AuthField label="State" name="state" />
+        <AuthField label="City" name="city" required />
+        <AuthField label="State" name="state" required />
       </div>
       <div className="grid gap-4 sm:grid-cols-2">
         <AuthField label="Service radius (km)" name="serviceRadiusKm" type="number" min={0} />
-        <AuthField label="Experience years" name="experienceYears" type="number" min={0} />
+        <AuthField label="Experience years" name="experienceYears" type="number" min={0} required />
       </div>
       <AuthField label="Profile photo" name="profilePhoto" type="file" accept="image/*" />
       <AuthField label="ID proof" name="idProof" type="file" accept="image/*,.pdf" />
