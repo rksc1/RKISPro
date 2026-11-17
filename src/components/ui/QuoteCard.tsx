@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { QuoteStatusBadge } from "@/components/ui/QuoteStatusBadge";
@@ -43,9 +44,9 @@ export function QuoteCard({ quote, footer }: QuoteCardProps) {
           <div>
             <div className="flex items-center gap-3">
               <h2 className="text-xl font-black text-slate-950">{quote.vendor?.companyName ?? "Vendor quote"}</h2>
-              <a href={`/customer/vendors/${quote.vendorId}`} target="_blank" className="text-sm font-bold text-brand hover:underline">
+              <Link href={`/customer/vendors/${quote.vendorId}`} className="text-sm font-bold text-teal-600 hover:underline">
                 View Profile &rarr;
-              </a>
+              </Link>
             </div>
             <p className="mt-1 text-sm text-muted">
               {quote.vendor?.services ?? quote.request?.serviceType ?? "Industrial service"} | {location ?? quote.request?.location ?? "Location under review"}

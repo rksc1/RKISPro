@@ -3,24 +3,27 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
 
 const quickLinks = [
-  { href: "/about", label: "How It Works" },
-  { href: "/services", label: "Services" },
-  { href: "/contact", label: "Contact Us" },
-  { href: "/auth", label: "Post Requirement" },
+  { href: "/customer/vendors", label: "Audited Contractor Directory" },
+  { href: "/customer/estimator", label: "Cost & Lead-Time Estimator" },
+  { href: "/services", label: "Capabilities & Processes" },
+  { href: "/about#how-it-works", label: "How Milestone Escrow Works" },
+  { href: "/customer/quick-booking/new", label: "Emergency Breakdown Visit (< 4h)" },
+  { href: "/contact", label: "Contact Operations Desk" },
 ];
 
 const categories = [
-  "Fabrication",
-  "Welding",
-  "CNC Machining",
-  "Lathe Work",
-  "Repair & Maintenance",
-  "Sheet Metal",
+  "Heavy MS & Structural Fabrication",
+  "Precision CNC Machining & 4-Axis VMC",
+  "SS 304 / 316 Sanitary Tanks & Vessels",
+  "12kW Fiber Laser Cutting & Bending",
+  "Heavy Lathe Turning (3.5m Bed)",
+  "Plant Breakdown & In-Situ Line Boring",
 ];
 
 const vendorLinks = [
-  { href: "/vendor/register", label: "Apply as Verified Vendor" },
-  { href: "/auth?mode=login", label: "Sign In" },
+  { href: "/vendor/register", label: "Apply for Factory Audit" },
+  { href: "/about#verification", label: "Vetting Standards & MTC Rules" },
+  { href: "/auth?mode=login", label: "Partner Workshop Sign In" },
 ];
 
 export function FooterSection() {
@@ -154,8 +157,8 @@ export function FooterSection() {
         style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
       >
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-navy-100/40">
-            &copy; {new Date().getFullYear()} RKISPro pvt Ltd. All rights reserved.
+          <p className="text-xs text-navy-100/50">
+            &copy; {new Date().getFullYear()} RKISPro Industrial Technologies Pvt Ltd. CBIC GST &amp; SAC 9988 Compliant.
           </p>
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <Link href="/privacy" className="text-xs text-navy-100/60 transition hover:text-white">Privacy</Link>
@@ -166,7 +169,7 @@ export function FooterSection() {
               className="hidden sm:block size-1.5 rounded-full"
               style={{ background: "#00C4CC" }}
             />
-            <span className="text-xs text-navy-100/40">Built for industrial India</span>
+            <span className="text-xs text-teal-400/80 font-mono">Pune · Bengaluru · Sanand · Raipur</span>
           </div>
         </div>
       </div>
