@@ -15,7 +15,7 @@ export function AuthBackground({ children }: { children: ReactNode }) {
     <main
       className="relative min-h-screen overflow-hidden text-white"
       style={{
-        background: "linear-gradient(160deg, #060E14 0%, #0A1825 55%, #0E1E27 100%)",
+        background: "linear-gradient(160deg, #07131F 0%, #0B1D2F 55%, #0F2A3F 100%)",
       }}
     >
       {/* Ambient teal glow top */}

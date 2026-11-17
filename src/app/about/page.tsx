@@ -66,13 +66,18 @@ const industrialClusters = [
 
 export default function AboutPage() {
   return (
-    <div style={{ background: "#04090E", minHeight: "100vh" }}>
+    <div className="bg-slate-50 min-h-screen">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-20 sm:pt-20 sm:pb-24 border-b border-slate-800/80">
+      {/* Hero Section - Executive Navy Anchor */}
+      <section
+        className="relative overflow-hidden pt-16 pb-20 sm:pt-20 sm:pb-24 border-b border-slate-800 text-white"
+        style={{
+          background: "linear-gradient(180deg, #07131F 0%, #0B1D2F 60%, #0E243A 100%)",
+        }}
+      >
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.035]"
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
           aria-hidden="true"
           style={{
             backgroundImage:
@@ -92,7 +97,7 @@ export default function AboutPage() {
 
             <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
               Engineered for Trust.{" "}
-              <span className="text-gradient-teal">Built for Shop Floors.</span>
+              <span className="text-teal-400">Built for Shop Floors.</span>
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed text-slate-300">
@@ -106,7 +111,7 @@ export default function AboutPage() {
               </Link>
               <Link
                 href="/customer/vendors"
-                className="btn-secondary gap-2 text-sm font-semibold px-5 py-3 border border-slate-700 hover:border-teal-500/40"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 hover:border-slate-600"
               >
                 <Factory className="size-4 text-teal-400" />
                 <span>Browse Audited Workshops</span>
@@ -117,18 +122,18 @@ export default function AboutPage() {
       </section>
 
       {/* Why We Built RKISPro: The Problem vs Solution */}
-      <section className="page-shell py-16 sm:py-20 border-b border-slate-800/80">
+      <section className="page-shell py-16 sm:py-20 border-b border-slate-200">
         <div className="max-w-3xl">
           <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-teal-400" />
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+            <span className="size-2 rounded-full bg-teal-600" />
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
               The Procurement Problem
             </p>
           </div>
-          <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">
             Why Traditional B2B Directories Fail Indian Factories
           </h2>
-          <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
             Open directories are lead brokers that prioritize whoever pays for top ad banners. Engineering procurement requires technical verification, drawing confidentiality, and payment security.
           </p>
         </div>
@@ -139,35 +144,34 @@ export default function AboutPage() {
             return (
               <div
                 key={idx}
-                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-6 flex flex-col justify-between"
-                style={{ boxShadow: "0 10px 30px rgba(0,0,0,0.3)" }}
+                className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm flex flex-col justify-between"
               >
                 <div>
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
-                    <span className="text-xs font-bold font-mono text-slate-500 uppercase">
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <span className="text-xs font-bold font-mono text-slate-400 uppercase">
                       Pillar 0{idx + 1}
                     </span>
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/20 text-teal-400">
+                    <div className="flex size-9 items-center justify-center rounded-lg bg-teal-50 border border-teal-100 text-teal-600">
                       <Icon className="size-4" />
                     </div>
                   </div>
 
                   <div className="mt-4 flex items-start gap-3">
-                    <div className="rounded-full bg-rose-500/10 p-1 text-rose-400 shrink-0 mt-0.5">
+                    <div className="rounded-full bg-rose-50 p-1 text-rose-600 shrink-0 mt-0.5 border border-rose-100">
                       <AlertTriangle className="size-3.5" />
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">
-                      <strong className="text-rose-300 block mb-0.5">Traditional Directory:</strong>
+                    <p className="text-xs text-slate-600 leading-relaxed">
+                      <strong className="text-rose-700 block mb-0.5 font-semibold">Traditional Directory:</strong>
                       {pillar.problem}
                     </p>
                   </div>
 
-                  <div className="mt-4 flex items-start gap-3 pt-3 border-t border-slate-800/60">
-                    <div className="rounded-full bg-teal-500/10 p-1 text-teal-400 shrink-0 mt-0.5">
+                  <div className="mt-4 flex items-start gap-3 pt-3 border-t border-slate-100">
+                    <div className="rounded-full bg-teal-50 p-1 text-teal-600 shrink-0 mt-0.5 border border-teal-100">
                       <CheckCircle2 className="size-3.5" />
                     </div>
-                    <p className="text-xs text-slate-200 leading-relaxed">
-                      <strong className="text-teal-400 block mb-0.5">RKISPro Operating Standard:</strong>
+                    <p className="text-xs text-slate-800 leading-relaxed">
+                      <strong className="text-teal-700 block mb-0.5 font-semibold">RKISPro Operating Standard:</strong>
                       {pillar.solution}
                     </p>
                   </div>
@@ -179,28 +183,28 @@ export default function AboutPage() {
       </section>
 
       {/* Industrial Footprint & Clusters */}
-      <section className="page-shell py-16 sm:py-20 border-b border-slate-800/80">
-        <div className="flex flex-wrap items-end justify-between gap-6 pb-6 border-b border-slate-800/80">
+      <section className="page-shell py-16 sm:py-20 border-b border-slate-200">
+        <div className="flex flex-wrap items-end justify-between gap-6 pb-6 border-b border-slate-200">
           <div>
             <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-teal-400" />
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+              <span className="size-2 rounded-full bg-teal-600" />
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
                 Industrial Footprint
               </p>
             </div>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">
               Audited Clusters Across India&apos;s Manufacturing Belts
             </h2>
-            <p className="mt-2 text-sm text-slate-300">
+            <p className="mt-2 text-sm text-slate-600">
               Workshops in our managed network are located in major manufacturing zones with verified logistical access.
             </p>
           </div>
 
           <Link
             href="/customer/vendors"
-            className="inline-flex items-center gap-2 rounded-xl border border-teal-500/30 bg-teal-500/10 px-4 py-2.5 text-xs font-bold text-teal-300 transition hover:bg-teal-500/20"
+            className="inline-flex items-center gap-2 rounded-xl border border-teal-600 bg-teal-50 px-4 py-2.5 text-xs font-bold text-teal-700 transition hover:bg-teal-600 hover:text-white"
           >
-            <MapPin className="size-4 text-teal-400" />
+            <MapPin className="size-4 text-teal-600" />
             <span>Search Workshops by City Cluster</span>
             <ArrowRight className="size-3.5" />
           </Link>
@@ -210,16 +214,16 @@ export default function AboutPage() {
           {industrialClusters.map((cluster) => (
             <div
               key={cluster.name}
-              className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition hover:border-teal-500/40 hover:bg-slate-900/70"
+              className="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-sm transition hover:border-teal-500/50 hover:shadow-md"
             >
-              <div className="flex items-center gap-2 text-teal-400 text-xs font-bold">
+              <div className="flex items-center gap-2 text-teal-700 text-xs font-bold">
                 <MapPin className="size-3.5" />
                 <span>{cluster.name}</span>
               </div>
-              <p className="mt-2 text-xs font-semibold text-white">
+              <p className="mt-2 text-sm font-bold text-slate-900">
                 {cluster.hubs}
               </p>
-              <p className="mt-2 text-xs text-slate-400 leading-relaxed border-t border-slate-800 pt-2">
+              <p className="mt-2 text-xs text-slate-600 leading-relaxed border-t border-slate-100 pt-2">
                 {cluster.specialty}
               </p>
             </div>
@@ -229,7 +233,13 @@ export default function AboutPage() {
 
       {/* 4-Gate Quality Commitment */}
       <section className="page-shell py-16 sm:py-20">
-        <div className="rounded-3xl border border-slate-800 bg-slate-950 p-8 sm:p-12">
+        <div
+          className="rounded-3xl p-8 sm:p-12 shadow-xl text-white"
+          style={{
+            background: "linear-gradient(135deg, #07131F 0%, #0B1D2F 50%, #0F2A3F 100%)",
+            border: "1px solid rgba(13,148,136,0.3)",
+          }}
+        >
           <div className="max-w-2xl">
             <span className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
               Quality Commitment
@@ -243,25 +253,25 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="rounded-xl border border-slate-800/80 bg-slate-900/60 p-4">
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-4">
               <span className="font-mono text-xs font-bold text-teal-400">Gate 01</span>
               <h3 className="mt-2 text-sm font-bold text-white">Raw Material MTC</h3>
-              <p className="mt-1 text-xs text-slate-400">Traceability to primary mill heat numbers.</p>
+              <p className="mt-1 text-xs text-slate-300">Traceability to primary mill heat numbers.</p>
             </div>
-            <div className="rounded-xl border border-slate-800/80 bg-slate-900/60 p-4">
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-4">
               <span className="font-mono text-xs font-bold text-teal-400">Gate 02</span>
               <h3 className="mt-2 text-sm font-bold text-white">Dimensional CMM</h3>
-              <p className="mt-1 text-xs text-slate-400">Verification against 2D/3D CAD tolerances.</p>
+              <p className="mt-1 text-xs text-slate-300">Verification against 2D/3D CAD tolerances.</p>
             </div>
-            <div className="rounded-xl border border-slate-800/80 bg-slate-900/60 p-4">
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-4">
               <span className="font-mono text-xs font-bold text-teal-400">Gate 03</span>
               <h3 className="mt-2 text-sm font-bold text-white">Weld NDT &amp; Hydro</h3>
-              <p className="mt-1 text-xs text-slate-400">DPT, ultrasonic, and pressure leak checks.</p>
+              <p className="mt-1 text-xs text-slate-300">DPT, ultrasonic, and pressure leak checks.</p>
             </div>
-            <div className="rounded-xl border border-slate-800/80 bg-slate-900/60 p-4">
+            <div className="rounded-xl border border-white/10 bg-slate-900/60 p-4">
               <span className="font-mono text-xs font-bold text-teal-400">Gate 04</span>
               <h3 className="mt-2 text-sm font-bold text-white">Surface DFT &amp; Gate Pass</h3>
-              <p className="mt-1 text-xs text-slate-400">Paint micron thickness &amp; transport Lorry Receipt.</p>
+              <p className="mt-1 text-xs text-slate-300">Paint micron thickness &amp; transport Lorry Receipt.</p>
             </div>
           </div>
         </div>

@@ -12,7 +12,7 @@ export function AuthShell({
 }) {
   return (
     <main className="grid min-h-screen place-items-center px-4 py-10"
-      style={{ background: "linear-gradient(160deg, #060E14 0%, #0A1825 55%, #0E1E27 100%)" }}
+      style={{ background: "linear-gradient(160deg, #07131F 0%, #0B1D2F 55%, #0F2A3F 100%)" }}
     >
       {/* Ambient glow */}
       <div

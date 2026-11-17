@@ -119,13 +119,17 @@ const detailedServices: IndustrialService[] = [
 
 export default function ServicesPage() {
   return (
-    <div style={{ background: "#04090E", minHeight: "100vh" }}>
+    <div className="bg-slate-50 min-h-screen">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-20 sm:pt-20 sm:pb-24 border-b border-slate-800/80">
+      {/* Hero Section - Executive Navy Anchor */}
+      <section className="relative overflow-hidden pt-16 pb-20 sm:pt-20 sm:pb-24 border-b border-slate-800"
+        style={{
+          background: "linear-gradient(180deg, #07131F 0%, #0B1D2F 60%, #0E243A 100%)",
+        }}
+      >
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
           aria-hidden="true"
           style={{
             backgroundImage:
@@ -145,7 +149,7 @@ export default function ServicesPage() {
 
             <h1 className="font-display text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
               Precision Fabrication &amp; Machining.{" "}
-              <span className="text-gradient-teal">Execution You Can Audit.</span>
+              <span className="text-teal-400">Execution You Can Audit.</span>
             </h1>
 
             <p className="text-base sm:text-lg leading-relaxed text-slate-300">
@@ -159,14 +163,14 @@ export default function ServicesPage() {
               </Link>
               <Link
                 href="/customer/estimator"
-                className="btn-secondary gap-2 text-sm font-semibold px-5 py-3 border border-slate-700 hover:border-teal-500/40"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/80 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 hover:border-slate-600"
               >
                 <Calculator className="size-4 text-teal-400" />
                 <span>Calculate Cost Estimate</span>
               </Link>
               <Link
                 href="/customer/vendors"
-                className="inline-flex items-center gap-2 rounded-xl border border-slate-800 bg-slate-900/60 px-5 py-3 text-sm font-semibold text-slate-300 hover:text-white hover:border-slate-700 transition"
+                className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-800/60 px-5 py-3 text-sm font-semibold text-slate-300 hover:text-white hover:border-slate-600 transition"
               >
                 <Building2 className="size-4 text-teal-400" />
                 <span>Browse All Machine Shops</span>
@@ -176,18 +180,18 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Services Grid */}
+      {/* Services Grid - Daylight Light Slate Section */}
       <section className="page-shell py-16 sm:py-20">
-        <div className="flex items-center justify-between border-b border-slate-800/80 pb-5 mb-10">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-5 mb-10">
           <div>
-            <h2 className="font-display text-2xl font-bold text-white sm:text-3xl">
+            <h2 className="font-display text-2xl font-bold text-slate-900 sm:text-3xl">
               Manufacturing Capabilities Breakdown
             </h2>
-            <p className="mt-1 text-sm text-slate-400">
+            <p className="mt-1 text-sm text-slate-600">
               Rigorous shop-floor standards across structural steel, CNC milling, sheet metal, and breakdown maintenance.
             </p>
           </div>
-          <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono font-medium text-teal-400 bg-teal-950/60 px-3 py-1 rounded-full border border-teal-800/50">
+          <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-mono font-medium text-teal-700 bg-teal-50 px-3 py-1 rounded-full border border-teal-200">
             <CheckCircle2 className="size-3.5" />
             100% Factory Audited
           </span>
@@ -199,36 +203,35 @@ export default function ServicesPage() {
             return (
               <div
                 key={service.id}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-800/90 bg-slate-900/40 p-6 transition-all duration-200 hover:-translate-y-1 hover:border-teal-500/40 hover:bg-slate-900/80"
-                style={{ boxShadow: "0 10px 30px rgba(0,0,0,0.3)" }}
+                className="group flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-md"
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <div className="flex size-11 items-center justify-center rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400">
+                    <div className="flex size-11 items-center justify-center rounded-xl bg-teal-50 border border-teal-100 text-teal-600">
                       <Icon className="size-5" />
                     </div>
-                    <span className="font-mono text-[10px] text-teal-400 font-medium bg-teal-950/60 px-2 py-0.5 rounded border border-teal-800/40">
+                    <span className="font-mono text-[10px] text-teal-700 font-semibold bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
                       {service.highlight}
                     </span>
                   </div>
 
-                  <h3 className="font-display mt-4 text-lg font-bold text-white group-hover:text-teal-300 transition-colors">
+                  <h3 className="font-display mt-4 text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
                     {service.title}
                   </h3>
 
-                  <p className="mt-2 text-xs leading-relaxed text-slate-300/80">
+                  <p className="mt-2 text-xs leading-relaxed text-slate-600">
                     {service.description}
                   </p>
 
                   {/* Machinery Highlights */}
-                  <div className="mt-4 pt-3 border-t border-slate-800/60">
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                  <div className="mt-4 pt-3 border-t border-slate-100">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
                       Shop Floor Machinery:
                     </p>
-                    <ul className="space-y-1 text-xs text-slate-300">
+                    <ul className="space-y-1 text-xs text-slate-700">
                       {service.machinery.map((m) => (
                         <li key={m} className="flex items-start gap-1.5">
-                          <span className="text-teal-400 font-bold">›</span>
+                          <span className="text-teal-600 font-bold">›</span>
                           <span>{m}</span>
                         </li>
                       ))}
@@ -237,14 +240,14 @@ export default function ServicesPage() {
 
                   {/* Material Grades */}
                   <div className="mt-3">
-                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-1.5">
                       Verified Grades:
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {service.materials.map((mat) => (
                         <span
                           key={mat}
-                          className="rounded-md border border-slate-700/60 bg-slate-800/60 px-2 py-0.5 text-[10px] font-medium text-slate-300"
+                          className="rounded-md border border-slate-200 bg-slate-50 px-2 py-0.5 text-[10px] font-medium text-slate-700"
                         >
                           {mat}
                         </span>
@@ -254,29 +257,29 @@ export default function ServicesPage() {
                 </div>
 
                 {/* Footer with Benchmark & Action */}
-                <div className="mt-6 pt-4 border-t border-slate-800/80">
-                  <div className="flex items-center justify-between text-xs text-slate-400 pb-2">
+                <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="flex items-center justify-between text-xs text-slate-500 pb-2">
                     <span>Benchmark:</span>
-                    <span className="font-mono font-bold text-slate-200">{service.benchmark}</span>
+                    <span className="font-mono font-bold text-slate-900">{service.benchmark}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 pb-3">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 pb-3">
                     <span>Hubs:</span>
-                    <span className="text-slate-300 font-medium">{service.clusters}</span>
+                    <span className="text-slate-800 font-medium">{service.clusters}</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-2 pt-1">
                     <Link
                       href={`/customer/request/new?category=${encodeURIComponent(service.rfqCategory)}&title=${encodeURIComponent(service.title)}`}
-                      className="flex items-center justify-center gap-1.5 rounded-xl border border-teal-500/30 bg-teal-500/10 py-2.5 text-xs font-bold text-teal-300 transition hover:bg-teal-500 hover:text-slate-950"
+                      className="flex items-center justify-center gap-1.5 rounded-xl border border-teal-600 bg-teal-50 py-2.5 text-xs font-bold text-teal-700 transition hover:bg-teal-600 hover:text-white"
                     >
                       <span>Request Quote</span>
                       <ArrowRight className="size-3" />
                     </Link>
                     <Link
                       href={`/customer/vendors?services=${encodeURIComponent(service.rfqCategory)}`}
-                      className="flex items-center justify-center gap-1 rounded-xl border border-slate-700/80 bg-slate-800/50 py-2.5 text-xs font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
+                      className="flex items-center justify-center gap-1 rounded-xl border border-slate-200 bg-slate-50 py-2.5 text-xs font-medium text-slate-700 transition hover:bg-slate-100 hover:text-slate-900"
                     >
-                      <Building2 className="size-3 text-slate-400" />
+                      <Building2 className="size-3 text-slate-500" />
                       <span>View Shops</span>
                     </Link>
                   </div>
@@ -290,14 +293,18 @@ export default function ServicesPage() {
       {/* Industrial Trust Banner */}
       <section className="page-shell pb-20">
         <div
-          className="rounded-3xl p-8 sm:p-10 border border-teal-500/20 bg-gradient-to-r from-slate-950 via-slate-900 to-teal-950/40 text-white flex flex-col md:flex-row items-center justify-between gap-6"
+          className="rounded-3xl p-8 sm:p-12 shadow-xl text-white flex flex-col md:flex-row items-center justify-between gap-6"
+          style={{
+            background: "linear-gradient(135deg, #07131F 0%, #0B1D2F 50%, #0F2A3F 100%)",
+            border: "1px solid rgba(13,148,136,0.3)",
+          }}
         >
           <div>
             <div className="flex items-center gap-2 text-teal-400 text-xs font-black uppercase tracking-wider">
               <ShieldCheck className="size-4" />
               <span>Milestone Escrow &amp; MTC Guarantee</span>
             </div>
-            <h2 className="font-display mt-2 text-2xl font-black sm:text-3xl">
+            <h2 className="font-display mt-2 text-2xl font-black sm:text-3xl text-white">
               Need custom drawings quoted by 3–5 vetted factories?
             </h2>
             <p className="mt-2 text-sm text-slate-300 max-w-xl leading-relaxed">

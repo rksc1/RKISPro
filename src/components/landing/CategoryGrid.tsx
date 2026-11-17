@@ -9,6 +9,7 @@ import {
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
+import { Perspective3DCard } from "@/components/3d/Perspective3DCard";
 
 interface IndustrialCapability {
   id: string;
@@ -127,56 +128,57 @@ export function CategoryGrid() {
           {industrialCapabilities.map((cap) => {
             const Icon = cap.icon;
             return (
-              <div
-                key={cap.id}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-md"
-              >
-                <div>
-                  {/* Top pill row */}
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700">
-                      <Icon className="size-3.5 text-teal-600" />
-                      {cap.category}
-                    </span>
-                    <span className="font-mono text-[10px] text-teal-800 font-bold bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200">
-                      {cap.highlight}
-                    </span>
+              <Perspective3DCard key={cap.id} maxTilt={6}>
+                <div
+                  className="group flex h-full flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-teal-500/50 hover:shadow-lg"
+                >
+                  <div>
+                    {/* Top pill row */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700">
+                        <Icon className="size-3.5 text-teal-600" />
+                        {cap.category}
+                      </span>
+                      <span className="font-mono text-[10px] text-teal-800 font-bold bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200">
+                        {cap.highlight}
+                      </span>
+                    </div>
+
+                    <h3 className="font-display mt-4 text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
+                      {cap.title}
+                    </h3>
+
+                    {/* Bullet specs */}
+                    <ul className="mt-3.5 space-y-1.5 text-xs text-slate-600">
+                      {cap.specs.map((spec) => (
+                        <li key={spec} className="flex items-start gap-2">
+                          <span className="text-teal-600 font-bold">›</span>
+                          <span>{spec}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  <h3 className="font-display mt-4 text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
-                    {cap.title}
-                  </h3>
+                  <div className="mt-6 pt-4 border-t border-slate-100">
+                    <div className="flex items-center justify-between text-xs text-slate-500 pb-2">
+                      <span>Benchmark:</span>
+                      <span className="font-mono font-bold text-slate-900">{cap.benchPrice}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 pb-3">
+                      <span>Industrial Hubs:</span>
+                      <span className="text-slate-800 font-medium">{cap.hub}</span>
+                    </div>
 
-                  {/* Bullet specs */}
-                  <ul className="mt-3.5 space-y-1.5 text-xs text-slate-600">
-                    {cap.specs.map((spec) => (
-                      <li key={spec} className="flex items-start gap-2">
-                        <span className="text-teal-600 font-bold">›</span>
-                        <span>{spec}</span>
-                      </li>
-                    ))}
-                  </ul>
+                    <Link
+                      href={`/customer/request/new?category=${encodeURIComponent(cap.rfqCategory)}&title=${encodeURIComponent(cap.title)}`}
+                      className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-teal-200 bg-teal-50 py-2.5 text-xs font-bold text-teal-800 transition-colors group-hover:bg-teal-600 group-hover:text-white"
+                    >
+                      <span>Request Job Quote</span>
+                      <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </Link>
+                  </div>
                 </div>
-
-                <div className="mt-6 pt-4 border-t border-slate-100">
-                  <div className="flex items-center justify-between text-xs text-slate-500 pb-2">
-                    <span>Benchmark:</span>
-                    <span className="font-mono font-bold text-slate-900">{cap.benchPrice}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 pb-3">
-                    <span>Industrial Hubs:</span>
-                    <span className="text-slate-800 font-medium">{cap.hub}</span>
-                  </div>
-
-                  <Link
-                    href={`/customer/request/new?category=${encodeURIComponent(cap.rfqCategory)}&title=${encodeURIComponent(cap.title)}`}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-teal-200 bg-teal-50 py-2.5 text-xs font-bold text-teal-800 transition-colors group-hover:bg-teal-600 group-hover:text-white"
-                  >
-                    <span>Request Job Quote</span>
-                    <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-                  </Link>
-                </div>
-              </div>
+              </Perspective3DCard>
             );
           })}
         </div>

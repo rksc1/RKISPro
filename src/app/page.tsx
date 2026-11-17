@@ -6,6 +6,7 @@ import { ManagedVsOpenMarketplaces } from "@/components/landing/ManagedVsOpenMar
 import { ProcessSteps } from "@/components/landing/ProcessSteps";
 import { RFQFeed } from "@/components/landing/RFQFeed";
 import { StickyNavbar } from "@/components/landing/StickyNavbar";
+import { ThreeDCadShowcase } from "@/components/landing/ThreeDCadShowcase";
 import { TrustWorkflowSection } from "@/components/landing/TrustWorkflowSection";
 import { VendorCTA } from "@/components/landing/VendorCTA";
 import { VendorMatchingSection } from "@/components/landing/VendorMatchingSection";
@@ -21,6 +22,7 @@ export default function HomePage() {
         <ManagedVsOpenMarketplaces />
         <VendorMatchingSection />
         <CategoryGrid />
+        <ThreeDCadShowcase />
         <RFQFeed />
         <TrustWorkflowSection />
         <VendorCTA />
