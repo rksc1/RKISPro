@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Sidebar, type SidebarLink } from "@/components/ui/Sidebar";
 import { NotificationBell } from "@/components/ui/NotificationBell";
+import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import type { Role } from "@/types/auth";
 
 export async function PortalShell({
@@ -24,7 +25,7 @@ export async function PortalShell({
     >
       <Sidebar title={sidebarTitle} links={links} />
 
-      <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">
+      <main className="flex-1 px-4 py-6 pb-24 sm:px-6 lg:px-8 lg:pb-8">
         <div className="mx-auto grid max-w-6xl gap-6">
           {/* Page header */}
           <div
@@ -42,6 +43,8 @@ export async function PortalShell({
           {children}
         </div>
       </main>
+
+      <MobileBottomNav role={role} />
     </div>
   );
 }

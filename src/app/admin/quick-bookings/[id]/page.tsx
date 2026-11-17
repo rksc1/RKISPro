@@ -4,6 +4,7 @@ import { AssignmentPanel } from "@/components/ui/AssignmentPanel";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { QuickBookingCard } from "@/components/ui/QuickBookingCard";
+import { WhatsAppQuickAction } from "@/components/ui/WhatsAppQuickAction";
 import { getAdminFromCookie } from "@/lib/auth";
 import { formatQuickBookingServiceType, getQuickBookingForRole } from "@/services/quick-booking-service";
 import { getQuickBookingAssignableVendors } from "@/services/vendor-service";
@@ -28,7 +29,7 @@ export default async function AdminQuickBookingDetailPage({ params }: { params: 
       <div className="flex justify-end">
         <Button href="/admin/quick-bookings" variant="secondary">Back</Button>
       </div>
-      <QuickBookingCard booking={booking} />
+      <QuickBookingCard booking={booking} viewerRole="admin" />
       <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
         <Card>
           <h2 className="text-lg font-black text-slate-950">Customer / Site Details</h2>
@@ -40,6 +41,20 @@ export default async function AdminQuickBookingDetailPage({ params }: { params: 
             <span><strong>Site contact:</strong> {[booking.contactName, booking.contactPhone].filter(Boolean).join(" - ") || "Account contact"}</span>
             <span><strong>Site access:</strong> {booking.siteAccessNotes ?? "Not specified"}</span>
           </div>
+          {(booking.contactPhone || booking.customer?.phone) && (
+            <div className="mt-4 pt-3 border-t border-slate-100">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block mb-1.5">Dispatch Hotline</span>
+              <WhatsAppQuickAction
+                phone={booking.contactPhone || booking.customer?.phone}
+                recipientName={booking.contactName || booking.customer?.name}
+                bookingTitle={booking.title}
+                bookingId={booking.id}
+                location={booking.location}
+                role="admin"
+                size="sm"
+              />
+            </div>
+          )}
         </Card>
         <Card>
           <h2 className="text-lg font-black text-slate-950">Assignment / Dispatch</h2>

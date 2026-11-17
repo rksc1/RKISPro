@@ -32,6 +32,7 @@ export async function POST(
   if (!isVendorMilestoneStatus(status)) return NextResponse.json({ error: "Invalid milestone status" }, { status: 400 });
 
   const note = String(formData.get("progressNote") ?? "").trim();
+  const qcChecks = formData.getAll("qcChecks").map((item) => String(item).trim()).filter(Boolean);
   const files = formData.getAll("attachments").filter((file): file is File => file instanceof File);
   
   let attachmentUrls: string[] = [];
@@ -46,10 +47,19 @@ export async function POST(
   const existingUrls = milestone?.attachmentUrls || [];
   const finalUrls = [...existingUrls, ...attachmentUrls];
 
+  let combinedDescription = milestone?.description ?? "";
+  if (qcChecks.length > 0) {
+    const qcSummary = `[QC Inspection Cleared]:\n` + qcChecks.map((item) => `✓ ${item}`).join("\n");
+    combinedDescription = combinedDescription ? `${combinedDescription}\n\n${qcSummary}` : qcSummary;
+  }
+  if (note) {
+    combinedDescription = combinedDescription ? `${combinedDescription}\n\nNote: ${note}` : `Note: ${note}`;
+  }
+
   const updatedMilestone = await updateMilestone({
     projectId,
     milestoneId,
-    description: note ? `${milestone?.description ?? ""}\nProgress note: ${note}`.trim() : undefined,
+    description: combinedDescription.trim() || undefined,
     status,
     attachmentUrls: finalUrls.length > 0 ? finalUrls : undefined
   });

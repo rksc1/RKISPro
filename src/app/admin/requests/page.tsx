@@ -53,18 +53,42 @@ export default async function AdminRequestsPage({
       </Card>
 
       <div className="grid gap-4">
-        {requests.map((request) => (
-          <Card key={request.id}>
-            <div className="grid gap-4">
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div>
-                  <h2 className="text-xl font-bold">{request.projectTitle}</h2>
-                  <p className="mt-1 text-sm text-muted">
-                    {request.serviceType} | {request.materialType} | {request.location}
-                  </p>
+        {requests.map((request) => {
+          const now = new Date();
+          const created = new Date(request.createdAt);
+          const diffHours = (now.getTime() - created.getTime()) / (1000 * 60 * 60);
+          
+          let slaBorderClass = "";
+          let slaBadge = null;
+
+          if (request.status === "Pending") {
+            if (diffHours < 2) {
+              slaBorderClass = "border-l-4 border-l-green-500";
+              slaBadge = <span className="text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">SLA: Good (&lt; 2h)</span>;
+            } else if (diffHours < 6) {
+              slaBorderClass = "border-l-4 border-l-yellow-500";
+              slaBadge = <span className="text-xs font-bold text-yellow-700 bg-yellow-100 px-2 py-1 rounded">SLA: Warning (&gt; 2h)</span>;
+            } else {
+              slaBorderClass = "border-l-4 border-l-red-500";
+              slaBadge = <span className="text-xs font-bold text-red-700 bg-red-100 px-2 py-1 rounded animate-pulse">SLA: Breached (&gt; 6h)</span>;
+            }
+          }
+
+          return (
+            <Card key={request.id} className={slaBorderClass}>
+              <div className="grid gap-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <h2 className="text-xl font-bold">{request.projectTitle}</h2>
+                      {slaBadge}
+                    </div>
+                    <p className="mt-1 text-sm text-muted">
+                      {request.serviceType} | {request.materialType} | {request.location}
+                    </p>
+                  </div>
+                  <StatusBadge status={request.status} />
                 </div>
-                <StatusBadge status={request.status} />
-              </div>
 
               <p className="text-sm text-muted">{request.description}</p>
 
@@ -110,7 +134,7 @@ export default async function AdminRequestsPage({
               </div>
             </div>
           </Card>
-        ))}
+        )})}
 
         {requests.length === 0 ? (
           <Card>

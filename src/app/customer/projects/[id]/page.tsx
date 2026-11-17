@@ -2,26 +2,17 @@ import { notFound } from "next/navigation";
 import { CustomerLayout } from "@/components/layout/CustomerLayout";
 import { Button } from "@/components/ui/Button";
 import { LeaveReviewForm } from "@/components/ui/LeaveReviewForm";
+import { CustomerMilestoneQCReview } from "@/components/ui/MilestoneQCInspector";
 import { ProjectChat } from "@/components/ui/ProjectChat";
 import { ProjectDetailContent } from "@/components/ui/ProjectDetailContent";
 import { RazorpayPaymentActions } from "@/components/ui/RazorpayPaymentActions";
 import { getCustomerFromCookie } from "@/lib/auth";
-import type { ProjectMilestone } from "@/models/ProjectMilestone";
 import { getProjectFinanceForRole } from "@/services/finance-service";
 import { getProjectDetailForRole } from "@/services/project-service";
 import { getReviewForProject } from "@/services/review-service";
+import { FileText } from "lucide-react";
 
 export const dynamic = "force-dynamic";
-
-function CustomerMilestoneControls({ projectId, milestone }: { projectId: string; milestone: ProjectMilestone }) {
-  if (milestone.status !== "in_review") return null;
-  return (
-    <form className="flex items-center gap-4" action={`/api/customer/projects/${projectId}/milestones/${milestone.id}/approve`} method="post">
-      <p className="text-sm text-slate-700">The vendor has submitted this milestone for your approval.</p>
-      <Button type="submit">Approve Milestone</Button>
-    </form>
-  );
-}
 
 export default async function CustomerProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [{ id }, customer] = await Promise.all([params, getCustomerFromCookie()]);
@@ -43,8 +34,27 @@ export default async function CustomerProjectDetailPage({ params }: { params: Pr
         <ProjectDetailContent 
           project={project} 
           role="customer" 
-          milestoneControls={(milestone) => <CustomerMilestoneControls projectId={project.id} milestone={milestone} />}
+          milestoneControls={(milestone) => <CustomerMilestoneQCReview projectId={project.id} milestone={milestone} />}
         />
+
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+          <div>
+            <h3 className="text-sm font-bold text-slate-900">Project Financials & Tax Invoices</h3>
+            <p className="mt-0.5 text-xs text-slate-500">
+              Pending Balance: ₹{Number(finance.financial.pendingCustomerBalance).toLocaleString("en-IN")} · Cleared in Escrow: ₹{Number(finance.financial.totalReceived).toLocaleString("en-IN")}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Button href={`/customer/projects/${project.id}/invoice`} variant="secondary" className="text-xs gap-1.5">
+              <FileText className="size-3.5" />
+              <span>GST Tax Invoice</span>
+            </Button>
+            <Button href={`/customer/projects/${project.id}/payments`} variant="secondary" className="text-xs">
+              Payment Ledger
+            </Button>
+          </div>
+        </div>
+
         <RazorpayPaymentActions
           projectId={project.id}
           pendingBalance={Number(finance.financial.pendingCustomerBalance)}

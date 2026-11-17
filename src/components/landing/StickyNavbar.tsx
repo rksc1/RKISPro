@@ -2,19 +2,21 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 
 const navLinks = [
+  { href: "/customer/vendors", label: "Contractor Directory" },
+  { href: "/customer/estimator", label: "Cost Estimator" },
+  { href: "/services", label: "Capabilities" },
   { href: "/about#how-it-works", label: "How It Works" },
-  { href: "/services", label: "Services" },
-  { href: "/vendor/register", label: "For Vendors" },
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
+  { href: "/vendor/register", label: "For Machine Shops" },
 ];
 
 const mobileLinks = [
-  { href: "/services", label: "Services" },
-  { href: "/vendor/register", label: "For Vendors" },
-  { href: "/about", label: "About" },
+  { href: "/customer/vendors", label: "Contractor Directory" },
+  { href: "/customer/estimator", label: "Cost Estimator" },
+  { href: "/services", label: "Capabilities" },
   { href: "/about#how-it-works", label: "How It Works" },
-  { href: "/contact", label: "Contact" },
+  { href: "/vendor/register", label: "For Machine Shops" },
+  { href: "/about", label: "About RKISPro" },
+  { href: "/contact", label: "Contact Operations" },
 ];
 
 export function StickyNavbar() {

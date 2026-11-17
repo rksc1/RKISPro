@@ -1,31 +1,115 @@
-const matchingFactors = [
-  "Capability fit",
-  "Location",
-  "Machinery/capacity",
-  "Timeline readiness",
-  "Verification status",
-  "Reliability"
+import {
+  Maximize2,
+  Zap,
+  ShieldCheck,
+  Compass,
+  FileCheck,
+  MapPin,
+} from "lucide-react";
+
+interface VettingProtocol {
+  title: string;
+  tag: string;
+  icon: typeof Maximize2;
+  description: string;
+  criteria: string;
+}
+
+const protocols: VettingProtocol[] = [
+  {
+    title: "Machine Bed & Crane Tonnage",
+    tag: "Physical Capacity",
+    icon: Maximize2,
+    description: "We audit machine bed travels (X/Y/Z), lathe swing clearance, and crane ratings against your CAD drawings before dispatching RFQs.",
+    criteria: "Zero unapproved third-party subcontracting",
+  },
+  {
+    title: "Connected Power & DG Backup",
+    tag: "Uptime Assurance",
+    icon: Zap,
+    description: "Verified sanctioned industrial power load (kVA) and dedicated diesel generator backup to prevent thermal and delivery delays.",
+    criteria: "Guaranteed uninterrupted run time",
+  },
+  {
+    title: "Primary Mill Material Traceability",
+    tag: "Metallurgy Integrity",
+    icon: ShieldCheck,
+    description: "Heat number tracking from primary mills (Tata, SAIL, Jindal) with raw material chemical composition and tensile test compliance.",
+    criteria: "EN 10204 3.1 Mill Test Certificates",
+  },
+  {
+    title: "NABL-Calibrated Metrology",
+    tag: "Inspection Standard",
+    icon: Compass,
+    description: "Audit of precision inspection tools (CMM, bore gauges, height gauges) requiring active calibration records from NABL-accredited labs.",
+    criteria: "Calibrated within preceding 12 months",
+  },
+  {
+    title: "Active GSTIN & GSTR-3B Filings",
+    tag: "Financial Compliance",
+    icon: FileCheck,
+    description: "Verification of tax compliance and solvency to guarantee 100% eligibility for buyers' Indian Goods & Services Input Tax Credit (ITC).",
+    criteria: "Clean CBIC filing track record",
+  },
+  {
+    title: "Industrial Cluster Proximity",
+    tag: "Logistics Optimization",
+    icon: MapPin,
+    description: "Matching buyers with vetted shops in MIDC Bhosari, Peenya, Sanand, or Urla to reduce transit transit freight, transit damage, and demurrage.",
+    criteria: "Direct local plant delivery routes",
+  },
 ];
 
 export function VendorMatchingSection() {
   return (
-    <section className="py-14 sm:py-16 lg:py-20">
-      <div className="page-shell grid gap-8 lg:grid-cols-[.85fr_1.15fr] lg:items-start">
-        <div className="grid gap-4">
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-teal-500">Contractor Matching</p>
-          <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">How Matching Works</h2>
-          <p className="text-navy-100 leading-relaxed">
-            RKISPro matches contractors based on fabrication capability, machinery/capacity, location, project type, prior reliability, timeline capability, and verification status.
+    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#030A10" }}>
+      <div className="page-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+        <div className="grid gap-4 sticky top-28">
+          <div className="flex items-center gap-2">
+            <span className="size-2 rounded-full bg-teal-400" />
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+              Technical Vetting Protocol
+            </p>
+          </div>
+          <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
+            How RKISPro Audits Every Workshop
+          </h2>
+          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+            We don&apos;t just ask contractors for a brochure. Our operations engineers verify shop-floor machinery, metallurgy records, and metrology calibration before any RFQ is routed.
           </p>
+          <div className="mt-4 rounded-xl border border-teal-500/20 bg-teal-500/5 p-4 text-xs text-slate-300">
+            <p className="font-semibold text-teal-300">Only ~18% of applying workshops qualify</p>
+            <p className="mt-1 text-slate-400">
+              Contractors who cannot demonstrate verifiable machine ownership, primary steel procurement, or calibrated instruments are disqualified from our managed pool.
+            </p>
+          </div>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2">
-          {matchingFactors.map((factor) => (
-            <div className="bento-card" key={factor}>
-              <span className="block h-1 w-12 rounded-full bg-teal-500" />
-              <h3 className="mt-4 font-bold text-white">{factor}</h3>
-              <p className="mt-2 text-sm leading-6 text-navy-100/80">Reviewed before a job is shared with a matched contractor.</p>
-            </div>
-          ))}
+          {protocols.map((p) => {
+            const Icon = p.icon;
+            return (
+              <div
+                key={p.title}
+                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition-all hover:border-teal-500/40 hover:bg-slate-900/70"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/20 text-teal-400">
+                    <Icon className="size-4" />
+                  </div>
+                  <span className="text-[10px] font-mono font-medium text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded">
+                    {p.tag}
+                  </span>
+                </div>
+                <h3 className="mt-4 font-bold text-white text-sm sm:text-base">{p.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-300/80">{p.description}</p>
+                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center gap-2 text-[11px] font-medium text-teal-300">
+                  <span className="size-1.5 rounded-full bg-teal-400" />
+                  <span>{p.criteria}</span>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

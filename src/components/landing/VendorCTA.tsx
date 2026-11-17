@@ -2,12 +2,12 @@ import Link from "next/link";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 const vendorBenefits = [
-  "Verified business profile",
-  "Matched to jobs in your category",
-  "Clear job scope and documents upfront",
-  "See price quotes and payment status",
-  "No cold calls or chasing customers",
-  "Work tracking dashboard",
+  "Verified shop profile with audited machinery capabilities",
+  "High-intent RFQs with engineering CAD drawings upfront",
+  "Zero commission on raw materials; fair standardized quotes",
+  "Milestone escrow payments held in nodal accounts before work begins",
+  "Zero cold-calling; we filter out tire-kickers and low-intent queries",
+  "Direct WhatsApp dispatches and automated Lorry Receipt (LR) tracking",
 ];
 
 export function VendorCTA() {
@@ -48,24 +48,22 @@ export function VendorCTA() {
           <div className="relative z-10 grid gap-10 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             {/* Left: Copy */}
             <div className="grid gap-6">
-              <span className="section-label">Join as a Contractor</span>
+              <span className="section-label">For Machine Shops &amp; Fabricators</span>
               <h2 className="font-display text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                Are You an Industrial{" "}
-                <span className="text-gradient-teal">Contractor or Manufacturer?</span>
+                Run a Machine Shop or{" "}
+                <span className="text-gradient-teal">Fabrication Workshop?</span>
               </h2>
               <p className="max-w-lg text-base leading-relaxed text-navy-100">
-                Join our verified network and receive job requests matched to your
-                specific skills and equipment — with clear scope, fair pricing, and
-                payment visibility built in.
+                Stop paying for unvetted leads and chasing overdue payments. Qualify for the RKISPro network and get production work orders matched to your exact VMC axis travels, laser beds, and crane capacities.
               </p>
 
               <div className="flex flex-wrap gap-3">
                 <Link href="/vendor/register" className="btn-primary gap-2">
-                  Apply as a Contractor
+                  Apply for Factory Audit
                   <ArrowRight className="size-4" />
                 </Link>
                 <Link href="/about" className="btn-secondary gap-2">
-                  Learn More
+                  How Escrow Works
                 </Link>
               </div>
             </div>
@@ -78,8 +76,8 @@ export function VendorCTA() {
                 border: "1px solid rgba(0,196,204,0.1)",
               }}
             >
-              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-teal-500">
-                What you get as a contractor
+              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-teal-400">
+                Partner Workshop Benefits
               </p>
               <ul className="grid gap-3">
                 {vendorBenefits.map((benefit) => (
@@ -87,8 +85,8 @@ export function VendorCTA() {
                     key={benefit}
                     className="flex items-start gap-3 text-sm font-medium text-navy-100"
                   >
-                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-teal-500" />
-                    {benefit}
+                    <CheckCircle2 className="mt-0.5 size-4 shrink-0 text-teal-400" />
+                    <span>{benefit}</span>
                   </li>
                 ))}
               </ul>

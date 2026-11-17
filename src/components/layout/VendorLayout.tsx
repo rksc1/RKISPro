@@ -8,14 +8,13 @@ export async function VendorLayout({ title, children }: { title: string; childre
   const profile = vendor ? await getVendorById(vendor.id) : null;
   const links = [
     { href: "/vendor/dashboard", label: "Dashboard" },
-    { href: "/vendor/dashboard#profile", label: "Profile" },
+    { href: "/vendor/dashboard#profile", label: "Shop Profile" },
     ...(profile?.availableForQuickBooking ? [{ href: "/vendor/quick-bookings", label: "Quick Bookings" }] : []),
     ...(profile?.vendorType === "company" || profile?.availableForLargeWork ? [
-      { href: "/vendor/rfqs", label: "RFQs" },
-      { href: "/vendor/projects", label: "Projects" }
+      { href: "/vendor/rfqs", label: "Assigned RFQs" },
+      { href: "/vendor/projects", label: "Manufacturing Projects" }
     ] : []),
-    { href: "/vendor/finance", label: "Finance & Payments" },
-    { href: "/vendor/notifications", label: "Reviews" },
+    { href: "/vendor/finance", label: "Finance & Payouts" },
     { href: "/vendor/notifications", label: "Notifications" }
   ];
 

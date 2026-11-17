@@ -1,3 +1,4 @@
+import { EscrowStepper } from "@/components/ui/EscrowStepper";
 import { MilestoneTimeline } from "@/components/ui/MilestoneTimeline";
 import { ProjectDetailHeader } from "@/components/ui/ProjectDetailHeader";
 import { ProjectInfoCard } from "@/components/ui/ProjectInfoCard";
@@ -20,6 +21,7 @@ export function ProjectDetailContent({
 }) {
   const completedMilestones = project.milestones.filter((milestone) => milestone.status === "completed").length;
   const delayedMilestones = project.milestones.filter((milestone) => milestone.status === "delayed").length;
+  const advancePaid = project.status !== "awarded";
 
   return (
     <div className="grid gap-5">
@@ -28,6 +30,13 @@ export function ProjectDetailContent({
         serviceType={project.request?.serviceType}
         location={project.request?.location}
         status={project.status}
+      />
+      <EscrowStepper
+        status={project.status}
+        hasProformaInvoice={Boolean(project.proformaInvoiceUrl)}
+        advancePaid={advancePaid}
+        completedMilestones={completedMilestones}
+        totalMilestones={project.milestones.length}
       />
       <div className="grid gap-3 md:grid-cols-4">
         <div className="rounded-lg border border-line bg-white p-4 shadow-soft">

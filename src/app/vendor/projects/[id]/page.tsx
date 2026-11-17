@@ -1,41 +1,13 @@
 import { notFound } from "next/navigation";
 import { VendorLayout } from "@/components/layout/VendorLayout";
-import { Button } from "@/components/ui/Button";
+import { VendorMilestoneQCUpdate } from "@/components/ui/MilestoneQCInspector";
 import { ProjectChat } from "@/components/ui/ProjectChat";
 import { ProjectDetailContent } from "@/components/ui/ProjectDetailContent";
 import { getVendorFromCookie } from "@/lib/auth";
-import type { ProjectMilestone } from "@/models/ProjectMilestone";
 import { getProjectDetailForRole } from "@/services/project-service";
 import { isApprovedVendor } from "@/services/vendor-service";
 
 export const dynamic = "force-dynamic";
-
-function VendorMilestoneControls({ projectId, milestone }: { projectId: string; milestone: ProjectMilestone }) {
-  return (
-    <form className="flex flex-wrap gap-4" action={`/api/vendor/projects/${projectId}/milestones/${milestone.id}`} method="post" encType="multipart/form-data">
-      <label className="grid gap-1.5 text-sm font-semibold text-ink">
-        Progress status
-        <select className="min-h-10 rounded-md border border-line bg-white px-3 text-sm font-normal" name="status" defaultValue={milestone.status}>
-          <option value="in_progress">In progress</option>
-          <option value="in_review">Ready for Approval (In Review)</option>
-          <option value="completed">Completed (Direct)</option>
-          <option value="delayed">Delayed</option>
-        </select>
-      </label>
-      <label className="grid gap-1.5 text-sm font-semibold text-ink">
-        Proof of Work (Attachments)
-        <input type="file" name="attachments" multiple accept="image/*,application/pdf" className="min-h-10 rounded-md border border-line bg-white px-3 py-2 text-sm font-normal" />
-      </label>
-      <label className="grid min-w-64 flex-1 gap-1.5 text-sm font-semibold text-ink">
-        Progress note
-        <input className="min-h-10 rounded-md border border-line bg-white px-3 text-sm font-normal" name="progressNote" placeholder="Optional progress note" />
-      </label>
-      <div className="flex items-end">
-        <Button type="submit">Update Milestone</Button>
-      </div>
-    </form>
-  );
-}
 
 export default async function VendorProjectDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [{ id }, vendor] = await Promise.all([params, getVendorFromCookie()]);
@@ -51,7 +23,7 @@ export default async function VendorProjectDetailPage({ params }: { params: Prom
         <ProjectDetailContent
           project={project}
           role="vendor"
-          milestoneControls={(milestone) => <VendorMilestoneControls projectId={project.id} milestone={milestone} />}
+          milestoneControls={(milestone) => <VendorMilestoneQCUpdate projectId={project.id} milestone={milestone} />}
         />
         <ProjectChat projectId={project.id} currentUserId={vendor.id} />
       </div>

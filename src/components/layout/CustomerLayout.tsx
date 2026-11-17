@@ -16,7 +16,9 @@ export async function CustomerLayout({ title, children }: { title: string; child
         { href: "/customer/quick-booking/new", label: "Quick Booking" },
         { href: "/customer/quick-bookings", label: "My Quick Bookings" },
         { href: "/customer/request/new", label: "New Request" },
-        { href: "/customer/dashboard#requests", label: "Requests" },
+        { href: "/customer/requests", label: "My Requirements" },
+        { href: "/customer/vendors", label: "Find Contractors" },
+        { href: "/customer/estimator", label: "Cost Estimator" },
         { href: "/customer/projects", label: "Projects" },
         { href: "/customer/notifications", label: "Notifications" }
       ]}

@@ -7,6 +7,7 @@ import { PaymentCard } from "@/components/ui/PaymentCard";
 import { RazorpayPaymentActions } from "@/components/ui/RazorpayPaymentActions";
 import { getCustomerFromCookie } from "@/lib/auth";
 import { getProjectFinanceForRole } from "@/services/finance-service";
+import { FileText } from "lucide-react";
 
 export default async function CustomerProjectPaymentsPage({ params }: { params: Promise<{ id: string }> }) {
   const customer = await getCustomerFromCookie();
@@ -23,13 +24,21 @@ export default async function CustomerProjectPaymentsPage({ params }: { params: 
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-brand-gold">Invoice summary</p>
             <h2 className="mt-1 text-2xl font-black text-slate-950">{finance.project.request?.projectTitle ?? "Project"}</h2>
-            <p className="text-sm text-muted">Vendor: {finance.project.vendor?.companyName ?? "Vendor"}</p>
+            <p className="mt-1 text-sm text-muted">Vendor: {finance.project.vendor?.companyName ?? "Vendor"}</p>
           </div>
-          <Button href={`/customer/projects/${id}`} variant="secondary">Back to tracking</Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button href={`/customer/projects/${id}/invoice`} className="gap-2">
+              <FileText className="size-4" />
+              <span>View & Print GST Invoice</span>
+            </Button>
+            <Button href={`/customer/projects/${id}`} variant="secondary">
+              Back to tracking
+            </Button>
+          </div>
         </div>
       </Card>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-4">
         <FinancialSummaryCard label="Project value" amount={finance.financial.projectValue} />
         <FinancialSummaryCard label="Advance paid" amount={finance.financial.advanceReceived} />
         <FinancialSummaryCard label="Total paid" amount={finance.financial.totalReceived} />

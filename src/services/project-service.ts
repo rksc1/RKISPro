@@ -24,6 +24,7 @@ function mapProject(row: ProjectRow): Project {
     commissionPercentage: row.commission_percentage,
     commissionAmount: row.commission_amount,
     adminNotes: row.admin_notes,
+    proformaInvoiceUrl: row.proforma_invoice_url,
     createdAt: row.created_at,
     updatedAt: row.updated_at
   };

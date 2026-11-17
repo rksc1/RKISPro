@@ -1,30 +1,92 @@
+import {
+  FileCheck2,
+  Building2,
+  Lock,
+  ShieldCheck,
+  CheckCircle2,
+  Layers,
+  FileSpreadsheet,
+  Truck,
+} from "lucide-react";
+
 const trustItems = [
-  { title: "GST/PAN support", body: "Capture tax and business documentation needs early in the procurement flow." },
-  { title: "Workshop verification", body: "Help buyers understand whether a vendor has real shop-floor capability." },
-  { title: "Category approval", body: "Vendors are aligned to approved fabrication, machining, repair, and service categories." },
-  { title: "Job review checklist", body: "Admin review keeps scope, drawings, materials, quality, and timeline clear before sharing." },
-  { title: "Technical document handling", body: "Drawings and supporting files stay connected to the managed requirement." },
-  { title: "Milestone tracking", body: "Execution can be followed through checkpoints instead of ending at vendor selection." },
-  { title: "Payment visibility", body: "Project payment state stays visible after award and during coordination." },
-  { title: "Admin coordination", body: "RKISPro keeps review, shortlist, quotation comparison, award, and tracking connected." }
+  {
+    title: "CBIC GST E-Invoicing & ITC",
+    body: "Pre-validated GSTINs and automated SAC 9988 tax invoices ensuring 100% input tax credit compliance for enterprise accounting.",
+    icon: FileSpreadsheet,
+  },
+  {
+    title: "Physical Shop-Floor Audits",
+    body: "On-site visits verify machine makes, axis travels, crane tonnage, and continuous power backup before any workshop receives drawings.",
+    icon: Building2,
+  },
+  {
+    title: "CAD & Technical Drawing Vault",
+    body: "Encrypted STEP, DWG, and DXF storage. Proprietary engineering designs are protected and shared strictly with vetted bidders under NDA.",
+    icon: Lock,
+  },
+  {
+    title: "Milestone Nodal Escrow",
+    body: "Your funds sit securely in escrow. Tranches are disbursed only after you verify dimensional inspection and milestone test certificates.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "NABL Mill Test Certificates (MTC)",
+    body: "Primary steel traceability (Tata/SAIL/Jindal) with EN 10204 3.1 chemical and mechanical inspection verified before production begins.",
+    icon: FileCheck2,
+  },
+  {
+    title: "4-Gate Quality Control Protocol",
+    body: "Stage-gate sign-offs: Raw Material MTC → Dimensional Tolerance Check → Weld Structural NDT → Final Surface Finish DFT.",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Assigned Industrial Operations Lead",
+    body: "Every work order is assigned an RKISPro manufacturing engineer who coordinates clarifications, expedites tooling, and oversees delivery.",
+    icon: Layers,
+  },
+  {
+    title: "One-Tap WhatsApp Dispatch Updates",
+    body: "Real-time dispatch notifications with transport Lorry Receipt (LR) tracking, gate pass verification, and delivery vehicle numbers.",
+    icon: Truck,
+  },
 ];
 
 export function TrustWorkflowSection() {
   return (
-    <section className="py-14 sm:py-16 lg:py-20">
-      <div className="page-shell grid gap-8">
+    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#030A10" }}>
+      <div className="page-shell grid gap-10">
         <div className="max-w-3xl">
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-teal-500">Trust Workflow</p>
-          <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">Built for Industrial Trust</h2>
-          <p className="mt-3 text-sm leading-6 text-navy-100">The platform is designed around procurement clarity, vendor verification, and execution follow-through.</p>
+          <div className="flex items-center gap-2">
+            <span className="size-2 rounded-full bg-teal-400" />
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+              Enterprise Trust Infrastructure
+            </p>
+          </div>
+          <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+            Engineered for Accountability at Every Stage
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
+            From CAD drawing receipt to plant gate delivery, RKISPro embeds institutional risk controls so you never have to chase contractors or worry about rejected scrap.
+          </p>
         </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {trustItems.map((item) => (
-            <div className="bento-card" key={item.title}>
-              <h3 className="font-bold text-white">{item.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-navy-100/80">{item.body}</p>
-            </div>
-          ))}
+          {trustItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div
+                key={item.title}
+                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition-all hover:border-teal-500/40 hover:bg-slate-900/70"
+              >
+                <div className="flex size-10 items-center justify-center rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400">
+                  <Icon className="size-5" />
+                </div>
+                <h3 className="mt-4 font-bold text-white text-sm sm:text-base">{item.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-300/80">{item.body}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

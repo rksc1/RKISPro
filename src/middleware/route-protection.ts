@@ -10,6 +10,8 @@ const protectedPrefixes = [
   "/customer/quick-bookings",
   "/customer/requests",
   "/customer/request",
+  "/customer/vendors",
+  "/customer/estimator",
   "/vendor/dashboard",
   "/vendor/notifications",
   "/vendor/quick-bookings",

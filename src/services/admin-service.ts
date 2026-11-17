@@ -69,6 +69,17 @@ async function countOverdueMilestones() {
   return new Set(data.map((m: { project_id: string }) => m.project_id)).size;
 }
 
+async function countPendingQuickBookings() {
+  const supabase = getSupabase();
+  const { count, error } = await supabase
+    .from("quick_bookings")
+    .select("id", { count: "exact", head: true })
+    .eq("status", "pending");
+
+  if (error) return 0;
+  return count ?? 0;
+}
+
 export async function getAdminDashboardStats() {
   const [
     totalCustomers,
@@ -78,7 +89,8 @@ export async function getAdminDashboardStats() {
     vendorMatchingQueue,
     quoteReviewQueue,
     projectRiskQueue,
-    paymentQueue
+    paymentQueue,
+    quickBookingQueue
   ] = await Promise.all([
     countCustomers(),
     countVendors(),
@@ -87,7 +99,8 @@ export async function getAdminDashboardStats() {
     countMarketplaceRequests("Approved"),
     countVendorQuotes("pending"),
     countOverdueMilestones(),
-    countPayments("pending")
+    countPayments("pending"),
+    countPendingQuickBookings()
   ]);
 
   return {
@@ -99,7 +112,8 @@ export async function getAdminDashboardStats() {
     quoteReviewQueue,
     vendorVerificationQueue: pendingVendorApprovals,
     projectRiskQueue,
-    paymentQueue
+    paymentQueue,
+    quickBookingQueue
   };
 }
 

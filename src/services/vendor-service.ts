@@ -252,6 +252,58 @@ export async function getApprovedVendors(filters: {
   return data.map(mapVendor);
 }
 
+export async function getDirectoryVendors(filters: {
+  search?: string;
+  city?: string;
+  vendorType?: VendorType | "";
+  service?: string;
+}) {
+  const supabase = getSupabase();
+  let query = supabase
+    .from("vendors")
+    .select("*")
+    .or("verification_status.eq.verified,status.eq.Approved")
+    .order("trust_score", { ascending: false });
+
+  if (filters.city) {
+    query = query.or(`city.ilike.%${filters.city}%,location.ilike.%${filters.city}%`);
+  }
+
+  if (filters.vendorType) {
+    query = query.eq("vendor_type", filters.vendorType);
+  }
+
+  const { data, error } = await query.returns<VendorRow[]>();
+  if (error) throw new Error(error.message);
+
+  let results = data.map(mapVendor);
+
+  if (filters.service) {
+    const targetService = filters.service.toLowerCase();
+    results = results.filter((v) =>
+      v.serviceList.some((s) => s.toLowerCase().includes(targetService)) ||
+      v.skillCategories.some((s) => s.toLowerCase().includes(targetService))
+    );
+  }
+
+  if (filters.search) {
+    const term = filters.search.toLowerCase().trim();
+    results = results.filter((v) =>
+      Boolean(
+        (v.companyName && v.companyName.toLowerCase().includes(term)) ||
+        (v.fullName && v.fullName.toLowerCase().includes(term)) ||
+        (v.ownerName && v.ownerName.toLowerCase().includes(term)) ||
+        (v.city && v.city.toLowerCase().includes(term)) ||
+        (v.location && v.location.toLowerCase().includes(term)) ||
+        v.serviceList.some((s) => s.toLowerCase().includes(term)) ||
+        v.machineryList.some((m) => m.toLowerCase().includes(term))
+      )
+    );
+  }
+
+  return results;
+}
+
 export async function getQuickBookingAssignableVendors(filters: {
   serviceType?: string;
   location?: string;

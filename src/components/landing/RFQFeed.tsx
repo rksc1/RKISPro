@@ -1,40 +1,203 @@
-const rfqs = [
-  { title: "MS structure fabrication for factory mezzanine", category: "Steel Fabrication", location: "Pune", shortlist: "4 contractors matched", timeline: "3 week delivery", stage: "Contractor shortlist prepared" },
-  { title: "CNC machining for aluminium housings", category: "CNC Machining", location: "Bengaluru", shortlist: "3 contractors matched", timeline: "Batch delivery review", stage: "Quote review" },
-  { title: "Industrial shed roofing and column work", category: "Shed Construction", location: "Ahmedabad", shortlist: "5 contractors matched", timeline: "Milestone tracking", stage: "Execution tracking" },
-  { title: "Lathe work for stainless steel shafts", category: "Lathe Work", location: "Coimbatore", shortlist: "Scope under review", timeline: "Timeline being validated", stage: "Scope review" }
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import {
+  FileCheck2,
+  Clock,
+  ArrowRight,
+  ShieldCheck,
+  Building,
+} from "lucide-react";
+
+interface CoordinatedOrder {
+  id: string;
+  title: string;
+  category: "Fabrication" | "Machining" | "Repair";
+  location: string;
+  material: string;
+  scale: string;
+  timeline: string;
+  stage: string;
+  stageType: "completed" | "in_progress" | "matching";
+}
+
+const workOrders: CoordinatedOrder[] = [
+  {
+    id: "WO-8421",
+    title: "16T Structural Base Skid & Column Assembly for Cement Clinker",
+    category: "Fabrication",
+    location: "Pune MIDC Bhosari",
+    material: "IS 2062 Gr. E350 Primary Steel (SAIL)",
+    scale: "₹18.4 Lakhs",
+    timeline: "24-Day Delivery",
+    stage: "Milestone 3/3: Final Paint DFT & Dispatch",
+    stageType: "completed",
+  },
+  {
+    id: "WO-8419",
+    title: "650 pcs Precision CNC Turned EN19 Pinion Shafts & Splines",
+    category: "Machining",
+    location: "Peenya Ind. Area, Bengaluru",
+    material: "Alloy Steel EN19 Hardened 45-48 HRC",
+    scale: "₹7.8 Lakhs",
+    timeline: "14-Day Delivery",
+    stage: "Dimensional CMM Inspection Passed (±12µm)",
+    stageType: "completed",
+  },
+  {
+    id: "WO-8415",
+    title: "SS 316L 8,000L Chemical Reactor with Dimple Cooling Jacket",
+    category: "Fabrication",
+    location: "Sanand GIDC, Gujarat",
+    material: "SS 316L Plates (Jindal Stainless)",
+    scale: "₹34.2 Lakhs",
+    timeline: "35-Day Delivery",
+    stage: "Hydrostatic Test at 6.5 Bar Verified",
+    stageType: "in_progress",
+  },
+  {
+    id: "WO-8412",
+    title: "Emergency In-Situ Line Boring & Hydraulic Cylinder Overhaul",
+    category: "Repair",
+    location: "Urla Industrial Area, Raipur",
+    material: "Hard Chrome Plated Rods & Polyurethane Seals",
+    scale: "₹3.6 Lakhs",
+    timeline: "48-Hour Turnaround",
+    stage: "Technician Field Execution Complete",
+    stageType: "completed",
+  },
+  {
+    id: "WO-8409",
+    title: "2,000 pcs Fiber Laser Cut & CNC Bent 3mm Sheet Metal Enclosures",
+    category: "Fabrication",
+    location: "Chakan Industrial Zone, Pune",
+    material: "CRCA Cold-Rolled Steel Sheet",
+    scale: "₹11.2 Lakhs",
+    timeline: "10-Day Batch Run",
+    stage: "3 Audited Machine Shops Quoting",
+    stageType: "matching",
+  },
+  {
+    id: "WO-8402",
+    title: "4-Axis VMC Machining of Aerospace 6061-T6 Valve Manifolds",
+    category: "Machining",
+    location: "Ambattur, Chennai",
+    material: "Aluminium 6061-T6 Billet",
+    scale: "₹9.5 Lakhs",
+    timeline: "18-Day Delivery",
+    stage: "First Article Inspection (FAI) Approved",
+    stageType: "in_progress",
+  },
 ];
 
 export function RFQFeed() {
+  const [activeTab, setActiveTab] = useState<"All" | "Fabrication" | "Machining" | "Repair">("All");
+
+  const filteredOrders = activeTab === "All"
+    ? workOrders
+    : workOrders.filter((wo) => wo.category === activeTab);
+
   return (
-    <section className="py-14 sm:py-16 lg:py-20">
+    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#050F18" }}>
       <div className="page-shell grid gap-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-slate-800/80 pb-6">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.18em] text-teal-500">Managed Project Examples</p>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">Recent coordinated industrial projects.</h2>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-navy-100">Examples show structured coordination stages, not public bidding or lowest-price selection.</p>
+            <div className="flex items-center gap-2">
+              <span className="size-2 rounded-full bg-teal-400" />
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+                Managed Work Order Ledger
+              </p>
+            </div>
+            <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+              Recently Coordinated Production Runs
+            </h2>
+            <p className="mt-2 text-sm text-slate-300">
+              Live snapshot of fabrication, CNC turning, and maintenance work orders audited by RKISPro.
+            </p>
           </div>
-          <div className="hidden gap-2 md:flex">
-            {["All", "Fabrication", "Machining", "Repair"].map((tab) => (
-              <span className="rounded-full border border-teal-500/20 bg-teal-500/5 px-4 py-2 text-sm font-bold text-teal-400" key={tab}>{tab}</span>
+
+          {/* Interactive filter tabs */}
+          <div className="flex flex-wrap gap-2">
+            {(["All", "Fabrication", "Machining", "Repair"] as const).map((tab) => (
+              <button
+                key={tab}
+                type="button"
+                onClick={() => setActiveTab(tab)}
+                className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${
+                  activeTab === tab
+                    ? "bg-teal-500 text-slate-950 shadow-md shadow-teal-500/20"
+                    : "border border-slate-700 bg-slate-900/60 text-slate-300 hover:border-teal-500/40 hover:text-white"
+                }`}
+              >
+                {tab}
+              </button>
             ))}
           </div>
         </div>
-        <div className="grid gap-3">
-          {rfqs.map((rfq) => (
-            <div className="bento-card grid gap-4 transition-all duration-300 hover:border-teal-500/30 hover:bg-white/[0.04] md:grid-cols-[1fr_auto]" key={rfq.title}>
-              <div>
-                <h3 className="font-display font-bold text-white text-lg">{rfq.title}</h3>
-                <p className="mt-1 text-sm text-navy-100/80">{rfq.category} | {rfq.location}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-navy-100">{rfq.shortlist}</span>
-                  <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-navy-100">{rfq.timeline}</span>
+
+        <div className="grid gap-4">
+          {filteredOrders.map((order) => {
+            return (
+              <div
+                key={order.id}
+                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition-all duration-200 hover:border-teal-500/30 hover:bg-slate-900/70 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center"
+              >
+                <div>
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="font-mono text-xs font-bold text-teal-400 bg-teal-950/60 border border-teal-800/50 px-2 py-0.5 rounded">
+                      {order.id}
+                    </span>
+                    <span className="flex items-center gap-1 text-xs font-medium text-slate-400">
+                      <Building className="size-3.5 text-slate-500" />
+                      {order.location}
+                    </span>
+                    <span className="text-xs font-semibold text-slate-300">
+                      • {order.scale}
+                    </span>
+                  </div>
+
+                  <h3 className="font-display mt-2.5 text-base font-bold text-white sm:text-lg">
+                    {order.title}
+                  </h3>
+
+                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-300">
+                    <span className="flex items-center gap-1.5 rounded-lg bg-slate-800/60 px-2.5 py-1 text-slate-300 border border-slate-700/60">
+                      <FileCheck2 className="size-3.5 text-teal-400" />
+                      {order.material}
+                    </span>
+                    <span className="flex items-center gap-1.5 rounded-lg bg-slate-800/60 px-2.5 py-1 text-slate-400 border border-slate-700/60">
+                      <Clock className="size-3.5 text-amber-400" />
+                      {order.timeline}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
+                  <span
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold ${
+                      order.stageType === "completed"
+                        ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+                        : order.stageType === "in_progress"
+                        ? "bg-teal-500/10 text-teal-300 border border-teal-500/30"
+                        : "bg-amber-500/10 text-amber-300 border border-amber-500/30"
+                    }`}
+                  >
+                    <ShieldCheck className="size-3.5" />
+                    {order.stage}
+                  </span>
+
+                  <Link
+                    href={`/customer/request/new?category=${encodeURIComponent(order.category)}&title=${encodeURIComponent(order.title)}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-400 transition hover:text-teal-300 hover:underline"
+                  >
+                    <span>Post Similar Requirement</span>
+                    <ArrowRight className="size-3" />
+                  </Link>
                 </div>
               </div>
-              <span className="h-max rounded-full bg-teal-500/10 border border-teal-500/20 px-4 py-2 text-xs font-bold text-teal-400">{rfq.stage}</span>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

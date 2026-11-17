@@ -24,6 +24,7 @@ export default async function VendorQuickBookingsPage() {
             <QuickBookingCard
               key={booking.id}
               booking={booking}
+              viewerRole="vendor"
               footer={
                 <form action={`/api/vendor/quick-bookings/${booking.id}`} className="grid gap-3 border-t border-line pt-4 md:grid-cols-[1fr_1fr_auto]" method="post">
                   <select className="min-h-10 rounded-md border border-line bg-white px-3 text-sm" name="status" defaultValue={booking.status}>

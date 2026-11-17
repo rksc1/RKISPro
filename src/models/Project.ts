@@ -14,6 +14,7 @@ export type ProjectRow = {
   commission_percentage: number;
   commission_amount: number;
   admin_notes: string | null;
+  proforma_invoice_url: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -32,6 +33,7 @@ export type Project = {
   commissionPercentage: number;
   commissionAmount: number;
   adminNotes: string | null;
+  proformaInvoiceUrl: string | null;
   createdAt: string;
   updatedAt: string;
 };
