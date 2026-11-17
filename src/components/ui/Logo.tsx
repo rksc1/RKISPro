@@ -3,9 +3,9 @@ import Link from "next/link";
 import { LogoMark } from "@/components/ui/LogoMark";
 
 const logoSizes = {
-  sm: "h-9 w-[138px] sm:h-10 sm:w-[156px]",
-  md: "h-10 w-[154px] sm:h-12 sm:w-[190px]",
-  lg: "h-11 w-[174px] sm:h-[52px] sm:w-[220px]"
+  sm: "h-9 w-[152px] sm:h-10 sm:w-[169px]",
+  md: "h-10 w-[169px] sm:h-11 sm:w-[186px]",
+  lg: "h-11 w-[186px] sm:h-12 sm:w-[202px]"
 };
 
 const markOnlySizes = {
