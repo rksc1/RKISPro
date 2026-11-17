@@ -29,10 +29,7 @@ const vendorLinks = [
 export function FooterSection() {
   return (
     <footer
-      style={{
-        background: "#020D14",
-        borderTop: "1px solid rgba(0,196,204,0.08)",
-      }}
+      className="bg-slate-950 text-slate-300 border-t border-slate-800"
     >
       {/* Main footer */}
       <div className="page-shell py-14 grid gap-10 lg:grid-cols-[1.4fr_0.8fr_0.8fr_0.8fr] lg:gap-12">
@@ -42,14 +39,14 @@ export function FooterSection() {
           <p className="text-sm font-semibold text-white">
             India&apos;s Industrial Contractor Marketplace
           </p>
-          <p className="text-sm leading-relaxed text-navy-100/70">
+          <p className="text-sm leading-relaxed text-slate-400">
             Find verified contractors for fabrication, welding, CNC, repairs and more.
             Get comparable price quotes, track the work, and see every payment.
           </p>
-          <div className="grid gap-2 text-sm text-navy-100/60">
+          <div className="grid gap-2 text-sm text-slate-400">
             <a
               href="mailto:support@rkispro.com"
-              className="flex items-center gap-2 transition hover:text-teal-400"
+              className="flex items-center gap-2 transition hover:text-teal-300"
             >
               <Mail className="size-3.5" />
               support@rkispro.com
@@ -64,8 +61,7 @@ export function FooterSection() {
         {/* Quick Links */}
         <div>
           <h3
-            className="text-xs font-bold uppercase tracking-widest"
-            style={{ color: "#00C4CC" }}
+            className="text-xs font-bold uppercase tracking-widest text-teal-400"
           >
             Quick Links
           </h3>
@@ -74,7 +70,7 @@ export function FooterSection() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-sm text-navy-100/70 transition hover:text-teal-400"
+                  className="text-sm text-slate-400 transition hover:text-white"
                 >
                   {link.label}
                 </Link>
@@ -86,8 +82,7 @@ export function FooterSection() {
         {/* Categories */}
         <div>
           <h3
-            className="text-xs font-bold uppercase tracking-widest"
-            style={{ color: "#00C4CC" }}
+            className="text-xs font-bold uppercase tracking-widest text-teal-400"
           >
             Categories
           </h3>
@@ -95,7 +90,7 @@ export function FooterSection() {
             {categories.map((category) => (
               <li
                 key={category}
-                className="text-sm text-navy-100/70"
+                className="text-sm text-slate-400"
               >
                 {category}
               </li>
@@ -107,8 +102,7 @@ export function FooterSection() {
         <div className="grid gap-6 content-start">
           <div>
             <h3
-              className="text-xs font-bold uppercase tracking-widest"
-              style={{ color: "#00C4CC" }}
+              className="text-xs font-bold uppercase tracking-widest text-teal-400"
             >
               Vendors
             </h3>
@@ -117,7 +111,7 @@ export function FooterSection() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-navy-100/70 transition hover:text-teal-400"
+                    className="text-sm text-slate-400 transition hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -128,16 +122,12 @@ export function FooterSection() {
 
           {/* Mini CTA */}
           <div
-            className="rounded-xl p-4"
-            style={{
-              background: "rgba(0,196,204,0.05)",
-              border: "1px solid rgba(0,196,204,0.12)",
-            }}
+            className="rounded-xl p-4 bg-slate-900/90 border border-slate-800"
           >
             <p className="text-xs font-semibold text-white">
               Ready to get started?
             </p>
-            <p className="mt-1 text-xs text-navy-100/60">
+            <p className="mt-1 text-xs text-slate-400">
               Describe your job and get quotes from verified contractors.
             </p>
             <Link
@@ -153,23 +143,21 @@ export function FooterSection() {
 
       {/* Bottom bar */}
       <div
-        className="page-shell py-5"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
+        className="page-shell py-5 border-t border-slate-800/80"
       >
         <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-navy-100/50">
+          <p className="text-xs text-slate-400">
             &copy; {new Date().getFullYear()} RKISPro Industrial Technologies Pvt Ltd. CBIC GST &amp; SAC 9988 Compliant.
           </p>
           <div className="flex flex-wrap items-center gap-4 sm:gap-6">
-            <Link href="/privacy" className="text-xs text-navy-100/60 transition hover:text-white">Privacy</Link>
-            <Link href="/terms" className="text-xs text-navy-100/60 transition hover:text-white">Terms</Link>
-            <Link href="/cookies" className="text-xs text-navy-100/60 transition hover:text-white">Cookies</Link>
-            <Link href="/refunds" className="text-xs text-navy-100/60 transition hover:text-white">Refunds</Link>
+            <Link href="/privacy" className="text-xs text-slate-400 transition hover:text-white">Privacy</Link>
+            <Link href="/terms" className="text-xs text-slate-400 transition hover:text-white">Terms</Link>
+            <Link href="/cookies" className="text-xs text-slate-400 transition hover:text-white">Cookies</Link>
+            <Link href="/refunds" className="text-xs text-slate-400 transition hover:text-white">Refunds</Link>
             <span
-              className="hidden sm:block size-1.5 rounded-full"
-              style={{ background: "#00C4CC" }}
+              className="hidden sm:block size-1.5 rounded-full bg-teal-500"
             />
-            <span className="text-xs text-teal-400/80 font-mono">Pune · Bengaluru · Sanand · Raipur</span>
+            <span className="text-xs text-teal-400 font-mono">Pune · Bengaluru · Sanand · Raipur</span>
           </div>
         </div>
       </div>

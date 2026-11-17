@@ -5,11 +5,11 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Legacy tokens — updated to dark navy for site-wide consistency
-        ink: "#F0F6FA",
-        muted: "#8BA5B4",
-        line: "#1E3444",
-        canvas: "#060E14",
+        // Core design tokens — Clean, modern industrial enterprise
+        ink: "#0F172A",
+        muted: "#64748B",
+        line: "#E2E8F0",
+        canvas: "#F8FAFC",
         brand: {
           DEFAULT: "#00C4CC",
           dark: "#00A8AF",

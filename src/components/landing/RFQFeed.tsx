@@ -99,20 +99,20 @@ export function RFQFeed() {
     : workOrders.filter((wo) => wo.category === activeTab);
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#050F18" }}>
+    <section className="py-16 sm:py-20 lg:py-24 bg-white border-t border-slate-200/80">
       <div className="page-shell grid gap-8">
-        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-slate-800/80 pb-6">
+        <div className="flex flex-wrap items-end justify-between gap-4 border-b border-slate-200 pb-6">
           <div>
             <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-teal-400" />
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+              <span className="size-2 rounded-full bg-teal-600" />
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
                 Managed Work Order Ledger
               </p>
             </div>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">
               Recently Coordinated Production Runs
             </h2>
-            <p className="mt-2 text-sm text-slate-300">
+            <p className="mt-2 text-sm text-slate-600">
               Live snapshot of fabrication, CNC turning, and maintenance work orders audited by RKISPro.
             </p>
           </div>
@@ -126,8 +126,8 @@ export function RFQFeed() {
                 onClick={() => setActiveTab(tab)}
                 className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${
                   activeTab === tab
-                    ? "bg-teal-500 text-slate-950 shadow-md shadow-teal-500/20"
-                    : "border border-slate-700 bg-slate-900/60 text-slate-300 hover:border-teal-500/40 hover:text-white"
+                    ? "bg-teal-600 text-white shadow-sm"
+                    : "border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900"
                 }`}
               >
                 {tab}
@@ -141,46 +141,46 @@ export function RFQFeed() {
             return (
               <div
                 key={order.id}
-                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition-all duration-200 hover:border-teal-500/30 hover:bg-slate-900/70 grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center"
+                className="rounded-2xl border border-slate-200 bg-white p-5 transition-all duration-200 hover:border-teal-500/40 hover:shadow-md grid gap-4 lg:grid-cols-[1fr_auto] lg:items-center"
               >
                 <div>
                   <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="font-mono text-xs font-bold text-teal-400 bg-teal-950/60 border border-teal-800/50 px-2 py-0.5 rounded">
+                    <span className="font-mono text-xs font-bold text-teal-800 bg-teal-50 border border-teal-200 px-2 py-0.5 rounded">
                       {order.id}
                     </span>
-                    <span className="flex items-center gap-1 text-xs font-medium text-slate-400">
-                      <Building className="size-3.5 text-slate-500" />
+                    <span className="flex items-center gap-1 text-xs font-medium text-slate-600">
+                      <Building className="size-3.5 text-slate-400" />
                       {order.location}
                     </span>
-                    <span className="text-xs font-semibold text-slate-300">
+                    <span className="text-xs font-bold text-slate-900">
                       • {order.scale}
                     </span>
                   </div>
 
-                  <h3 className="font-display mt-2.5 text-base font-bold text-white sm:text-lg">
+                  <h3 className="font-display mt-2.5 text-base font-bold text-slate-900 sm:text-lg">
                     {order.title}
                   </h3>
 
-                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-300">
-                    <span className="flex items-center gap-1.5 rounded-lg bg-slate-800/60 px-2.5 py-1 text-slate-300 border border-slate-700/60">
-                      <FileCheck2 className="size-3.5 text-teal-400" />
+                  <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-slate-600">
+                    <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-slate-700 border border-slate-200">
+                      <FileCheck2 className="size-3.5 text-teal-600" />
                       {order.material}
                     </span>
-                    <span className="flex items-center gap-1.5 rounded-lg bg-slate-800/60 px-2.5 py-1 text-slate-400 border border-slate-700/60">
-                      <Clock className="size-3.5 text-amber-400" />
+                    <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-slate-700 border border-slate-200">
+                      <Clock className="size-3.5 text-amber-600" />
                       {order.timeline}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-800/80">
+                <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
                   <span
                     className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold ${
                       order.stageType === "completed"
-                        ? "bg-emerald-500/10 text-emerald-300 border border-emerald-500/30"
+                        ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                         : order.stageType === "in_progress"
-                        ? "bg-teal-500/10 text-teal-300 border border-teal-500/30"
-                        : "bg-amber-500/10 text-amber-300 border border-amber-500/30"
+                        ? "bg-teal-50 text-teal-800 border border-teal-200"
+                        : "bg-amber-50 text-amber-800 border border-amber-200"
                     }`}
                   >
                     <ShieldCheck className="size-3.5" />
@@ -189,7 +189,7 @@ export function RFQFeed() {
 
                   <Link
                     href={`/customer/request/new?category=${encodeURIComponent(order.category)}&title=${encodeURIComponent(order.title)}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-400 transition hover:text-teal-300 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 transition hover:text-teal-800 hover:underline"
                   >
                     <span>Post Similar Requirement</span>
                     <ArrowRight className="size-3" />

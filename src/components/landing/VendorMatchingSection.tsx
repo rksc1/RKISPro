@@ -62,24 +62,24 @@ const protocols: VettingProtocol[] = [
 
 export function VendorMatchingSection() {
   return (
-    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#030A10" }}>
+    <section className="py-16 sm:py-20 lg:py-24 bg-white border-t border-slate-200/80">
       <div className="page-shell grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
-        <div className="grid gap-4 sticky top-28">
+        <div className="grid gap-3 sticky top-28">
           <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-teal-400" />
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+            <span className="size-2 rounded-full bg-teal-600" />
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
               Technical Vetting Protocol
             </p>
           </div>
-          <h2 className="font-display text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold text-slate-900 sm:text-4xl">
             How RKISPro Audits Every Workshop
           </h2>
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
             We don&apos;t just ask contractors for a brochure. Our operations engineers verify shop-floor machinery, metallurgy records, and metrology calibration before any RFQ is routed.
           </p>
-          <div className="mt-4 rounded-xl border border-teal-500/20 bg-teal-500/5 p-4 text-xs text-slate-300">
-            <p className="font-semibold text-teal-300">Only ~18% of applying workshops qualify</p>
-            <p className="mt-1 text-slate-400">
+          <div className="mt-2 rounded-2xl border border-teal-200 bg-teal-50/70 p-4 text-xs text-slate-700">
+            <p className="font-bold text-teal-900">Only ~18% of applying workshops qualify</p>
+            <p className="mt-1 text-slate-600 leading-relaxed">
               Contractors who cannot demonstrate verifiable machine ownership, primary steel procurement, or calibrated instruments are disqualified from our managed pool.
             </p>
           </div>
@@ -91,20 +91,20 @@ export function VendorMatchingSection() {
             return (
               <div
                 key={p.title}
-                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition-all hover:border-teal-500/40 hover:bg-slate-900/70"
+                className="rounded-2xl border border-slate-200/90 bg-slate-50/60 p-5 transition-all hover:bg-white hover:shadow-md hover:border-teal-500/40 hover:-translate-y-0.5"
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex size-9 items-center justify-center rounded-lg bg-teal-500/10 border border-teal-500/20 text-teal-400">
+                  <div className="flex size-9 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
                     <Icon className="size-4" />
                   </div>
-                  <span className="text-[10px] font-mono font-medium text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-mono font-bold text-slate-600 bg-white border border-slate-200 px-2 py-0.5 rounded">
                     {p.tag}
                   </span>
                 </div>
-                <h3 className="mt-4 font-bold text-white text-sm sm:text-base">{p.title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-slate-300/80">{p.description}</p>
-                <div className="mt-4 pt-3 border-t border-slate-800/80 flex items-center gap-2 text-[11px] font-medium text-teal-300">
-                  <span className="size-1.5 rounded-full bg-teal-400" />
+                <h3 className="mt-3.5 font-bold text-slate-900 text-sm sm:text-base">{p.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600">{p.description}</p>
+                <div className="mt-4 pt-3 border-t border-slate-200 flex items-center gap-2 text-[11px] font-bold text-teal-700">
+                  <span className="size-1.5 rounded-full bg-teal-600" />
                   <span>{p.criteria}</span>
                 </div>
               </div>

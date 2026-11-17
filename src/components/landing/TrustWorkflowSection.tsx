@@ -54,19 +54,19 @@ const trustItems = [
 
 export function TrustWorkflowSection() {
   return (
-    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#030A10" }}>
+    <section className="py-16 sm:py-20 lg:py-24 bg-slate-50 border-t border-slate-200/80">
       <div className="page-shell grid gap-10">
         <div className="max-w-3xl">
           <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-teal-400" />
-            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+            <span className="size-2 rounded-full bg-teal-600" />
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
               Enterprise Trust Infrastructure
             </p>
           </div>
-          <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">
             Engineered for Accountability at Every Stage
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed">
+          <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
             From CAD drawing receipt to plant gate delivery, RKISPro embeds institutional risk controls so you never have to chase contractors or worry about rejected scrap.
           </p>
         </div>
@@ -77,13 +77,13 @@ export function TrustWorkflowSection() {
             return (
               <div
                 key={item.title}
-                className="rounded-2xl border border-slate-800 bg-slate-900/40 p-5 transition-all hover:border-teal-500/40 hover:bg-slate-900/70"
+                className="rounded-2xl border border-slate-200 bg-white p-5 transition-all hover:border-teal-500/40 hover:shadow-md hover:-translate-y-0.5"
               >
-                <div className="flex size-10 items-center justify-center rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400">
+                <div className="flex size-10 items-center justify-center rounded-xl bg-teal-50 border border-teal-200 text-teal-700">
                   <Icon className="size-5" />
                 </div>
-                <h3 className="mt-4 font-bold text-white text-sm sm:text-base">{item.title}</h3>
-                <p className="mt-2 text-xs leading-relaxed text-slate-300/80">{item.body}</p>
+                <h3 className="mt-3.5 font-bold text-slate-900 text-sm sm:text-base">{item.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-slate-600">{item.body}</p>
               </div>
             );
           })}

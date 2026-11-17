@@ -22,26 +22,26 @@ const mobileLinks = [
 export function StickyNavbar() {
   return (
     <header
-      className="sticky top-0 z-50"
+      className="sticky top-0 z-50 transition-all duration-200"
       style={{
-        background: "rgba(6, 14, 20, 0.85)",
-        backdropFilter: "blur(24px)",
-        WebkitBackdropFilter: "blur(24px)",
-        borderBottom: "1px solid rgba(0, 196, 204, 0.08)",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+        background: "rgba(255, 255, 255, 0.94)",
+        backdropFilter: "blur(20px)",
+        WebkitBackdropFilter: "blur(20px)",
+        borderBottom: "1px solid rgba(226, 232, 240, 0.9)",
+        boxShadow: "0 2px 16px rgba(15, 23, 42, 0.04)",
       }}
     >
       <div className="mx-auto flex min-h-[68px] max-w-7xl items-center justify-between gap-5 px-4 sm:px-6 lg:px-8">
         {/* Logo + Nav */}
         <div className="flex min-w-0 items-center gap-10">
-          <Logo className="" priority size="md" variant="light" />
+          <Logo className="" priority size="md" variant="dark" />
 
           <nav aria-label="Main navigation" className="hidden items-center gap-1 lg:flex">
             {navLinks.map((link) => (
               <Link
                 key={`${link.href}-${link.label}`}
                 href={link.href}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-navy-100 transition-all duration-150 hover:bg-white/[0.05] hover:text-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+                className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-700 transition-all duration-150 hover:bg-slate-100/80 hover:text-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
               >
                 {link.label}
               </Link>
@@ -53,13 +53,13 @@ export function StickyNavbar() {
         <div className="hidden items-center gap-3 md:flex">
           <Link
             href="/auth?mode=login"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-navy-100 transition-all duration-150 hover:bg-white/[0.05] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+            className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-700 transition-all duration-150 hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
           >
             Sign In
           </Link>
           <Link
             href="/auth"
-            className="btn-primary font-semibold"
+            className="btn-primary font-bold shadow-md shadow-teal-500/20"
           >
             Post Your Job
           </Link>
@@ -69,14 +69,14 @@ export function StickyNavbar() {
         <div className="flex items-center gap-2.5 md:hidden">
           <Link
             href="/auth"
-            className="btn-primary text-xs px-4 py-2"
+            className="btn-primary text-xs px-4 py-2 font-bold"
           >
             Post Your Job
           </Link>
           <details className="group relative">
             <summary
-              className="grid size-9 cursor-pointer list-none place-items-center rounded-lg text-navy-100 transition hover:bg-white/[0.07] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
-              style={{ border: "1px solid rgba(0, 196, 204, 0.15)" }}
+              className="grid size-9 cursor-pointer list-none place-items-center rounded-lg text-slate-700 transition hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500"
+              style={{ border: "1px solid rgba(203, 213, 225, 0.8)" }}
             >
               <span className="sr-only">Open navigation menu</span>
               <span className="grid gap-[5px]">
@@ -88,16 +88,16 @@ export function StickyNavbar() {
             <div
               className="absolute right-0 mt-3 w-64 overflow-hidden rounded-2xl p-2"
               style={{
-                background: "rgba(10, 24, 37, 0.95)",
-                border: "1px solid rgba(0, 196, 204, 0.12)",
-                boxShadow: "0 16px 48px rgba(0,0,0,0.6)",
+                background: "rgba(255, 255, 255, 0.98)",
+                border: "1px solid rgba(226, 232, 240, 0.9)",
+                boxShadow: "0 16px 40px rgba(15, 23, 42, 0.12)",
                 backdropFilter: "blur(16px)",
               }}
             >
               <nav aria-label="Mobile navigation" className="grid gap-0.5">
                 <Link
                   href="/auth?mode=login"
-                  className="rounded-xl px-3 py-2.5 text-sm font-medium text-navy-100 transition hover:bg-white/[0.05] hover:text-teal-400"
+                  className="rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-800 transition hover:bg-slate-100 hover:text-teal-700"
                 >
                   Sign In
                 </Link>
@@ -106,7 +106,7 @@ export function StickyNavbar() {
                   <Link
                     key={`${link.href}-${link.label}`}
                     href={link.href}
-                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-navy-100 transition hover:bg-white/[0.05] hover:text-teal-400"
+                    className="rounded-xl px-3 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 hover:text-teal-700"
                   >
                     {link.label}
                   </Link>

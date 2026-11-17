@@ -49,20 +49,19 @@ const features = [
 export function FeatureCards() {
   return (
     <section
-      className="py-20 sm:py-24"
-      style={{ background: "#060E14" }}
+      className="py-20 sm:py-24 bg-slate-50 border-t border-slate-200/80"
     >
-      <div className="page-shell grid gap-16">
+      <div className="page-shell grid gap-14">
         {/* Header */}
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <div className="grid gap-4">
+          <div className="grid gap-3">
             <span className="section-label">Why RKISPro</span>
-            <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+            <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
               Built to make hiring industrial contractors{" "}
-              <span className="text-gradient-teal">simple and safe.</span>
+              <span className="text-teal-600">simple and safe.</span>
             </h2>
           </div>
-          <p className="text-base leading-relaxed text-navy-100 lg:pb-2">
+          <p className="text-base leading-relaxed text-slate-600 lg:pb-2">
             No more cold calls and blind trust. RKISPro verifies every contractor, structures your job request, and makes sure you get fair, comparable prices from people who can actually do the work.
           </p>
         </div>
@@ -75,7 +74,7 @@ export function FeatureCards() {
             return (
               <div
                 key={feature.title}
-                className="bento-card group"
+                className="bento-card group hover:-translate-y-1 transition-all"
                 style={{
                   animationDelay: `${i * 80}ms`,
                 }}
@@ -85,34 +84,34 @@ export function FeatureCards() {
                   className="mb-5 inline-flex size-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
                   style={{
                     background: isTeal
-                      ? "rgba(0,196,204,0.1)"
+                      ? "rgba(13,148,136,0.1)"
                       : "rgba(245,158,11,0.1)",
                     border: isTeal
-                      ? "1px solid rgba(0,196,204,0.2)"
+                      ? "1px solid rgba(13,148,136,0.2)"
                       : "1px solid rgba(245,158,11,0.2)",
                   }}
                 >
                   <Icon
                     className="size-5"
-                    style={{ color: isTeal ? "#00C4CC" : "#F59E0B" }}
+                    style={{ color: isTeal ? "#0D9488" : "#D97706" }}
                   />
                 </div>
 
                 {/* Content */}
-                <h3 className="font-display text-base font-bold text-white">
+                <h3 className="font-display text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-navy-100/80">
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
                   {feature.body}
                 </p>
 
                 {/* Bottom accent line */}
                 <div
-                  className="mt-5 h-px w-0 transition-all duration-500 group-hover:w-full"
+                  className="mt-5 h-0.5 w-0 transition-all duration-500 group-hover:w-full"
                   style={{
                     background: isTeal
-                      ? "linear-gradient(90deg, rgba(0,196,204,0.5) 0%, transparent 100%)"
-                      : "linear-gradient(90deg, rgba(245,158,11,0.5) 0%, transparent 100%)",
+                      ? "linear-gradient(90deg, #0D9488 0%, transparent 100%)"
+                      : "linear-gradient(90deg, #F59E0B 0%, transparent 100%)",
                   }}
                 />
               </div>

@@ -30,24 +30,18 @@ const steps = [
 export function ProcessSteps() {
   return (
     <section
-      className="py-20 sm:py-24"
-      style={{
-        background: "linear-gradient(180deg, #060E14 0%, #0A1825 100%)",
-        borderTop: "1px solid rgba(0,196,204,0.06)",
-        borderBottom: "1px solid rgba(0,196,204,0.06)",
-      }}
+      className="py-20 sm:py-24 bg-white border-y border-slate-200/80"
     >
       <div className="page-shell grid gap-16">
         {/* Header */}
-        <div className="max-w-2xl grid gap-4">
+        <div className="max-w-2xl grid gap-3">
           <span className="section-label">How It Works</span>
-          <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+          <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
             From describing your job to{" "}
-            <span className="text-gradient-teal">getting it done.</span>
+            <span className="text-teal-600">getting it done.</span>
           </h2>
-          <p className="text-base leading-relaxed text-navy-100">
-            A simple 4-step process that replaces endless phone calls and spreadsheets
-            with a clear, accountable workflow.
+          <p className="text-base leading-relaxed text-slate-600">
+            A structured 4-step workflow that replaces endless phone calls and untracked WhatsApp quotes with accountability and milestone escrow.
           </p>
         </div>
 
@@ -55,11 +49,11 @@ export function ProcessSteps() {
         <div className="relative grid gap-4 lg:grid-cols-4">
           {/* Connector line (desktop) */}
           <div
-            className="pointer-events-none absolute left-[calc(12.5%_+_22px)] right-[calc(12.5%_+_22px)] top-[22px] hidden h-px lg:block"
+            className="pointer-events-none absolute left-[calc(12.5%_+_22px)] right-[calc(12.5%_+_22px)] top-[22px] hidden h-0.5 lg:block"
             aria-hidden="true"
             style={{
               background:
-                "linear-gradient(90deg, rgba(0,196,204,0.4) 0%, rgba(245,158,11,0.3) 60%, rgba(245,158,11,0.1) 100%)",
+                "linear-gradient(90deg, rgba(13,148,136,0.4) 0%, rgba(245,158,11,0.3) 60%, rgba(245,158,11,0.1) 100%)",
             }}
           />
 
@@ -68,34 +62,29 @@ export function ProcessSteps() {
               {/* Step number bubble */}
               <div className="flex items-center gap-3 lg:flex-col lg:items-start">
                 <div
-                  className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-extrabold transition-all duration-300 group-hover:scale-110"
+                  className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full text-sm font-extrabold transition-all duration-300 group-hover:scale-110 shadow-sm"
                   style={{
-                    background: `linear-gradient(135deg, ${item.color}22 0%, ${item.color}11 100%)`,
-                    border: `1px solid ${item.color}44`,
+                    background: "#FFFFFF",
+                    border: `2px solid ${item.color}`,
                     color: item.color,
-                    boxShadow: `0 0 20px ${item.color}22`,
                   }}
                 >
                   {item.step}
                 </div>
                 {/* Mobile arrow */}
                 {i < steps.length - 1 && (
-                  <ArrowRight className="size-4 text-navy-300 lg:hidden" />
+                  <ArrowRight className="size-4 text-slate-400 lg:hidden" />
                 )}
               </div>
 
               {/* Card */}
               <div
-                className="rounded-2xl p-5 transition-all duration-300"
-                style={{
-                  background: "rgba(14, 30, 39, 0.6)",
-                  border: "1px solid rgba(30,52,68,0.8)",
-                }}
+                className="rounded-2xl p-5 transition-all duration-200 bg-slate-50/70 border border-slate-200/80 hover:bg-white hover:shadow-md hover:border-teal-500/40"
               >
-                <h3 className="font-display text-base font-bold text-white">
+                <h3 className="font-display text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-navy-100/80">
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">
                   {item.body}
                 </p>
               </div>

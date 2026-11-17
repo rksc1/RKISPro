@@ -136,11 +136,11 @@ export function HeroBanner() {
         </div>
       </div>
 
-      {/* Bottom fade */}
+      {/* Bottom fade into light canvas */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 h-16"
         aria-hidden="true"
-        style={{ background: "linear-gradient(to top, #020D14, transparent)" }}
+        style={{ background: "linear-gradient(to top, #F8FAFC, transparent)" }}
       />
     </section>
   );

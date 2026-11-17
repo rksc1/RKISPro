@@ -93,20 +93,20 @@ const industrialCapabilities: IndustrialCapability[] = [
 
 export function CategoryGrid() {
   return (
-    <section className="py-16 sm:py-20 lg:py-24" style={{ background: "#030A10" }}>
+    <section className="py-16 sm:py-20 lg:py-24 bg-slate-50 border-t border-slate-200/80">
       <div className="page-shell grid gap-10">
-        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-slate-800/80 pb-6">
+        <div className="flex flex-wrap items-end justify-between gap-6 border-b border-slate-200 pb-6">
           <div className="max-w-2xl">
             <div className="flex items-center gap-2">
-              <span className="size-2 rounded-full bg-teal-400" />
-              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-400">
+              <span className="size-2 rounded-full bg-teal-600" />
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
                 Audited Manufacturing Capabilities
               </p>
             </div>
-            <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">
+            <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">
               Engineered Capabilities. Rigorous Standards.
             </h2>
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-2 text-sm text-slate-600">
               Contractors in our network hold physical factory audits, ISO 9001 certifications, and verified machinery inventories.
             </p>
           </div>
@@ -114,9 +114,9 @@ export function CategoryGrid() {
           <div className="flex items-center gap-3">
             <Link
               href="/customer/vendors"
-              className="inline-flex items-center gap-2 rounded-xl border border-teal-500/30 bg-teal-500/10 px-4 py-2.5 text-xs font-bold text-teal-300 transition hover:bg-teal-500/20"
+              className="inline-flex items-center gap-2 rounded-xl border border-teal-600 bg-teal-50 px-4 py-2.5 text-xs font-bold text-teal-800 transition hover:bg-teal-100"
             >
-              <ShieldCheck className="size-4 text-teal-400" />
+              <ShieldCheck className="size-4 text-teal-600" />
               <span>Browse All Audited Machine Shops</span>
               <ArrowRight className="size-3.5" />
             </Link>
@@ -129,51 +129,48 @@ export function CategoryGrid() {
             return (
               <div
                 key={cap.id}
-                className="group flex flex-col justify-between rounded-2xl border border-slate-800/90 bg-slate-900/40 p-6 transition-all duration-200 hover:-translate-y-1 hover:border-teal-500/40 hover:bg-slate-900/80"
-                style={{
-                  boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
-                }}
+                className="group flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-md"
               >
                 <div>
                   {/* Top pill row */}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 bg-slate-800/60 px-2.5 py-1 text-[11px] font-semibold text-slate-300">
-                      <Icon className="size-3.5 text-teal-400" />
+                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-100 px-2.5 py-1 text-[11px] font-bold text-slate-700">
+                      <Icon className="size-3.5 text-teal-600" />
                       {cap.category}
                     </span>
-                    <span className="font-mono text-[10px] text-teal-400/90 font-medium bg-teal-950/60 px-2 py-0.5 rounded border border-teal-800/40">
+                    <span className="font-mono text-[10px] text-teal-800 font-bold bg-teal-50 px-2.5 py-0.5 rounded border border-teal-200">
                       {cap.highlight}
                     </span>
                   </div>
 
-                  <h3 className="font-display mt-4 text-lg font-bold text-white group-hover:text-teal-300 transition-colors">
+                  <h3 className="font-display mt-4 text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
                     {cap.title}
                   </h3>
 
                   {/* Bullet specs */}
-                  <ul className="mt-3.5 space-y-1.5 text-xs text-slate-300/80">
+                  <ul className="mt-3.5 space-y-1.5 text-xs text-slate-600">
                     {cap.specs.map((spec) => (
                       <li key={spec} className="flex items-start gap-2">
-                        <span className="text-teal-400 font-bold">›</span>
+                        <span className="text-teal-600 font-bold">›</span>
                         <span>{spec}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-slate-800/80">
-                  <div className="flex items-center justify-between text-xs text-slate-400 pb-3">
+                <div className="mt-6 pt-4 border-t border-slate-100">
+                  <div className="flex items-center justify-between text-xs text-slate-500 pb-2">
                     <span>Benchmark:</span>
-                    <span className="font-mono font-bold text-slate-200">{cap.benchPrice}</span>
+                    <span className="font-mono font-bold text-slate-900">{cap.benchPrice}</span>
                   </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 pb-3">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 pb-3">
                     <span>Industrial Hubs:</span>
-                    <span className="text-slate-300 font-medium">{cap.hub}</span>
+                    <span className="text-slate-800 font-medium">{cap.hub}</span>
                   </div>
 
                   <Link
                     href={`/customer/request/new?category=${encodeURIComponent(cap.rfqCategory)}&title=${encodeURIComponent(cap.title)}`}
-                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-teal-500/30 bg-teal-500/10 py-2.5 text-xs font-bold text-teal-300 transition-colors group-hover:bg-teal-500 group-hover:text-slate-950"
+                    className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-teal-200 bg-teal-50 py-2.5 text-xs font-bold text-teal-800 transition-colors group-hover:bg-teal-600 group-hover:text-white"
                   >
                     <span>Request Job Quote</span>
                     <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
