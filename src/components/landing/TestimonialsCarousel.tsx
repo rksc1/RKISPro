@@ -18,21 +18,23 @@ const testimonials = [
 
 export function TestimonialsCarousel() {
   return (
-    <section className="py-20">
+    <section className="py-20 bg-slate-50 border-t border-slate-200">
       <div className="page-shell grid gap-10">
         <div className="max-w-2xl">
-          <p className="text-sm font-black uppercase tracking-[0.18em] text-teal-500">Trusted by Industrial Teams</p>
-          <h2 className="font-display mt-3 text-3xl font-extrabold text-white sm:text-4xl">Built for buyers and contractors who need clarity.</h2>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">Trusted by Industrial Teams</p>
+          <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">Built for buyers and contractors who need clarity.</h2>
         </div>
         <div className="grid gap-4 lg:grid-cols-3">
           {testimonials.map((item) => (
-            <figure className="bento-card flex flex-col" key={item.company}>
-              <div className="flex gap-1 text-amber-500" aria-label="5 star rating">
-                {"★★★★★"}
+            <figure className="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm flex flex-col justify-between" key={item.company}>
+              <div>
+                <div className="flex gap-1 text-amber-500" aria-label="5 star rating">
+                  {"★★★★★"}
+                </div>
+                <blockquote className="mt-4 text-base font-medium leading-relaxed text-slate-800">&quot;{item.quote}&quot;</blockquote>
               </div>
-              <blockquote className="mt-6 text-lg font-medium leading-relaxed text-white">&quot;{item.quote}&quot;</blockquote>
-              <figcaption className="mt-auto pt-6 text-sm text-navy-100">
-                <strong className="block text-teal-400 font-bold mb-0.5">{item.name}</strong>
+              <figcaption className="mt-6 pt-4 border-t border-slate-100 text-xs text-slate-500">
+                <strong className="block text-slate-900 font-bold mb-0.5">{item.name}</strong>
                 {item.company}
               </figcaption>
             </figure>

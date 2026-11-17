@@ -10,28 +10,23 @@ interface StatCardProps {
 
 export function StatCard({ label, value, note, icon, color = "default" }: StatCardProps) {
   const accentColor =
-    color === "teal" ? "#00C4CC" : color === "amber" ? "#F59E0B" : "#8BA5B4";
+    color === "teal" ? "#0D9488" : color === "amber" ? "#D97706" : "#64748B";
 
   return (
     <div
-      className="rounded-2xl p-5 transition-all duration-300 hover:translate-y-[-2px]"
-      style={{
-        background: "rgba(14, 30, 39, 0.8)",
-        border: `1px solid rgba(30, 52, 68, 0.8)`,
-        boxShadow: "0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
-      }}
+      className="rounded-2xl p-5 transition-all duration-200 hover:-translate-y-0.5 bg-white border border-slate-200/90 shadow-sm"
     >
       <div className="grid gap-3">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-widest text-navy-100/60">
+          <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
             {label}
           </span>
           {icon && (
             <div
               className="flex size-8 items-center justify-center rounded-lg"
               style={{
-                background: `${accentColor}18`,
-                border: `1px solid ${accentColor}30`,
+                background: `${accentColor}14`,
+                border: `1px solid ${accentColor}25`,
                 color: accentColor,
               }}
             >
@@ -40,13 +35,12 @@ export function StatCard({ label, value, note, icon, color = "default" }: StatCa
           )}
         </div>
         <strong
-          className="font-display text-3xl font-extrabold"
-          style={{ color: accentColor !== "#8BA5B4" ? accentColor : "white" }}
+          className="font-display text-3xl font-extrabold text-slate-900"
         >
           {value}
         </strong>
         {note && (
-          <span className="text-xs text-navy-100/50">{note}</span>
+          <span className="text-xs text-slate-500">{note}</span>
         )}
       </div>
     </div>

@@ -67,52 +67,46 @@ export function FeatureCards() {
         </div>
 
         {/* Bento grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, i) => {
             const Icon = feature.icon;
             const isTeal = feature.color === "teal";
             return (
               <div
                 key={feature.title}
-                className="bento-card group hover:-translate-y-1 transition-all"
+                className="group relative flex flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:border-teal-500/50 hover:shadow-md"
                 style={{
                   animationDelay: `${i * 80}ms`,
                 }}
               >
-                {/* Icon */}
-                <div
-                  className="mb-5 inline-flex size-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110"
-                  style={{
-                    background: isTeal
-                      ? "rgba(13,148,136,0.1)"
-                      : "rgba(245,158,11,0.1)",
-                    border: isTeal
-                      ? "1px solid rgba(13,148,136,0.2)"
-                      : "1px solid rgba(245,158,11,0.2)",
-                  }}
-                >
-                  <Icon
-                    className="size-5"
-                    style={{ color: isTeal ? "#0D9488" : "#D97706" }}
-                  />
-                </div>
+                <div>
+                  {/* Icon */}
+                  <div
+                    className={`mb-5 inline-flex size-11 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 ${
+                      isTeal
+                        ? "bg-teal-50 border border-teal-100 text-teal-600"
+                        : "bg-amber-50 border border-amber-100 text-amber-600"
+                    }`}
+                  >
+                    <Icon className="size-5" />
+                  </div>
 
-                {/* Content */}
-                <h3 className="font-display text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                  {feature.body}
-                </p>
+                  {/* Content */}
+                  <h3 className="font-display text-base font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                    {feature.body}
+                  </p>
+                </div>
 
                 {/* Bottom accent line */}
                 <div
-                  className="mt-5 h-0.5 w-0 transition-all duration-500 group-hover:w-full"
-                  style={{
-                    background: isTeal
-                      ? "linear-gradient(90deg, #0D9488 0%, transparent 100%)"
-                      : "linear-gradient(90deg, #F59E0B 0%, transparent 100%)",
-                  }}
+                  className={`mt-5 h-0.5 w-0 transition-all duration-500 group-hover:w-full ${
+                    isTeal
+                      ? "bg-gradient-to-r from-teal-500 to-transparent"
+                      : "bg-gradient-to-r from-amber-500 to-transparent"
+                  }`}
                 />
               </div>
             );

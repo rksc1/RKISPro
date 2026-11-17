@@ -24,22 +24,16 @@ export function ProjectCard({
 
   return (
     <div
-      className="rounded-2xl p-5 transition-all duration-300 hover:translate-y-[-2px]"
-      style={{
-        background: "rgba(14, 30, 39, 0.8)",
-        border: "1px solid rgba(30, 52, 68, 0.8)",
-        boxShadow:
-          "0 1px 3px rgba(0,0,0,0.4), 0 4px 16px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05)",
-      }}
+      className="rounded-2xl p-6 transition-all duration-200 hover:-translate-y-0.5 bg-white border border-slate-200/90 shadow-sm"
     >
       <div className="grid gap-4">
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <h2 className="font-display text-lg font-bold text-white">
+            <h2 className="font-display text-lg font-bold text-slate-900">
               {project.request?.projectTitle ?? "Project"}
             </h2>
-            <p className="mt-1 text-sm text-navy-100/70">
+            <p className="mt-1 text-sm text-slate-600">
               {project.request?.serviceType}
               {project.request?.location && ` · ${project.request.location}`}
             </p>
@@ -52,34 +46,29 @@ export function ProjectCard({
           {metaItems.map((item) => (
             <div
               key={item.label}
-              className="rounded-xl p-3"
-              style={{
-                background: "rgba(0,196,204,0.04)",
-                border: "1px solid rgba(0,196,204,0.08)",
-              }}
+              className="rounded-xl p-3 bg-slate-50 border border-slate-200"
             >
-              <span className="text-[10px] font-bold uppercase tracking-widest text-navy-100/50">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-500">
                 {item.label}
               </span>
-              <strong className="mt-1 block text-sm font-bold text-white">{item.value}</strong>
+              <strong className="mt-1 block text-sm font-bold text-slate-900">{item.value}</strong>
             </div>
           ))}
         </div>
 
         {/* Parties */}
         <div
-          className="flex flex-wrap gap-x-6 gap-y-1 rounded-xl px-4 py-3 text-sm"
-          style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+          className="flex flex-wrap gap-x-6 gap-y-1 rounded-xl px-4 py-3 text-sm bg-slate-50 border border-slate-200"
         >
           {project.vendor && (
-            <span className="text-navy-100/70">
-              <span className="font-semibold text-navy-100">Contractor:</span>{" "}
+            <span className="text-slate-600">
+              <span className="font-semibold text-slate-900">Contractor:</span>{" "}
               {project.vendor.companyName}
             </span>
           )}
           {project.customer && (
-            <span className="text-navy-100/70">
-              <span className="font-semibold text-navy-100">Customer:</span>{" "}
+            <span className="text-slate-600">
+              <span className="font-semibold text-slate-900">Customer:</span>{" "}
               {project.customer.companyName}
             </span>
           )}
