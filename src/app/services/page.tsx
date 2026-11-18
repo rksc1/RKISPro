@@ -13,6 +13,9 @@ import {
   Building2,
   Calculator,
   CheckCircle2,
+  Home,
+  Building,
+  Boxes,
 } from "lucide-react";
 
 interface IndustrialService {
@@ -31,6 +34,48 @@ interface IndustrialService {
 }
 
 const detailedServices: IndustrialService[] = [
+  {
+    id: "gates-railings-grills",
+    title: "Gates, Railings & Window Safety Grills",
+    category: "Home & Architectural Fabrication",
+    icon: Home,
+    highlight: "Custom Sizes & Designs (Sketches Accepted)",
+    description: "Custom sliding main gates, stainless steel balcony railings with toughened glass fittings, staircase railings, and window safety grills. Hand-drawn sketches, mobile photos, and on-site measurements supported.",
+    machinery: ["MIG & ARC Welding Stations", "Section Benders & Pipe Notchers", "Buffing & Mirror Polish Bays"],
+    materials: ["Mild Steel (IS 2062)", "Stainless Steel (SS 304 / 202)", "Wrought Iron & Toughened Glass"],
+    benchmark: "From ₹140–₹280/sq.ft",
+    leadTime: "4–8 Days",
+    clusters: "Bilaspur, Raipur & Pune MIDC",
+    rfqCategory: "Fabrication",
+  },
+  {
+    id: "roof-sheds-structures",
+    title: "Roof Sheds, Trusses & Steel Mezzanines",
+    category: "Shed & Roof Structures",
+    icon: Building,
+    highlight: "Weatherproof Steel Tubular Structures",
+    description: "Fabrication and on-site erection of factory sheds, godown roofs, vehicle parking canopies, structural steel staircases, and mezzanine storage floors. Built using certified primary steel sections.",
+    machinery: ["Heavy Section Cutters", "Mobile Welding Inverters", "Hydraulic Pipe Benders"],
+    materials: ["Tata / Jindal Hollow Steel Tubes", "Color Coated Roofing Sheets", "Polycarbonate Sheets"],
+    benchmark: "From ₹110–₹160/sq.ft",
+    leadTime: "7–15 Days",
+    clusters: "Central CG Belt & Maharashtra Corridors",
+    rfqCategory: "Fabrication",
+  },
+  {
+    id: "commercial-trolleys-racks",
+    title: "Warehouse Racks, Heavy Trolleys & Frames",
+    category: "Commercial & Storage Fabrication",
+    icon: Boxes,
+    highlight: "Heavy Load Capacity & Material Handling",
+    description: "Custom industrial storage racks, heavy-duty material handling trolleys, mobile tool carts, factory workbenches, and machine base frames. Powder coated or primer finished.",
+    machinery: ["Sheet Shearing Machines", "Punching & Drilling Presses", "Industrial Powder Coating"],
+    materials: ["Heavy MS Channels & Angles", "Perforated & Chequered Sheets", "Nylon & PU Castor Wheels"],
+    benchmark: "₹4,500–₹18,000/unit",
+    leadTime: "5–10 Days",
+    clusters: "All Major Industrial Clusters",
+    rfqCategory: "Fabrication",
+  },
   {
     id: "structural-fab",
     title: "Heavy MS & Structural Fabrication",

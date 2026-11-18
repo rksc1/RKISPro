@@ -6,7 +6,7 @@ const navLinks = [
   { href: "/customer/estimator", label: "Cost Estimator" },
   { href: "/services", label: "Capabilities" },
   { href: "/about#how-it-works", label: "How It Works" },
-  { href: "/vendor/register", label: "For Machine Shops" },
+  { href: "/vendor/register", label: "For Fabricators & Workshops" },
 ];
 
 const mobileLinks = [
@@ -14,7 +14,7 @@ const mobileLinks = [
   { href: "/customer/estimator", label: "Cost Estimator" },
   { href: "/services", label: "Capabilities" },
   { href: "/about#how-it-works", label: "How It Works" },
-  { href: "/vendor/register", label: "For Machine Shops" },
+  { href: "/vendor/register", label: "For Fabricators & Workshops" },
   { href: "/about", label: "About RKISPro" },
   { href: "/contact", label: "Contact Operations" },
 ];
