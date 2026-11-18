@@ -6,21 +6,25 @@ import {
   FileCheck2,
   Lock,
   Layers,
+  Camera,
+  MessageSquare,
+  Wrench,
+  Hammer,
 } from "lucide-react";
 import { HeroSourcingWidget } from "./HeroSourcingWidget";
 
 const trustPillars = [
-  { label: "Factory-Audited Machining & Fab", icon: Building2 },
-  { label: "Milestone Escrow Protection", icon: Lock },
-  { label: "MTC & Dimensional QC Inspection", icon: FileCheck2 },
-  { label: "Zero Spam Telecaller Calls", icon: ShieldCheck },
+  { label: "From Single Gates to Batch Orders", icon: Hammer },
+  { label: "Hand-drawn Sketches & Photos Accepted", icon: Camera },
+  { label: "Milestone Payment Safety (No Advance Loss)", icon: Lock },
+  { label: "Verified Local Fabricators & Machine Shops", icon: ShieldCheck },
 ];
 
 const liveProcurementUpdates = [
-  { loc: "MIDC Bhosari", work: "12T Structural Skid Fabrication", status: "MTC Inspected", tag: "Pune" },
-  { loc: "Peenya Ind. Area", work: "350 pcs CNC Turned EN8 Shafts", status: "Dispatched", tag: "Bengaluru" },
-  { loc: "Sanand GIDC", work: "SS 316 Chemical Reactor Vessel", status: "Argon TIG QC", tag: "Ahmedabad" },
-  { loc: "Urla Ind. Complex", work: "Heavy Ball Mill Liner Machining", status: "Milestone Escrow", tag: "Raipur" },
+  { loc: "Bilaspur / Raipur", work: "SS Balcony Railing & Glass Fittings", status: "In Fabrication", tag: "CG" },
+  { loc: "MIDC Bhosari", work: "Main Sliding Gate & Safety Grills", status: "Ready for Delivery", tag: "Pune" },
+  { loc: "Peenya Ind. Area", work: "15 Heavy Warehouse Storage Trolleys", status: "Welding Done", tag: "Bengaluru" },
+  { loc: "Chakan Industrial", work: "Factory Roof Shed & Steel Truss", status: "Installed", tag: "Pune" },
 ];
 
 export function HeroBanner() {
@@ -50,29 +54,29 @@ export function HeroBanner() {
         }}
       />
 
-      <div className="page-shell relative z-10 pt-16 pb-20 sm:pt-20 sm:pb-24 lg:pt-24 lg:pb-28">
-        <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-14">
+      <div className="page-shell relative z-10 pt-14 pb-18 sm:pt-18 sm:pb-22 lg:pt-20 lg:pb-24">
+        <div className="grid gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:items-center lg:gap-12">
           {/* Left: Copy */}
           <div className="grid gap-6 animate-rise">
             {/* Sector badge */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="inline-flex items-center gap-2 rounded-full border border-teal-500/25 bg-teal-500/10 px-3.5 py-1 text-xs font-bold tracking-wide text-teal-300">
                 <span className="size-2 rounded-full bg-teal-400 animate-pulse" />
-                MANAGED INDUSTRIAL PROCUREMENT · INDIA
+                LOCAL METAL WORK & FABRICATION NETWORK
               </span>
-              <span className="text-xs font-medium text-navy-200/60 hidden sm:inline-block">
-                ISO 9001:2015 & GST Compliant
+              <span className="text-xs font-medium text-navy-200/70 hidden sm:inline-block">
+                For Home, Commercial & Industrial Projects
               </span>
             </div>
 
             {/* Headline */}
-            <div className="grid gap-4">
-              <h1 className="font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
-                Custom Fabrication & CNC Machining.{" "}
-                <span className="text-gradient-teal">Sourced from Audited Factories.</span>
+            <div className="grid gap-3.5">
+              <h1 className="font-display text-3xl font-extrabold leading-[1.12] tracking-tight text-white sm:text-4xl lg:text-[3.2rem]">
+                Any Metal Work,{" "}
+                <span className="text-gradient-teal">Fabricated &amp; Delivered.</span>
               </h1>
-              <p className="max-w-xl text-base leading-relaxed text-navy-100 sm:text-lg">
-                Stop sifting through unvetted phone directories. RKISPro matches your engineering drawings with audited workshops across Pune, Bengaluru, and Ahmedabad—backed by milestone escrow and 100% MTC quality clearance.
+              <p className="max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base lg:text-lg">
+                From home gates, railings, and shed roofs to custom brackets, trolleys, and machine parts. Send a rough sketch, photo, or drawing—we match you with trusted local fabricators with fair prices and milestone payment safety.
               </p>
             </div>
 
@@ -81,7 +85,7 @@ export function HeroBanner() {
               {trustPillars.map(({ label, icon: Icon }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-2.5 rounded-xl px-3.5 py-2 text-xs font-medium text-slate-200 border border-slate-700/60 bg-slate-900/40"
+                  className="flex items-center gap-2.5 rounded-xl px-3.5 py-2 text-xs font-medium text-slate-200 border border-slate-700/60 bg-slate-900/50"
                 >
                   <Icon className="size-4 shrink-0 text-teal-400" />
                   <span>{label}</span>
@@ -91,16 +95,19 @@ export function HeroBanner() {
 
             {/* CTAs */}
             <div className="flex flex-wrap items-center gap-3.5 pt-2">
-              <Link href="/customer/request/new" className="btn-primary gap-2 shadow-lg shadow-teal-500/20 text-sm font-bold px-6 py-3">
-                <span>Post Job Request (RFQ)</span>
+              <Link
+                href="/customer/request/new"
+                className="btn-primary gap-2 shadow-lg shadow-teal-500/20 text-sm font-bold px-6 py-3"
+              >
+                <span>Get Instant Quote (Upload Photo / Sketch)</span>
                 <ArrowRight className="size-4" />
               </Link>
               <Link
-                href="/customer/vendors"
-                className="btn-secondary gap-2 text-sm font-semibold px-5 py-3 border border-slate-700 hover:border-teal-500/40"
+                href="/vendor/register"
+                className="btn-secondary gap-2 text-sm font-semibold px-5 py-3 border border-slate-700 hover:border-teal-500/40 text-slate-200 hover:text-white"
               >
-                <Layers className="size-4 text-teal-400" />
-                <span>Browse Audited Workshops</span>
+                <Wrench className="size-4 text-teal-400" />
+                <span>I am a Fabricator / Workshop</span>
               </Link>
             </div>
 
@@ -110,16 +117,16 @@ export function HeroBanner() {
                 <div className="flex items-center justify-between text-xs font-semibold text-slate-400 pb-2 border-b border-slate-800/80">
                   <span className="flex items-center gap-2">
                     <span className="size-1.5 rounded-full bg-emerald-400 animate-ping" />
-                    LIVE PRODUCTION DISPATCH
+                    RECENT COMPLETED &amp; ACTIVE JOBS
                   </span>
-                  <span className="text-[11px] text-slate-400">Audited Shop Floors</span>
+                  <span className="text-[11px] text-slate-400">Verified Local Workshops</span>
                 </div>
-                <div className="mt-2.5 grid grid-cols-2 gap-2 text-[11px]">
+                <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                   {liveProcurementUpdates.slice(0, 2).map((up) => (
-                    <div key={up.work} className="rounded-lg bg-slate-900/70 p-2 border border-slate-800">
+                    <div key={up.work} className="rounded-lg bg-slate-900/70 p-2.5 border border-slate-800">
                       <div className="flex items-center justify-between text-slate-400 font-mono text-[10px]">
-                        <span>{up.loc}</span>
-                        <span className="text-teal-400">{up.status}</span>
+                        <span className="font-semibold text-slate-300">{up.loc}</span>
+                        <span className="text-teal-400 font-medium">{up.status}</span>
                       </div>
                       <p className="mt-1 font-medium text-white truncate">{up.work}</p>
                     </div>

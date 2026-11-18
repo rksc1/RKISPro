@@ -8,10 +8,15 @@ import {
   Clock,
   ArrowRight,
   ShieldCheck,
+  Hammer,
+  Building,
+  Boxes,
+  Home,
+  CheckCircle2,
 } from "lucide-react";
 import { Perspective3DCard } from "@/components/3d/Perspective3DCard";
 
-interface IndustrialCapability {
+interface MetalCapability {
   id: string;
   title: string;
   category: string;
@@ -19,75 +24,99 @@ interface IndustrialCapability {
   highlight: string;
   specs: string[];
   benchPrice: string;
-  hub: string;
+  idealFor: string;
   rfqCategory: string;
 }
 
-const industrialCapabilities: IndustrialCapability[] = [
+const metalCapabilities: MetalCapability[] = [
   {
-    id: "structural-fab",
-    title: "Heavy MS & Structural Fabrication",
-    category: "Structural Fabrication",
-    icon: Layers,
-    highlight: "IS 2062 Gr. E250/E350",
-    specs: ["10T EOT crane bays", "SAW & MIG automated weld lines", "Base skids, hoppers & crane gantries"],
-    benchPrice: "From ₹92–₹115/kg",
-    hub: "MIDC Bhosari & Raipur",
+    id: "home-gates-railings",
+    title: "Gates, Railings & Window Grills",
+    category: "Home & Architectural",
+    icon: Home,
+    highlight: "Custom Sizes & Designs",
+    specs: [
+      "Sliding main gates, swing gates & wicket gates",
+      "SS 304 balcony & staircase railings with glass/cable",
+      "Window safety grills & designer laser-cut ornamental panels",
+    ],
+    benchPrice: "₹140 – ₹280 / sq.ft",
+    idealFor: "Homes, Villas, Apartments & Shops",
     rfqCategory: "Fabrication",
   },
   {
-    id: "cnc-machining",
-    title: "Precision CNC Machining & VMC",
-    category: "CNC Machining",
-    icon: Cog,
-    highlight: "±0.01mm (10µm) Tolerances",
-    specs: ["3-Axis & 4-Axis Haas/Mazak VMCs", "NABL CMM dimensional inspection", "AL 6061, Delrin, SS 316, Inconel"],
-    benchPrice: "₹850–₹1,400/hr",
-    hub: "Peenya Ind. Area & Coimbatore",
-    rfqCategory: "Machining",
-  },
-  {
-    id: "ss-tanks",
-    title: "SS 304 / 316 Sanitary Vessels",
-    category: "Stainless Steel Fabrication",
-    icon: Flame,
-    highlight: "Argon TIG & Mirror Ra < 0.4µm",
-    specs: ["Pharma & food grade ASME Sec VIII", "Hydro-tested to 6 bar pressure", "Orbital pipe welding & passivation"],
-    benchPrice: "Custom Drawing-Based",
-    hub: "Sanand GIDC & Ankleshwar",
+    id: "roof-sheds-trusses",
+    title: "Roof Sheds, Trusses & Structures",
+    category: "Structural Sheds",
+    icon: Building,
+    highlight: "Tough Weatherproof Steel",
+    specs: [
+      "Factory, godown & warehouse tubular sheds",
+      "Car parking canopies, terrace sheds & poly-sheet roofs",
+      "Heavy steel staircases & mezzanine storage platforms",
+    ],
+    benchPrice: "₹110 – ₹160 / sq.ft",
+    idealFor: "Warehouses, Workshops, Commercial Roofs",
     rfqCategory: "Fabrication",
   },
   {
-    id: "sheet-metal",
-    title: "Fiber Laser Cutting & CNC Bending",
-    category: "Sheet Metal Fabrication",
+    id: "workshop-trolleys-racks",
+    title: "Commercial Racks, Trolleys & Frames",
+    category: "Storage & Commercial",
+    icon: Boxes,
+    highlight: "Heavy Load Capacity",
+    specs: [
+      "Heavy duty warehouse pallet racks & slotted angle shelving",
+      "Factory tool trolleys, mobile carts & material handling bins",
+      "Machine base frames, workbenches & water tank stands",
+    ],
+    benchPrice: "₹4,500 – ₹18,000 / unit",
+    idealFor: "Factories, Retail Stores, Logistics",
+    rfqCategory: "Fabrication",
+  },
+  {
+    id: "sheet-metal-enclosures",
+    title: "Sheet Metal Boxes, Tanks & Covers",
+    category: "Sheet Metal & Enclosures",
     icon: Cpu,
-    highlight: "12kW Laser (Up to 25mm MS)",
-    specs: ["150T multi-axis CNC press brakes", "CAD/DXF nesting for minimal scrap", "Custom enclosures, brackets & chassis"],
-    benchPrice: "48h Dispatch Batch",
-    hub: "Chakan & Manesar",
+    highlight: "CNC Laser Cutting & Bending",
+    specs: [
+      "Custom electrical control panels & battery enclosures",
+      "SS 304 / MS storage tanks, hoppers, funnels & chutes",
+      "Precision sheet metal bending, punching & powder coating",
+    ],
+    benchPrice: "Custom Drawing / Sample",
+    idealFor: "Equipment Builders, Electrical, Food/Pharma",
     rfqCategory: "Fabrication",
   },
   {
-    id: "heavy-lathe",
-    title: "Heavy Lathe Turning & Pinion Shafts",
-    category: "Lathe & Turning",
-    icon: Wrench,
-    highlight: "Up to 3.5m Length / 800mm Swing",
-    specs: ["EN8, EN19 & EN24 hardened steels", "Dynamic balancing to ISO 1940 G2.5", "Internal boring & spline cutting"],
-    benchPrice: "Custom Batch Rates",
-    hub: "Ludhiana & Belgaum",
+    id: "lathe-machining",
+    title: "Lathe Turning, Shafts & CNC Machining",
+    category: "Machining & Precision Parts",
+    icon: Cog,
+    highlight: "High Accuracy / Any Quantity",
+    specs: [
+      "Precision lathe turning, facing, threading & boring",
+      "Drive shafts, pins, bushings, pulleys & rollers in EN8/EN19",
+      "3-Axis & 4-Axis CNC milling for precision custom parts",
+    ],
+    benchPrice: "From ₹650/hr or per-piece",
+    idealFor: "Industrial Spares, Toolrooms, Automotive",
     rfqCategory: "Machining",
   },
   {
-    id: "plant-breakdown",
-    title: "Emergency Breakdown & Line Boring",
-    category: "Industrial Maintenance",
-    icon: Clock,
-    highlight: "Technician at Gate < 4 Hours",
-    specs: ["On-site portable line boring rigs", "Hydraulic cylinder reseal & rebuild", "In-situ welding & gearbox alignment"],
-    benchPrice: "Fixed Callout + Day Rate",
-    hub: "Pan-India Corridors",
+    id: "repair-onsite-welding",
+    title: "On-Site Welding, Repair & Modification",
+    category: "Repair & Maintenance",
+    icon: Wrench,
+    highlight: "Fast Local Response",
+    specs: [
+      "Broken gate hinges, shutter repair & frame reinforcement",
+      "On-site structural welding, gas cutting & modifications",
+      "Urgent machine part repair & fabrication troubleshooting",
+    ],
+    benchPrice: "Day Rate or Job-Based",
+    idealFor: "Residential, Plants & Local Businesses",
     rfqCategory: "Repair",
   },
 ];
@@ -101,37 +130,34 @@ export function CategoryGrid() {
             <div className="flex items-center gap-2">
               <span className="size-2 rounded-full bg-teal-600" />
               <p className="text-xs font-black uppercase tracking-[0.2em] text-teal-700">
-                Audited Manufacturing Capabilities
+                Fabrication &amp; Metal Work Services
               </p>
             </div>
             <h2 className="font-display mt-3 text-3xl font-extrabold text-slate-900 sm:text-4xl">
-              Engineered Capabilities. Rigorous Standards.
+              What Metal Work Do You Need Done?
             </h2>
-            <p className="mt-2 text-sm text-slate-600">
-              Contractors in our network hold physical factory audits, ISO 9001 certifications, and verified machinery inventories.
+            <p className="mt-2 text-sm sm:text-base text-slate-600">
+              From a single custom gate or repair to warehouse sheds and precision machine batches. Send a sketch or photo—we get it made through verified local workshops.
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <Link
-              href="/customer/vendors"
-              className="inline-flex items-center gap-2 rounded-xl border border-teal-600 bg-teal-50 px-4 py-2.5 text-xs font-bold text-teal-800 transition hover:bg-teal-100"
+              href="/customer/request/new"
+              className="inline-flex items-center gap-2 rounded-xl border border-teal-600 bg-teal-600 px-4 py-2.5 text-xs font-bold text-white transition hover:bg-teal-700 shadow-md shadow-teal-700/20"
             >
-              <ShieldCheck className="size-4 text-teal-600" />
-              <span>Browse All Audited Machine Shops</span>
+              <span>Post Your Requirement</span>
               <ArrowRight className="size-3.5" />
             </Link>
           </div>
         </div>
 
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {industrialCapabilities.map((cap) => {
+          {metalCapabilities.map((cap) => {
             const Icon = cap.icon;
             return (
-              <Perspective3DCard key={cap.id} maxTilt={6}>
-                <div
-                  className="group flex h-full flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-teal-500/50 hover:shadow-lg"
-                >
+              <Perspective3DCard key={cap.id} maxTilt={5}>
+                <div className="group flex h-full flex-col justify-between rounded-2xl border border-slate-200/90 bg-white p-6 transition-all duration-200 hover:border-teal-500/50 hover:shadow-lg">
                   <div>
                     {/* Top pill row */}
                     <div className="flex items-center justify-between gap-2">
@@ -152,7 +178,7 @@ export function CategoryGrid() {
                     <ul className="mt-3.5 space-y-1.5 text-xs text-slate-600">
                       {cap.specs.map((spec) => (
                         <li key={spec} className="flex items-start gap-2">
-                          <span className="text-teal-600 font-bold">›</span>
+                          <CheckCircle2 className="size-3.5 text-teal-600 shrink-0 mt-0.5" />
                           <span>{spec}</span>
                         </li>
                       ))}
@@ -160,20 +186,22 @@ export function CategoryGrid() {
                   </div>
 
                   <div className="mt-6 pt-4 border-t border-slate-100">
-                    <div className="flex items-center justify-between text-xs text-slate-500 pb-2">
-                      <span>Benchmark:</span>
+                    <div className="flex items-center justify-between text-xs text-slate-500 pb-1.5">
+                      <span>Typical Price:</span>
                       <span className="font-mono font-bold text-slate-900">{cap.benchPrice}</span>
                     </div>
                     <div className="flex items-center justify-between text-[11px] text-slate-500 pb-3">
-                      <span>Industrial Hubs:</span>
-                      <span className="text-slate-800 font-medium">{cap.hub}</span>
+                      <span>Ideal For:</span>
+                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{cap.idealFor}</span>
                     </div>
 
                     <Link
-                      href={`/customer/request/new?category=${encodeURIComponent(cap.rfqCategory)}&title=${encodeURIComponent(cap.title)}`}
+                      href={`/customer/request/new?serviceType=Fabrication&projectTitle=${encodeURIComponent(
+                        cap.title
+                      )}`}
                       className="flex w-full items-center justify-center gap-1.5 rounded-xl border border-teal-200 bg-teal-50 py-2.5 text-xs font-bold text-teal-800 transition-colors group-hover:bg-teal-600 group-hover:text-white"
                     >
-                      <span>Request Job Quote</span>
+                      <span>Get Free Quote for This</span>
                       <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   </div>

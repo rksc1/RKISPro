@@ -3,21 +3,21 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 import { Mail, MapPin, ArrowRight } from "lucide-react";
 
 const quickLinks = [
-  { href: "/customer/vendors", label: "Audited Contractor Directory" },
+  { href: "/customer/vendors", label: "Audited Workshop Directory" },
   { href: "/customer/estimator", label: "Cost & Lead-Time Estimator" },
+  { href: "/cad-lab", label: "Interactive 3D CAD Lab" },
   { href: "/services", label: "Capabilities & Processes" },
-  { href: "/about#how-it-works", label: "How Milestone Escrow Works" },
-  { href: "/customer/quick-booking/new", label: "Emergency Breakdown Visit (< 4h)" },
+  { href: "/about#how-it-works", label: "How Milestone Payments Work" },
   { href: "/contact", label: "Contact Operations Desk" },
 ];
 
 const categories = [
-  "Heavy MS & Structural Fabrication",
-  "Precision CNC Machining & 4-Axis VMC",
-  "SS 304 / 316 Sanitary Tanks & Vessels",
-  "12kW Fiber Laser Cutting & Bending",
-  "Heavy Lathe Turning (3.5m Bed)",
-  "Plant Breakdown & In-Situ Line Boring",
+  "Main Gates, Railings & Window Grills",
+  "Roof Sheds, Trusses & Steel Stairs",
+  "Warehouse Racks, Trolleys & Frames",
+  "Sheet Metal Enclosures & Tanks",
+  "Lathe Turning & Precision Machining",
+  "On-Site Welding, Repair & Maintenance",
 ];
 
 const vendorLinks = [

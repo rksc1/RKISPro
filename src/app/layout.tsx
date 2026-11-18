@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import "./globals.css";
+import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -41,7 +42,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable} ${inter.variable}`}>
-      <body className="bg-navy-900 text-ink antialiased">{children}</body>
+      <body className="bg-navy-900 text-ink antialiased">
+        {children}
+        <FloatingWhatsApp />
+      </body>
     </html>
   );
 }

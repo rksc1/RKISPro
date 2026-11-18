@@ -2,32 +2,81 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Clock, Layers, ShieldCheck, Wrench, Zap } from "lucide-react";
+import { ArrowRight, Camera, Hammer, Layers, ShieldCheck, Wrench, MessageSquareText } from "lucide-react";
 
 export function HeroSourcingWidget() {
-  const [tab, setTab] = useState<"fabrication" | "service">("fabrication");
+  const [tab, setTab] = useState<"small_metal" | "industrial">("small_metal");
 
-  // Fabrication state
-  const [material, setMaterial] = useState<"ms" | "ss" | "al">("ms");
-  const [weight, setWeight] = useState<number>(1000);
+  // Small metal work state
+  const [workType, setWorkType] = useState<string>("gate");
+  const [metalGrade, setMetalGrade] = useState<"ms" | "ss">("ms");
+  const [sizeTier, setSizeTier] = useState<"small" | "medium" | "large">("medium");
 
-  // Breakdown state
-  const [serviceCategory, setServiceCategory] = useState<string>("breakdown");
+  // Industrial state
+  const [indMaterial, setIndMaterial] = useState<"ms" | "ss" | "al">("ms");
+  const [weight, setWeight] = useState<number>(500);
 
-  // Price calculations
-  const priceRange = {
-    ms: { low: Math.round(weight * 95), high: Math.round(weight * 118), days: Math.max(5, Math.ceil(weight / 250)) },
-    ss: { low: Math.round(weight * 290), high: Math.round(weight * 340), days: Math.max(7, Math.ceil(weight / 200)) },
-    al: { low: Math.round(weight * 340), high: Math.round(weight * 410), days: Math.max(6, Math.ceil(weight / 220)) }
-  }[material];
-
-  const materialNames = {
-    ms: "Mild Steel (IS 2062)",
-    ss: "Stainless Steel (SS 304)",
-    al: "Aluminum (6061)"
+  // Estimates for small metal work
+  const smallWorkEstimates: Record<
+    string,
+    { title: string; ms: { price: string; days: string }; ss: { price: string; days: string } }
+  > = {
+    gate: {
+      title: "Main Gate / Sliding Gate",
+      ms: { price: "₹15,000 – ₹35,000", days: "4–7 days" },
+      ss: { price: "₹35,000 – ₹85,000", days: "6–10 days" },
+    },
+    railing: {
+      title: "Balcony / Staircase Railing",
+      ms: { price: "₹180 – ₹280 / sq.ft", days: "3–6 days" },
+      ss: { price: "₹450 – ₹850 / sq.ft", days: "4–8 days" },
+    },
+    shed: {
+      title: "Roof Shed / Parking Structure",
+      ms: { price: "₹110 – ₹160 / sq.ft", days: "5–10 days" },
+      ss: { price: "₹280 – ₹420 / sq.ft", days: "7–12 days" },
+    },
+    grill: {
+      title: "Window Safety Grills",
+      ms: { price: "₹130 – ₹190 / sq.ft", days: "3–5 days" },
+      ss: { price: "₹320 – ₹520 / sq.ft", days: "4–7 days" },
+    },
+    trolley: {
+      title: "Storage Racks / Heavy Trolleys",
+      ms: { price: "₹6,500 – ₹18,000 / unit", days: "3–6 days" },
+      ss: { price: "₹16,000 – ₹42,000 / unit", days: "5–9 days" },
+    },
+    tankstand: {
+      title: "Water Tank Stand / Custom Frame",
+      ms: { price: "₹4,500 – ₹12,000", days: "2–4 days" },
+      ss: { price: "₹11,000 – ₹28,000", days: "3–6 days" },
+    },
   };
 
-  const rfqLink = `/customer/request/new?serviceType=Fabrication&materialType=${encodeURIComponent(materialNames[material])}&quantity=${weight}+kg&budgetRange=${encodeURIComponent(`₹${priceRange.low.toLocaleString("en-IN")} - ₹${priceRange.high.toLocaleString("en-IN")}`)}&projectTitle=${encodeURIComponent(`${materialNames[material]} Fabrication (${weight} kg)`)}`;
+  const currentSmallEstimate = smallWorkEstimates[workType] || smallWorkEstimates.gate;
+  const currentPrice = currentSmallEstimate[metalGrade].price;
+  const currentDays = currentSmallEstimate[metalGrade].days;
+
+  // Industrial estimate
+  const indPriceRange = {
+    ms: { low: Math.round(weight * 95), high: Math.round(weight * 118), days: Math.max(5, Math.ceil(weight / 250)) },
+    ss: { low: Math.round(weight * 290), high: Math.round(weight * 340), days: Math.max(7, Math.ceil(weight / 200)) },
+    al: { low: Math.round(weight * 340), high: Math.round(weight * 410), days: Math.max(6, Math.ceil(weight / 220)) },
+  }[indMaterial];
+
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919999999999";
+
+  const smallRfqLink = `/customer/request/new?serviceType=Fabrication&projectTitle=${encodeURIComponent(
+    currentSmallEstimate.title
+  )}&materialType=${encodeURIComponent(
+    metalGrade === "ms" ? "Mild Steel / Iron" : "Stainless Steel (SS 304)"
+  )}&budgetRange=${encodeURIComponent(currentPrice)}`;
+
+  const indRfqLink = `/customer/request/new?serviceType=Industrial+Fabrication&materialType=${encodeURIComponent(
+    indMaterial === "ms" ? "Mild Steel (IS 2062)" : indMaterial === "ss" ? "SS 304" : "Aluminum"
+  )}&quantity=${weight}+kg&budgetRange=${encodeURIComponent(
+    `₹${indPriceRange.low.toLocaleString("en-IN")} - ₹${indPriceRange.high.toLocaleString("en-IN")}`
+  )}`;
 
   return (
     <div className="relative overflow-hidden rounded-3xl border border-teal-500/25 bg-slate-900/90 p-5 shadow-2xl backdrop-blur-2xl ring-1 ring-white/10 sm:p-6 text-white">
@@ -35,31 +84,133 @@ export function HeroSourcingWidget() {
       <div className="flex rounded-xl bg-white/5 p-1 text-xs font-bold border border-white/5">
         <button
           type="button"
-          onClick={() => setTab("fabrication")}
+          onClick={() => setTab("small_metal")}
           className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2 transition ${
-            tab === "fabrication"
+            tab === "small_metal"
+              ? "bg-teal-600 text-white shadow-md shadow-teal-700/30"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          <Hammer className="size-3.5" />
+          <span>Home &amp; Metal Work</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab("industrial")}
+          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2 transition ${
+            tab === "industrial"
               ? "bg-teal-600 text-white shadow-md shadow-teal-700/30"
               : "text-slate-400 hover:text-white"
           }`}
         >
           <Layers className="size-3.5" />
-          <span>Custom Fabrication</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab("service")}
-          className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-2 transition ${
-            tab === "service"
-              ? "bg-teal-600 text-white shadow-md shadow-teal-700/30"
-              : "text-slate-400 hover:text-white"
-          }`}
-        >
-          <Wrench className="size-3.5" />
-          <span>Urgent Breakdown</span>
+          <span>Industrial &amp; Batch</span>
         </button>
       </div>
 
-      {tab === "fabrication" ? (
+      {tab === "small_metal" ? (
+        <div className="mt-5 grid gap-4">
+          <div>
+            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+              Select What You Want Fabricated
+            </label>
+            <div className="mt-1.5 grid grid-cols-3 gap-2 text-xs">
+              {[
+                { id: "gate", label: "Gate / Door" },
+                { id: "railing", label: "Railing (Balcony/Stair)" },
+                { id: "shed", label: "Roof Shed" },
+                { id: "grill", label: "Safety Grill" },
+                { id: "trolley", label: "Rack / Trolley" },
+                { id: "tankstand", label: "Custom Frame" },
+              ].map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setWorkType(item.id)}
+                  className={`rounded-xl border p-2 text-center transition font-medium ${
+                    workType === item.id
+                      ? "border-teal-400 bg-teal-400/15 text-white ring-1 ring-teal-400/30 font-bold"
+                      : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+              Metal Type
+            </label>
+            <div className="mt-1.5 grid grid-cols-2 gap-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setMetalGrade("ms")}
+                className={`rounded-xl border p-2 text-left transition ${
+                  metalGrade === "ms"
+                    ? "border-teal-400 bg-teal-400/10 text-white ring-1 ring-teal-400/30"
+                    : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700"
+                }`}
+              >
+                <div className="font-bold text-white">Mild Steel (Iron)</div>
+                <div className="text-[10px] text-slate-400">Economical, Strong, Painted</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => setMetalGrade("ss")}
+                className={`rounded-xl border p-2 text-left transition ${
+                  metalGrade === "ss"
+                    ? "border-teal-400 bg-teal-400/10 text-white ring-1 ring-teal-400/30"
+                    : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700"
+                }`}
+              >
+                <div className="font-bold text-white">Stainless Steel (SS 304)</div>
+                <div className="text-[10px] text-slate-400">Rust-proof, Shiny Mirror/Matt</div>
+              </button>
+            </div>
+          </div>
+
+          {/* Pricing Estimation Card */}
+          <div className="rounded-2xl border border-teal-500/20 bg-slate-950/60 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-medium text-slate-400">Estimated Local Market Rate</p>
+                <p className="font-mono text-xl font-extrabold text-teal-400">{currentPrice}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-[11px] font-medium text-slate-400">Ready In</p>
+                <p className="font-mono text-xs font-bold text-slate-200">{currentDays}</p>
+              </div>
+            </div>
+            <p className="mt-2 text-[10px] text-slate-400 leading-normal border-t border-slate-800/80 pt-2">
+              Includes material + cutting + welding + primary primer. Hand-drawn sketches and mobile photos accepted.
+            </p>
+          </div>
+
+          <div className="grid gap-2 pt-1">
+            <Link
+              href={smallRfqLink}
+              className="btn-primary w-full justify-center gap-2 py-3 text-xs font-bold shadow-lg shadow-teal-600/25"
+            >
+              <Camera className="size-4" />
+              <span>Get Exact Quote (Upload Photo / Sketch)</span>
+              <ArrowRight className="size-3.5" />
+            </Link>
+
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=Hi%20RKISPro%20Team%2C%20I%20have%20a%20metal%20fabrication%20requirement%20and%20want%20a%20quick%20quote.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-2.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition"
+            >
+              <MessageSquareText className="size-4 text-emerald-400" />
+              <span>Or Send Photo / Drawing on WhatsApp</span>
+            </a>
+          </div>
+        </div>
+      ) : (
+        /* Industrial Batch Tab */
         <div className="mt-5 grid gap-4">
           <div>
             <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
@@ -68,132 +219,71 @@ export function HeroSourcingWidget() {
             <div className="mt-1.5 grid grid-cols-3 gap-2 text-xs">
               {[
                 { id: "ms", label: "Mild Steel", sub: "IS 2062" },
-                { id: "ss", label: "SS 304", sub: "Food/Dairy" },
-                { id: "al", label: "Aluminum", sub: "6061 / 5052" }
+                { id: "ss", label: "SS 304", sub: "Sanitary / Food" },
+                { id: "al", label: "Aluminum", sub: "6061 / 5052" },
               ].map((item) => (
                 <button
                   key={item.id}
                   type="button"
-                  onClick={() => setMaterial(item.id as "ms" | "ss" | "al")}
+                  onClick={() => setIndMaterial(item.id as "ms" | "ss" | "al")}
                   className={`rounded-xl border p-2 text-left transition ${
-                    material === item.id
+                    indMaterial === item.id
                       ? "border-teal-400 bg-teal-400/10 text-white ring-1 ring-teal-400/30"
-                      : "border-white/10 bg-white/[0.03] text-slate-400 hover:bg-white/[0.06]"
+                      : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700"
                   }`}
                 >
-                  <span className="block font-bold">{item.label}</span>
-                  <span className="text-[10px] text-slate-400 block">{item.sub}</span>
+                  <div className="font-bold text-white">{item.label}</div>
+                  <div className="text-[10px] text-slate-400">{item.sub}</div>
                 </button>
               ))}
             </div>
           </div>
 
           <div>
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
-                Estimated Weight
-              </span>
-              <span className="font-mono font-bold text-teal-400">
-                {weight >= 1000 ? `${(weight / 1000).toFixed(1)} MT (${weight} kg)` : `${weight} kg`}
-              </span>
+            <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-slate-300">
+              <span>Batch Weight / Volume</span>
+              <span className="font-mono text-teal-400">{weight.toLocaleString("en-IN")} kg</span>
             </div>
             <input
               type="range"
-              min="200"
-              max="5000"
-              step="100"
+              min={100}
+              max={5000}
+              step={50}
               value={weight}
               onChange={(e) => setWeight(Number(e.target.value))}
               className="mt-2 w-full accent-teal-400 cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-slate-500 mt-1">
-              <span>200 kg</span>
-              <span>1 Ton (1000 kg)</span>
-              <span>5 Tons</span>
-            </div>
           </div>
 
-          {/* Benchmark Output Box */}
-          <div className="rounded-2xl border border-teal-500/20 bg-teal-500/[0.06] p-3.5">
-            <div className="flex justify-between items-center text-xs text-slate-400">
-              <span>Indicative Market Rate</span>
-              <span className="flex items-center gap-1 font-semibold text-teal-300 text-[11px]">
-                <Clock className="size-3" />
-                ~{priceRange.days} Days Delivery
-              </span>
+          <div className="rounded-2xl border border-teal-500/20 bg-slate-950/60 p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[11px] font-medium text-slate-400">Batch Estimate</p>
+                <p className="font-mono text-xl font-extrabold text-teal-400">
+                  ₹{indPriceRange.low.toLocaleString("en-IN")} – ₹{indPriceRange.high.toLocaleString("en-IN")}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="text-[11px] font-medium text-slate-400">Turnaround</p>
+                <p className="font-mono text-xs font-bold text-slate-200">{indPriceRange.days} days</p>
+              </div>
             </div>
-            <div className="mt-1 text-2xl font-black text-white">
-              ₹{priceRange.low.toLocaleString("en-IN")} – ₹{priceRange.high.toLocaleString("en-IN")}
-            </div>
-            <p className="mt-1 text-[11px] text-slate-400 leading-tight">
-              Includes material + laser/plasma cutting + welding + red oxide primer.
-            </p>
           </div>
 
           <Link
-            href={rfqLink}
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-teal-500 px-4 text-xs font-bold text-slate-950 shadow-lg shadow-teal-500/25 transition hover:bg-teal-400 active:scale-95"
+            href={indRfqLink}
+            className="btn-primary w-full justify-center gap-2 py-3 text-xs font-bold shadow-lg shadow-teal-600/25"
           >
-            <span>Get 3–5 Competitive Bids</span>
-            <ArrowRight className="size-4" />
-          </Link>
-        </div>
-      ) : (
-        <div className="mt-5 grid gap-4">
-          <div>
-            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
-              Select Breakdown Category
-            </label>
-            <div className="mt-1.5 grid gap-2">
-              {[
-                { id: "breakdown", title: "Machine Mechanical Breakdown", desc: "Hydraulic leak, gear alignment, lathe fault" },
-                { id: "electrical", title: "Electrical Panel / VFD Fault", desc: "PLC trips, motor drive fault, wiring failure" },
-                { id: "ac", title: "Industrial AC / 5TR Package Chiller", desc: "Compressor trip, gas leakage, cooling drop" }
-              ].map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setServiceCategory(item.id)}
-                  className={`rounded-xl border p-2.5 text-left transition ${
-                    serviceCategory === item.id
-                      ? "border-teal-400 bg-teal-400/10 text-white ring-1 ring-teal-400/30"
-                      : "border-white/10 bg-white/[0.03] text-slate-400 hover:bg-white/[0.06]"
-                  }`}
-                >
-                  <span className="block text-xs font-bold text-white">{item.title}</span>
-                  <span className="text-[11px] text-slate-400 block mt-0.5">{item.desc}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="rounded-2xl border border-amber-500/25 bg-amber-500/[0.06] p-3.5">
-            <div className="flex items-center gap-1.5 text-xs font-bold text-amber-300">
-              <Zap className="size-3.5 text-amber-400" />
-              <span>SLA Response Target: &lt; 4 Hours</span>
-            </div>
-            <p className="mt-1 text-xs text-slate-300">
-              Vetted technicians dispatched to your MIDC / Industrial site. Direct WhatsApp & Call coordination.
-            </p>
-          </div>
-
-          <Link
-            href="/customer/quick-booking/new"
-            className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-amber-500 px-4 text-xs font-bold text-slate-950 shadow-lg shadow-amber-500/25 transition hover:bg-amber-400 active:scale-95"
-          >
-            <span>Book Immediate Site Visit</span>
-            <ArrowRight className="size-4" />
+            <span>Post Industrial Requirement</span>
+            <ArrowRight className="size-3.5" />
           </Link>
         </div>
       )}
 
-      {/* Trust Seal Footnote */}
-      <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-[10px] text-slate-400">
-        <span className="flex items-center gap-1">
-          <ShieldCheck className="size-3 text-teal-400" />
-          Nodal Escrow Protected
-        </span>
-        <span>Zero Broker Fees</span>
+      {/* Trust pill footer */}
+      <div className="mt-3.5 flex items-center justify-center gap-2 text-[10px] text-slate-400 font-medium border-t border-slate-800/60 pt-2.5">
+        <ShieldCheck className="size-3.5 text-teal-400" />
+        <span>100% Milestone Safe · Guaranteed On-Time Delivery</span>
       </div>
     </div>
   );

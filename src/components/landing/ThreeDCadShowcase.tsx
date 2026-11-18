@@ -1,126 +1,200 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ArrowRight, Box, Cpu, FileCheck, Shield, Sparkles } from "lucide-react";
-
-// Dynamically import the WebGL 3D viewer to ensure zero SSR hydration issues and instant page loads
-const CadPartViewer = dynamic(
-  () => import("@/components/3d/CadPartViewer").then((mod) => mod.CadPartViewer),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-[520px] sm:h-[600px] rounded-3xl bg-slate-900/60 border border-slate-800 flex flex-col items-center justify-center gap-3">
-        <div className="size-10 rounded-full border-2 border-teal-500 border-t-transparent animate-spin" />
-        <p className="font-mono text-xs text-teal-400 uppercase tracking-widest">
-          Initializing 3D CAD WebGL Engine...
-        </p>
-      </div>
-    ),
-  }
-);
+import {
+  ArrowRight,
+  Camera,
+  CheckCircle2,
+  FileText,
+  Hammer,
+  HelpCircle,
+  Layers,
+  MessageSquare,
+  Ruler,
+  Shield,
+  Sparkles,
+  Wrench,
+} from "lucide-react";
 
 export function ThreeDCadShowcase() {
+  const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919999999999";
+
   return (
-    <section className="py-20 sm:py-28 bg-slate-900 border-t border-b border-slate-800 text-white relative overflow-hidden">
+    <section className="py-16 sm:py-20 bg-slate-900 border-t border-b border-slate-800 text-white relative overflow-hidden">
       {/* Background ambient lighting */}
       <div
-        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[400px] opacity-15"
+        className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[700px] h-[350px] opacity-15"
         aria-hidden="true"
         style={{
-          background:
-            "radial-gradient(ellipse at center, rgba(0,196,204,0.6) 0%, transparent 70%)",
+          background: "radial-gradient(ellipse at center, rgba(0,196,204,0.6) 0%, transparent 70%)",
         }}
       />
 
       <div className="page-shell relative z-10">
         {/* Section Header */}
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 items-end pb-12 border-b border-slate-800">
+        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 items-end pb-10 border-b border-slate-800">
           <div>
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center gap-2 mb-2.5">
               <span className="size-2 rounded-full bg-teal-400 animate-pulse" />
               <span className="font-mono text-xs font-black uppercase tracking-[0.2em] text-teal-400">
-                Digital Engineering &amp; Metrology
+                Simple &amp; Accessible Metal Work
               </span>
             </div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Interactive 3D CAD Inspector.{" "}
-              <span className="text-teal-400">From STEP File to Physical Part.</span>
+            <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-white leading-tight">
+              3 Easy Ways to Order.{" "}
+              <span className="text-teal-400">No Complex Software Needed.</span>
             </h2>
           </div>
           <div>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-              Experience the RKISPro digital pipeline. When you upload a 2D drawing or 3D CAD model, our automated engineering kernel calculates machine toolpaths, verifies critical GD&amp;T tolerances, and assigns qualified 5-axis CNC centers.
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Whether you are a homeowner, shopkeeper, plant manager, or engineer—getting metal work done is simple. We accept everything from hand-drawn paper sketches to CAD models.
             </p>
-            <div className="flex items-center gap-6 mt-4 pt-3 border-t border-slate-800/80 text-xs font-mono text-slate-400">
-              <span className="flex items-center gap-1.5">
-                <Box className="size-3.5 text-teal-400" />
-                STEP / IGES / DXF
+          </div>
+        </div>
+
+        {/* 3 Step Cards */}
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
+          {/* Card 1: Hand-Drawn Sketch / Mobile Photo */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-6 flex flex-col justify-between hover:border-teal-500/40 transition">
+            <div>
+              <div className="size-11 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 mb-5">
+                <Camera className="size-5" />
+              </div>
+              <span className="text-[11px] font-mono font-bold text-teal-400 uppercase tracking-wider">
+                Option 01 · Most Popular
               </span>
-              <span className="flex items-center gap-1.5">
-                <Cpu className="size-3.5 text-teal-400" />
-                5-Axis CAM Simulation
+              <h3 className="text-lg font-bold text-white mt-1">
+                Hand-Drawn Sketch or Photo
+              </h3>
+              <p className="text-xs text-slate-300 mt-2.5 leading-relaxed">
+                Draw your gate, railing, trolley, or bracket on paper with rough dimensions. Or take a photo of an existing piece. Upload it or send on WhatsApp.
+              </p>
+              <ul className="mt-4 space-y-1.5 text-xs text-slate-400">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-teal-400" />
+                  <span>No CAD knowledge needed</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-teal-400" />
+                  <span>Verified local quote in 2–4 hours</span>
+                </li>
+              </ul>
+            </div>
+            <div className="mt-6 pt-4 border-t border-slate-800/80">
+              <Link
+                href="/customer/request/new?serviceType=Fabrication"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-teal-500 transition"
+              >
+                <span>Upload Sketch / Photo</span>
+                <ArrowRight className="size-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Card 2: On-Site Measurement or Physical Sample */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-6 flex flex-col justify-between hover:border-teal-500/40 transition">
+            <div>
+              <div className="size-11 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-5">
+                <Ruler className="size-5" />
+              </div>
+              <span className="text-[11px] font-mono font-bold text-amber-400 uppercase tracking-wider">
+                Option 02 · Full Service
               </span>
-              <span className="flex items-center gap-1.5">
-                <FileCheck className="size-3.5 text-teal-400" />
-                MTC ISO 10204 3.1
+              <h3 className="text-lg font-bold text-white mt-1">
+                Physical Sample or Site Visit
+              </h3>
+              <p className="text-xs text-slate-300 mt-2.5 leading-relaxed">
+                Need a shed roof, balcony railing, or staircase fitted? We arrange a verified local fabricator to visit your location, take exact measurements, and provide a fixed quote.
+              </p>
+              <ul className="mt-4 space-y-1.5 text-xs text-slate-400">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-amber-400" />
+                  <span>Available in Bilaspur, Raipur, Pune</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-amber-400" />
+                  <span>Physical sample reverse-engineering</span>
+                </li>
+              </ul>
+            </div>
+            <div className="mt-6 pt-4 border-t border-slate-800/80">
+              <Link
+                href="/customer/quick-booking/new"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition"
+              >
+                <span>Book On-Site Measurement</span>
+                <ArrowRight className="size-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Card 3: Engineering CAD / 2D Drawings */}
+          <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-6 flex flex-col justify-between hover:border-teal-500/40 transition">
+            <div>
+              <div className="size-11 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-5">
+                <Layers className="size-5" />
+              </div>
+              <span className="text-[11px] font-mono font-bold text-blue-400 uppercase tracking-wider">
+                Option 03 · For Industrial Buyers
               </span>
+              <h3 className="text-lg font-bold text-white mt-1">
+                Technical CAD / STEP / PDF Drawings
+              </h3>
+              <p className="text-xs text-slate-300 mt-2.5 leading-relaxed">
+                For manufacturing plants and machine builders with technical engineering drawings. We match your drawings with certified machine shops with verified spindle capacity.
+              </p>
+              <ul className="mt-4 space-y-1.5 text-xs text-slate-400">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-blue-400" />
+                  <span>STEP, DXF, DWG, PDF supported</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="size-3.5 text-blue-400" />
+                  <span>Interactive 3D viewer available</span>
+                </li>
+              </ul>
+            </div>
+            <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-col gap-2">
+              <Link
+                href="/customer/request/new?serviceType=Machining"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-900 px-4 py-2.5 text-xs font-bold text-white hover:border-teal-500/40 transition"
+              >
+                <span>Upload Technical CAD / Drawing</span>
+                <ArrowRight className="size-3.5" />
+              </Link>
+              <Link
+                href="/cad-lab"
+                className="text-center text-[11px] text-teal-400 hover:text-teal-300 font-semibold py-1"
+              >
+                Launch Interactive 3D CAD Lab &rarr;
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* 3D Viewer Workbench Container */}
-        <div className="mt-10 grid lg:grid-cols-[1fr_320px] gap-8 items-start">
-          {/* Main 3D Interactive Viewport */}
-          <div>
-            <CadPartViewer />
-            <p className="mt-3 text-center sm:text-left text-xs text-slate-400 flex items-center justify-center sm:justify-start gap-2">
-              <Sparkles className="size-3.5 text-teal-400" />
-              <span>
-                <strong>Click &amp; drag to rotate 360° in 3D</strong>. Switch render modes or change alloy finishes in real time.
-              </span>
-            </p>
+        {/* Milestone guarantee strip */}
+        <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-950/80 p-5 flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="size-9 rounded-xl bg-teal-500/20 flex items-center justify-center text-teal-400">
+              <Shield className="size-5" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white">100% Payment &amp; Delivery Protection</p>
+              <p className="text-xs text-slate-400">
+                Never lose your advance payment to unverified contractors. Funds are disbursed in milestones as work is completed.
+              </p>
+            </div>
           </div>
-
-          {/* Right: Technical Inspection Specification Sidebar */}
-          <div className="grid gap-4">
-            <div className="rounded-2xl border border-slate-800 bg-slate-950/70 p-5 backdrop-blur-md">
-              <p className="text-xs font-mono font-bold uppercase tracking-wider text-teal-400 mb-3 flex items-center gap-1.5">
-                <Shield className="size-3.5" />
-                Quality Assurance Gates
-              </p>
-              <div className="space-y-3.5 text-xs">
-                <div className="border-l-2 border-teal-500 pl-3">
-                  <p className="font-bold text-white">Coordinate Measuring Machine (CMM)</p>
-                  <p className="text-slate-400 mt-0.5">Zeiss 3D CMM probe inspection with automated calibration reports.</p>
-                </div>
-                <div className="border-l-2 border-teal-500 pl-3">
-                  <p className="font-bold text-white">Primary Mill Certificates</p>
-                  <p className="text-slate-400 mt-0.5">100% heat-number traceability to Tata, Jindal, or Sail mills.</p>
-                </div>
-                <div className="border-l-2 border-teal-500 pl-3">
-                  <p className="font-bold text-white">Surface Metrology</p>
-                  <p className="text-slate-400 mt-0.5">Contact profilometer testing for Ra 0.4 µm - 3.2 µm finishes.</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Post Drawing CTA */}
-            <div className="rounded-2xl border border-teal-500/30 bg-gradient-to-br from-teal-950/40 via-slate-950 to-slate-950 p-5">
-              <p className="text-xs font-bold uppercase tracking-widest text-teal-300">
-                Have a 3D Part to Fabricate?
-              </p>
-              <p className="text-xs text-slate-300 mt-1.5 leading-relaxed">
-                Upload your CAD files. Get standardized bids from verified machine shops within 24 hours.
-              </p>
-              <Link
-                href="/customer/request/new"
-                className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-teal-500 py-3 text-xs font-bold text-slate-950 shadow-md transition hover:bg-teal-400 min-h-[44px]"
-              >
-                <span>Upload CAD Drawing for RFQ</span>
-                <ArrowRight className="size-3.5" />
-              </Link>
-            </div>
+          <div className="flex items-center gap-3">
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=Hi%20RKISPro%2C%20I%20want%20to%20get%20some%20metal%20work%20fabricated.`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-bold text-white hover:bg-emerald-500 transition shadow-md shadow-emerald-700/20"
+            >
+              <MessageSquare className="size-3.5" />
+              <span>Direct WhatsApp Support</span>
+            </a>
           </div>
         </div>
       </div>
