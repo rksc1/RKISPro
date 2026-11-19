@@ -117,20 +117,20 @@ export function HeroSourcingWidget() {
             <div className="mt-1.5 grid grid-cols-3 gap-2 text-xs">
               {[
                 { id: "gate", label: "Gate / Door" },
-                { id: "railing", label: "Railing (Balcony/Stair)" },
+                { id: "railing", label: "Railings" },
                 { id: "shed", label: "Roof Shed" },
                 { id: "grill", label: "Safety Grill" },
                 { id: "trolley", label: "Rack / Trolley" },
-                { id: "tankstand", label: "Custom Frame" },
+                { id: "tankstand", label: "Tank Stand" },
               ].map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => setWorkType(item.id)}
-                  className={`rounded-xl border p-2 text-center transition font-medium ${
+                  className={`rounded-xl border p-2 text-center transition font-semibold min-h-[44px] flex items-center justify-center leading-tight ${
                     workType === item.id
-                      ? "border-teal-400 bg-teal-400/15 text-white ring-1 ring-teal-400/30 font-bold"
-                      : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700 hover:text-slate-200"
+                      ? "border-teal-400 bg-teal-400/20 text-white ring-1 ring-teal-400/40 font-bold"
+                      : "border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:text-white"
                   }`}
                 >
                   {item.label}
@@ -147,44 +147,44 @@ export function HeroSourcingWidget() {
               <button
                 type="button"
                 onClick={() => setMetalGrade("ms")}
-                className={`rounded-xl border p-2 text-left transition ${
+                className={`rounded-xl border p-2.5 text-left transition ${
                   metalGrade === "ms"
-                    ? "border-teal-400 bg-teal-400/10 text-white ring-1 ring-teal-400/30"
-                    : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700"
+                    ? "border-teal-400 bg-teal-400/15 text-white ring-1 ring-teal-400/40"
+                    : "border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700"
                 }`}
               >
-                <div className="font-bold text-white">Mild Steel (Iron)</div>
-                <div className="text-[10px] text-slate-400">Economical, Strong, Painted</div>
+                <div className="font-bold text-white text-xs">Mild Steel (Iron)</div>
+                <div className="text-[11px] text-slate-300 mt-0.5">Economical, Strong, Painted</div>
               </button>
               <button
                 type="button"
                 onClick={() => setMetalGrade("ss")}
-                className={`rounded-xl border p-2 text-left transition ${
+                className={`rounded-xl border p-2.5 text-left transition ${
                   metalGrade === "ss"
-                    ? "border-teal-400 bg-teal-400/10 text-white ring-1 ring-teal-400/30"
-                    : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700"
+                    ? "border-teal-400 bg-teal-400/15 text-white ring-1 ring-teal-400/40"
+                    : "border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700"
                 }`}
               >
-                <div className="font-bold text-white">Stainless Steel (SS 304)</div>
-                <div className="text-[10px] text-slate-400">Rust-proof, Shiny Mirror/Matt</div>
+                <div className="font-bold text-white text-xs">Stainless Steel (SS 304)</div>
+                <div className="text-[11px] text-teal-300 mt-0.5 font-medium">Rust-Proof Mirror / Matt</div>
               </button>
             </div>
           </div>
 
           {/* Pricing Estimation Card */}
-          <div className="rounded-2xl border border-teal-500/20 bg-slate-950/60 p-4">
+          <div className="rounded-2xl border border-teal-500/30 bg-slate-950/80 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-[11px] font-medium text-slate-400">Estimated Local Market Rate</p>
-                <p className="font-mono text-xl font-extrabold text-teal-400">{currentPrice}</p>
+                <p className="text-xs font-semibold text-slate-300">Estimated Local Market Rate</p>
+                <p className="font-mono text-xl sm:text-2xl font-black text-teal-400">{currentPrice}</p>
               </div>
               <div className="text-right">
-                <p className="text-[11px] font-medium text-slate-400">Ready In</p>
-                <p className="font-mono text-xs font-bold text-slate-200">{currentDays}</p>
+                <p className="text-xs font-semibold text-slate-300">Estimated Time</p>
+                <p className="font-mono text-sm font-bold text-slate-100">{currentDays}</p>
               </div>
             </div>
-            <p className="mt-2 text-[10px] text-slate-400 leading-normal border-t border-slate-800/80 pt-2">
-              Includes material + cutting + welding + primary primer. Hand-drawn sketches and mobile photos accepted.
+            <p className="mt-2.5 text-[11px] text-slate-300 leading-normal border-t border-slate-800/90 pt-2 font-medium">
+              Includes material + cutting + welding + primer coat. Mobile photos &amp; paper sketches accepted.
             </p>
           </div>
 

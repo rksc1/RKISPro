@@ -24,6 +24,28 @@ interface CoordinatedOrder {
 
 const workOrders: CoordinatedOrder[] = [
   {
+    id: "WO-8424",
+    title: "Custom MS Sliding Main Gate & Boundary Grills (14x7 ft)",
+    category: "Fabrication",
+    location: "Bilaspur, Chhattisgarh",
+    material: "IS 2062 Mild Steel & Anti-Rust Epoxy Primer",
+    scale: "₹42,500",
+    timeline: "6-Day Delivery",
+    stage: "Welding & Surface Finish Verified",
+    stageType: "completed",
+  },
+  {
+    id: "WO-8422",
+    title: "SS 304 Balcony & Staircase Glass-Fitted Railing (65 Rft)",
+    category: "Fabrication",
+    location: "Raipur, Chhattisgarh",
+    material: "Jindal SS 304 Pipe & 12mm Toughened Glass",
+    scale: "₹68,500",
+    timeline: "8-Day Delivery",
+    stage: "Mirror Buffing & Fitting Passed",
+    stageType: "completed",
+  },
+  {
     id: "WO-8421",
     title: "16T Structural Base Skid & Column Assembly for Cement Clinker",
     category: "Fabrication",
@@ -36,51 +58,51 @@ const workOrders: CoordinatedOrder[] = [
   },
   {
     id: "WO-8419",
-    title: "650 pcs Precision CNC Turned EN19 Pinion Shafts & Splines",
+    title: "150 pcs CNC Turned Brass Bushings & Threaded Adaptors",
     category: "Machining",
     location: "Peenya Ind. Area, Bengaluru",
-    material: "Alloy Steel EN19 Hardened 45-48 HRC",
-    scale: "₹7.8 Lakhs",
-    timeline: "14-Day Delivery",
-    stage: "Dimensional CMM Inspection Passed (±12µm)",
+    material: "Free Cutting Brass IS 319 (Grade 1)",
+    scale: "₹95,000",
+    timeline: "7-Day Batch Run",
+    stage: "Dimensional Tolerance (±0.02mm) Verified",
     stageType: "completed",
   },
   {
-    id: "WO-8415",
-    title: "SS 316L 8,000L Chemical Reactor with Dimple Cooling Jacket",
+    id: "WO-8416",
+    title: "Galvanized GI Roof Shed & Truss Structure (35x20 ft)",
     category: "Fabrication",
-    location: "Sanand GIDC, Gujarat",
-    material: "SS 316L Plates (Jindal Stainless)",
-    scale: "₹34.2 Lakhs",
-    timeline: "35-Day Delivery",
-    stage: "Hydrostatic Test at 6.5 Bar Verified",
-    stageType: "in_progress",
+    location: "Sirgitti Ind. Area, Bilaspur",
+    material: "Tata Tiscon GI Sheets & Hollow Tubular Sections",
+    scale: "₹1.85 Lakhs",
+    timeline: "14-Day Delivery",
+    stage: "3 Audited Local Fabricators Quoting",
+    stageType: "matching",
   },
   {
     id: "WO-8412",
-    title: "Emergency In-Situ Line Boring & Hydraulic Cylinder Overhaul",
+    title: "Emergency On-Site Welding & Heavy Hydraulic Cylinder Overhaul",
     category: "Repair",
     location: "Urla Industrial Area, Raipur",
-    material: "Hard Chrome Plated Rods & Polyurethane Seals",
-    scale: "₹3.6 Lakhs",
-    timeline: "48-Hour Turnaround",
-    stage: "Technician Field Execution Complete",
+    material: "Low-Hydrogen E7018 Electrodes & Hard Chrome Rod",
+    scale: "₹38,000",
+    timeline: "24-Hour Turnaround",
+    stage: "On-Site Dye Penetrant Weld Test Clear",
     stageType: "completed",
   },
   {
     id: "WO-8409",
-    title: "2,000 pcs Fiber Laser Cut & CNC Bent 3mm Sheet Metal Enclosures",
+    title: "Heavy Duty Multi-Tier Warehouse Storage Racks (6 Units)",
     category: "Fabrication",
     location: "Chakan Industrial Zone, Pune",
-    material: "CRCA Cold-Rolled Steel Sheet",
-    scale: "₹11.2 Lakhs",
+    material: "Slotted Heavy Channels & 2.5mm CRCA Sheets",
+    scale: "₹1.65 Lakhs",
     timeline: "10-Day Batch Run",
-    stage: "3 Audited Machine Shops Quoting",
-    stageType: "matching",
+    stage: "Load Deflection Testing Passed",
+    stageType: "in_progress",
   },
   {
     id: "WO-8402",
-    title: "4-Axis VMC Machining of Aerospace 6061-T6 Valve Manifolds",
+    title: "4-Axis VMC Machining of Flange Couplings & Valve Manifolds",
     category: "Machining",
     location: "Ambattur, Chennai",
     material: "Aluminium 6061-T6 Billet",
@@ -175,7 +197,7 @@ export function RFQFeed() {
 
                 <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
                   <span
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold ${
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold leading-snug max-w-full text-left sm:text-right ${
                       order.stageType === "completed"
                         ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                         : order.stageType === "in_progress"
@@ -183,13 +205,13 @@ export function RFQFeed() {
                         : "bg-amber-50 text-amber-800 border border-amber-200"
                     }`}
                   >
-                    <ShieldCheck className="size-3.5" />
-                    {order.stage}
+                    <ShieldCheck className="size-3.5 shrink-0" />
+                    <span>{order.stage}</span>
                   </span>
 
                   <Link
                     href={`/customer/request/new?category=${encodeURIComponent(order.category)}&title=${encodeURIComponent(order.title)}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 transition hover:text-teal-800 hover:underline"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-700 transition hover:text-teal-800 hover:underline shrink-0"
                   >
                     <span>Post Similar Requirement</span>
                     <ArrowRight className="size-3" />

@@ -55,7 +55,7 @@ const protocols: VettingProtocol[] = [
     title: "Industrial Cluster Proximity",
     tag: "Logistics Optimization",
     icon: MapPin,
-    description: "Matching buyers with vetted shops in MIDC Bhosari, Peenya, Sanand, or Urla to reduce transit transit freight, transit damage, and demurrage.",
+    description: "Matching buyers with vetted shops in MIDC Bhosari, Peenya, Sanand, or Urla to reduce freight costs, transit damage, and demurrage.",
     criteria: "Direct local plant delivery routes",
   },
 ];

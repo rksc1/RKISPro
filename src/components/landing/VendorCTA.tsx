@@ -44,14 +44,14 @@ export function VendorCTA() {
             {/* Left: Copy */}
             <div className="grid gap-6">
               <span className="inline-flex items-center gap-1.5 w-fit rounded-full bg-teal-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal-300 border border-teal-500/30">
-                For Machine Shops &amp; Fabricators
+                For Fabricators &amp; Machine Shops
               </span>
               <h2 className="font-display text-3xl font-extrabold leading-tight text-white sm:text-4xl">
-                Run a Machine Shop or{" "}
-                <span className="text-teal-400">Fabrication Workshop?</span>
+                Run a Fabrication Workshop or{" "}
+                <span className="text-teal-400">Machine Shop?</span>
               </h2>
               <p className="max-w-lg text-base leading-relaxed text-slate-300">
-                Stop paying for unvetted leads and chasing overdue payments. Qualify for the RKISPro network and get production work orders matched to your exact VMC axis travels, laser beds, and crane capacities.
+                Stop paying for dead directory leads and chasing delayed payments. Join the verified RKISPro network to receive real, funded work orders matched to your workshop machinery, welding bays, and cutting equipment.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
@@ -59,7 +59,7 @@ export function VendorCTA() {
                   href="/vendor/register"
                   className="inline-flex items-center justify-center gap-2 rounded-xl bg-teal-500 px-6 py-3.5 text-sm font-bold text-slate-950 shadow-lg shadow-teal-500/25 transition-all hover:bg-teal-400 hover:shadow-teal-500/40 min-h-[44px]"
                 >
-                  Apply for Factory Audit
+                  Register Your Workshop
                   <ArrowRight className="size-4" />
                 </Link>
                 <Link

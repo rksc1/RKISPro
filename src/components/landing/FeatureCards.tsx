@@ -57,12 +57,12 @@ export function FeatureCards() {
           <div className="grid gap-3">
             <span className="section-label">Why RKISPro</span>
             <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
-              Built to make hiring industrial contractors{" "}
+              Built to make metalwork and fabrication{" "}
               <span className="text-teal-600">simple and safe.</span>
             </h2>
           </div>
           <p className="text-base leading-relaxed text-slate-600 lg:pb-2">
-            No more cold calls and blind trust. RKISPro verifies every contractor, structures your job request, and makes sure you get fair, comparable prices from people who can actually do the work.
+            No more cold calls and blind trust. RKISPro verifies every workshop and fabricator, structures your job request, and makes sure you get fair, comparable prices from people who can actually do the work.
           </p>
         </div>
 

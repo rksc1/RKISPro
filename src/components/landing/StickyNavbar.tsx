@@ -58,7 +58,7 @@ export function StickyNavbar() {
             Sign In
           </Link>
           <Link
-            href="/auth"
+            href="/customer/request/new"
             className="btn-primary font-bold shadow-md shadow-teal-500/20"
           >
             Post Your Job
@@ -68,7 +68,7 @@ export function StickyNavbar() {
         {/* Mobile CTAs */}
         <div className="flex items-center gap-2.5 md:hidden">
           <Link
-            href="/auth"
+            href="/customer/request/new"
             className="btn-primary text-xs px-4 py-2 font-bold"
           >
             Post Your Job

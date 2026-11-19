@@ -64,8 +64,8 @@ export function HeroBanner() {
                 <span className="size-2 rounded-full bg-teal-400 animate-pulse" />
                 LOCAL METAL WORK & FABRICATION NETWORK
               </span>
-              <span className="text-xs font-medium text-navy-200/70 hidden sm:inline-block">
-                For Home, Commercial & Industrial Projects
+              <span className="text-xs font-semibold text-slate-200 bg-white/5 border border-white/10 px-3 py-1 rounded-full hidden sm:inline-block">
+                Home, Commercial & Industrial Projects
               </span>
             </div>
 
@@ -94,41 +94,42 @@ export function HeroBanner() {
             </div>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
               <Link
                 href="/customer/request/new"
-                className="btn-primary gap-2 shadow-lg shadow-teal-500/20 text-sm font-bold px-6 py-3"
+                className="btn-primary gap-2 shadow-lg shadow-teal-500/20 text-sm font-bold px-6 py-3.5 text-center justify-center min-h-[48px]"
               >
-                <span>Get Instant Quote (Upload Photo / Sketch)</span>
-                <ArrowRight className="size-4" />
+                <span>Get Instant Quote</span>
+                <span className="text-xs font-semibold opacity-90 hidden md:inline">• Upload Photo/Sketch</span>
+                <ArrowRight className="size-4 shrink-0" />
               </Link>
               <Link
                 href="/vendor/register"
-                className="btn-secondary gap-2 text-sm font-semibold px-5 py-3 border border-slate-700 hover:border-teal-500/40 text-slate-200 hover:text-white"
+                className="btn-secondary gap-2 text-sm font-semibold px-5 py-3.5 border border-slate-700 hover:border-teal-500/40 text-slate-200 hover:text-white bg-slate-900/60 text-center justify-center min-h-[48px]"
               >
-                <Wrench className="size-4 text-teal-400" />
-                <span>I am a Fabricator / Workshop</span>
+                <Wrench className="size-4 text-teal-400 shrink-0" />
+                <span>Join as Fabricator / Workshop</span>
               </Link>
             </div>
 
             {/* Live shop-floor status strip */}
             <div className="pt-2">
-              <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-                <div className="flex items-center justify-between text-xs font-semibold text-slate-400 pb-2 border-b border-slate-800/80">
+              <div className="rounded-xl border border-slate-800 bg-slate-950/70 p-3.5">
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-300 pb-2 border-b border-slate-800/80">
                   <span className="flex items-center gap-2">
-                    <span className="size-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
                     RECENT COMPLETED &amp; ACTIVE JOBS
                   </span>
-                  <span className="text-[11px] text-slate-400">Verified Local Workshops</span>
+                  <span className="text-[11px] text-teal-400 font-mono">Verified Local Workshops</span>
                 </div>
                 <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                   {liveProcurementUpdates.slice(0, 2).map((up) => (
-                    <div key={up.work} className="rounded-lg bg-slate-900/70 p-2.5 border border-slate-800">
-                      <div className="flex items-center justify-between text-slate-400 font-mono text-[10px]">
-                        <span className="font-semibold text-slate-300">{up.loc}</span>
-                        <span className="text-teal-400 font-medium">{up.status}</span>
+                    <div key={up.work} className="rounded-lg bg-slate-900/90 p-2.5 border border-slate-800/90">
+                      <div className="flex items-center justify-between text-slate-300 font-mono text-[10px]">
+                        <span className="font-bold text-slate-200">{up.loc}</span>
+                        <span className="text-teal-400 font-semibold">{up.status}</span>
                       </div>
-                      <p className="mt-1 font-medium text-white truncate">{up.work}</p>
+                      <p className="mt-1 font-medium text-slate-100 text-xs line-clamp-1">{up.work}</p>
                     </div>
                   ))}
                 </div>

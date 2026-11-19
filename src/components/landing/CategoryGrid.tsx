@@ -170,29 +170,31 @@ export function CategoryGrid() {
                       </span>
                     </div>
 
-                    <h3 className="font-display mt-4 text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors">
+                    <h3 className="font-display mt-4 text-lg font-bold text-slate-900 group-hover:text-teal-700 transition-colors min-h-[52px] flex items-center">
                       {cap.title}
                     </h3>
 
                     {/* Bullet specs */}
-                    <ul className="mt-3.5 space-y-1.5 text-xs text-slate-600">
+                    <ul className="mt-3.5 space-y-2 text-xs text-slate-600 min-h-[92px]">
                       {cap.specs.map((spec) => (
                         <li key={spec} className="flex items-start gap-2">
                           <CheckCircle2 className="size-3.5 text-teal-600 shrink-0 mt-0.5" />
-                          <span>{spec}</span>
+                          <span className="leading-snug">{spec}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="mt-6 pt-4 border-t border-slate-100">
-                    <div className="flex items-center justify-between text-xs text-slate-500 pb-1.5">
-                      <span>Typical Price:</span>
-                      <span className="font-mono font-bold text-slate-900">{cap.benchPrice}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-[11px] text-slate-500 pb-3">
-                      <span>Ideal For:</span>
-                      <span className="text-slate-800 font-medium truncate max-w-[170px]">{cap.idealFor}</span>
+                  <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col justify-between gap-3">
+                    <div className="grid gap-1.5 text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-500 font-medium">Typical Price:</span>
+                        <span className="font-mono font-bold text-slate-900">{cap.benchPrice}</span>
+                      </div>
+                      <div className="flex items-baseline justify-between gap-2">
+                        <span className="text-slate-500 text-[11px] font-medium shrink-0">Ideal For:</span>
+                        <span className="text-slate-800 font-semibold text-xs text-right leading-tight">{cap.idealFor}</span>
+                      </div>
                     </div>
 
                     <Link

@@ -21,7 +21,7 @@ const categories = [
 ];
 
 const vendorLinks = [
-  { href: "/vendor/register", label: "Apply for Factory Audit" },
+  { href: "/vendor/register", label: "Register Your Workshop" },
   { href: "/about#verification", label: "Vetting Standards & MTC Rules" },
   { href: "/auth?mode=login", label: "Partner Workshop Sign In" },
 ];
@@ -128,10 +128,10 @@ export function FooterSection() {
               Ready to get started?
             </p>
             <p className="mt-1 text-xs text-slate-400">
-              Describe your job and get quotes from verified contractors.
+              Describe your job and get quotes from verified workshops.
             </p>
             <Link
-              href="/auth"
+              href="/customer/request/new"
               className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-teal-400 transition hover:text-teal-300"
             >
               Post Your Job
@@ -157,7 +157,7 @@ export function FooterSection() {
             <span
               className="hidden sm:block size-1.5 rounded-full bg-teal-500"
             />
-            <span className="text-xs text-teal-400 font-mono">Pune · Bengaluru · Sanand · Raipur</span>
+            <span className="text-xs text-teal-400 font-mono">Bilaspur · Raipur · Pune · Bengaluru</span>
           </div>
         </div>
       </div>
