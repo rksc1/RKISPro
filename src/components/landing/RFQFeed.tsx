@@ -146,11 +146,10 @@ export function RFQFeed() {
                 key={tab}
                 type="button"
                 onClick={() => setActiveTab(tab)}
-                className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${
-                  activeTab === tab
+                className={`rounded-xl px-4 py-2 text-xs font-bold transition-all ${activeTab === tab
                     ? "bg-teal-600 text-white shadow-sm"
                     : "border border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                }`}
+                  }`}
               >
                 {tab}
               </button>
@@ -197,13 +196,12 @@ export function RFQFeed() {
 
                 <div className="flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-between gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-slate-100">
                   <span
-                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold leading-snug max-w-full text-left sm:text-right ${
-                      order.stageType === "completed"
+                    className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold leading-snug max-w-full text-left sm:text-right ${order.stageType === "completed"
                         ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
                         : order.stageType === "in_progress"
-                        ? "bg-teal-50 text-teal-800 border border-teal-200"
-                        : "bg-amber-50 text-amber-800 border border-amber-200"
-                    }`}
+                          ? "bg-teal-50 text-teal-800 border border-teal-200"
+                          : "bg-amber-50 text-amber-800 border border-amber-200"
+                      }`}
                   >
                     <ShieldCheck className="size-3.5 shrink-0" />
                     <span>{order.stage}</span>

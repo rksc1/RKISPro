@@ -2,13 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Camera, Hammer, Layers, ShieldCheck, Wrench, MessageSquareText } from "lucide-react";
+import {
+  ArrowRight,
+  Camera,
+  Hammer,
+  Layers,
+  ShieldCheck,
+  Wrench,
+  MessageSquareText,
+  Sparkles,
+} from "lucide-react";
 
 export function HeroSourcingWidget() {
   const [tab, setTab] = useState<"small_metal" | "industrial">("small_metal");
 
   // Small metal work state
   const [workType, setWorkType] = useState<string>("gate");
+  const [customItemTitle, setCustomItemTitle] = useState<string>("");
   const [metalGrade, setMetalGrade] = useState<"ms" | "ss">("ms");
   const [sizeTier, setSizeTier] = useState<"small" | "medium" | "large">("medium");
 
@@ -46,16 +56,21 @@ export function HeroSourcingWidget() {
       ms: { price: "₹6,500 – ₹18,000 / unit", days: "3–6 days" },
       ss: { price: "₹16,000 – ₹42,000 / unit", days: "5–9 days" },
     },
-    tankstand: {
-      title: "Water Tank Stand / Custom Frame",
-      ms: { price: "₹4,500 – ₹12,000", days: "2–4 days" },
-      ss: { price: "₹11,000 – ₹28,000", days: "3–6 days" },
+    custom: {
+      title: "Custom Metal Item / Specific Part",
+      ms: { price: "Quote in 2–4 hrs", days: "Fast local delivery" },
+      ss: { price: "Quote in 2–4 hrs", days: "Fast local delivery" },
     },
   };
 
-  const currentSmallEstimate = smallWorkEstimates[workType] || smallWorkEstimates.gate;
-  const currentPrice = currentSmallEstimate[metalGrade].price;
-  const currentDays = currentSmallEstimate[metalGrade].days;
+  const isCustom = workType === "custom";
+  const activeTitle = isCustom && customItemTitle.trim()
+    ? customItemTitle.trim()
+    : smallWorkEstimates[workType]?.title || "Custom Metal Fabrication";
+
+  const currentSmallEstimate = smallWorkEstimates[workType] || smallWorkEstimates.custom;
+  const currentPrice = isCustom ? "Quote in 2–4 hrs" : currentSmallEstimate[metalGrade].price;
+  const currentDays = isCustom ? "Fast local delivery" : currentSmallEstimate[metalGrade].days;
 
   // Industrial estimate
   const indPriceRange = {
@@ -67,10 +82,10 @@ export function HeroSourcingWidget() {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "919999999999";
 
   const smallRfqLink = `/customer/request/new?serviceType=Fabrication&projectTitle=${encodeURIComponent(
-    currentSmallEstimate.title
+    activeTitle
   )}&materialType=${encodeURIComponent(
     metalGrade === "ms" ? "Mild Steel / Iron" : "Stainless Steel (SS 304)"
-  )}&budgetRange=${encodeURIComponent(currentPrice)}`;
+  )}&budgetRange=${encodeURIComponent(isCustom ? "Custom Free Estimate" : currentPrice)}`;
 
   const indRfqLink = `/customer/request/new?serviceType=Industrial+Fabrication&materialType=${encodeURIComponent(
     indMaterial === "ms" ? "Mild Steel (IS 2062)" : indMaterial === "ss" ? "SS 304" : "Aluminum"
@@ -111,9 +126,12 @@ export function HeroSourcingWidget() {
       {tab === "small_metal" ? (
         <div className="mt-5 grid gap-4">
           <div>
-            <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
-              Select What You Want Fabricated
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="text-[11px] font-bold uppercase tracking-wider text-slate-300">
+                Select What You Want Fabricated
+              </label>
+              <span className="text-[10px] text-teal-300 font-medium">Or choose custom</span>
+            </div>
             <div className="mt-1.5 grid grid-cols-3 gap-2 text-xs">
               {[
                 { id: "gate", label: "Gate / Door" },
@@ -121,7 +139,7 @@ export function HeroSourcingWidget() {
                 { id: "shed", label: "Roof Shed" },
                 { id: "grill", label: "Safety Grill" },
                 { id: "trolley", label: "Rack / Trolley" },
-                { id: "tankstand", label: "Tank Stand" },
+                { id: "custom", label: "+ Custom Item" },
               ].map((item) => (
                 <button
                   key={item.id}
@@ -130,6 +148,8 @@ export function HeroSourcingWidget() {
                   className={`rounded-xl border p-2 text-center transition font-semibold min-h-[44px] flex items-center justify-center leading-tight ${
                     workType === item.id
                       ? "border-teal-400 bg-teal-400/20 text-white ring-1 ring-teal-400/40 font-bold"
+                      : item.id === "custom"
+                      ? "border-teal-500/40 bg-teal-500/10 text-teal-300 hover:border-teal-400 hover:text-white"
                       : "border-slate-800 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:text-white"
                   }`}
                 >
@@ -137,6 +157,42 @@ export function HeroSourcingWidget() {
                 </button>
               ))}
             </div>
+
+            {/* Custom Item Input Box */}
+            {isCustom ? (
+              <div className="mt-2.5 rounded-2xl border border-teal-500/40 bg-teal-500/10 p-3 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between text-[11px] font-bold text-teal-300">
+                  <span className="flex items-center gap-1.5">
+                    <Sparkles className="size-3.5 text-teal-400" />
+                    What specific item do you want to make?
+                  </span>
+                  <span className="text-[10px] text-slate-400 font-normal">Any metal work</span>
+                </div>
+                <input
+                  type="text"
+                  value={customItemTitle}
+                  onChange={(e) => setCustomItemTitle(e.target.value)}
+                  placeholder="e.g. Spiral staircase, Gym rack, Chimney hood, Tank stand, Canopy..."
+                  className="mt-1.5 w-full rounded-xl border border-teal-500/50 bg-slate-950 px-3 py-2 text-xs text-white placeholder-slate-400 focus:border-teal-400 focus:outline-none focus:ring-1 focus:ring-teal-400"
+                  autoFocus
+                />
+                <p className="mt-1.5 text-[10px] text-slate-300">
+                  We fabricate literally anything in metal. Type what you need and upload a rough sketch or photo!
+                </p>
+              </div>
+            ) : (
+              <div className="mt-2 flex items-center justify-between text-[11px] text-slate-400">
+                <span>Want to make something specific?</span>
+                <button
+                  type="button"
+                  onClick={() => setWorkType("custom")}
+                  className="text-teal-400 hover:text-teal-300 font-bold underline underline-offset-2 flex items-center gap-1"
+                >
+                  <span>Type your own item</span>
+                  <ArrowRight className="size-3" />
+                </button>
+              </div>
+            )}
           </div>
 
           <div>
@@ -175,16 +231,22 @@ export function HeroSourcingWidget() {
           <div className="rounded-2xl border border-teal-500/30 bg-slate-950/80 p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-semibold text-slate-300">Estimated Local Market Rate</p>
+                <p className="text-xs font-semibold text-slate-300">
+                  {isCustom ? "Free Verified Quote" : "Estimated Local Market Rate"}
+                </p>
                 <p className="font-mono text-xl sm:text-2xl font-black text-teal-400">{currentPrice}</p>
               </div>
               <div className="text-right">
-                <p className="text-xs font-semibold text-slate-300">Estimated Time</p>
+                <p className="text-xs font-semibold text-slate-300">Turnaround</p>
                 <p className="font-mono text-sm font-bold text-slate-100">{currentDays}</p>
               </div>
             </div>
             <p className="mt-2.5 text-[11px] text-slate-300 leading-normal border-t border-slate-800/90 pt-2 font-medium">
-              Includes material + cutting + welding + primer coat. Mobile photos &amp; paper sketches accepted.
+              {isCustom
+                ? `3–5 audited local workshops will inspect your ${
+                    customItemTitle.trim() ? `"${customItemTitle.trim()}"` : "item"
+                  } specifications and provide exact quotes.`
+                : "Includes material + cutting + welding + primer coat. Mobile photos & paper sketches accepted."}
             </p>
           </div>
 
@@ -194,18 +256,34 @@ export function HeroSourcingWidget() {
               className="btn-primary w-full justify-center gap-2 py-3 text-xs font-bold shadow-lg shadow-teal-600/25"
             >
               <Camera className="size-4" />
-              <span>Get Exact Quote (Upload Photo / Sketch)</span>
+              <span>
+                {isCustom && customItemTitle.trim()
+                  ? `Get Quote for "${customItemTitle.trim()}"`
+                  : isCustom
+                  ? "Get Quote for Custom Item (Upload Sketch/Photo)"
+                  : "Get Exact Quote (Upload Photo / Sketch)"}
+              </span>
               <ArrowRight className="size-3.5" />
             </Link>
 
             <a
-              href={`https://wa.me/${whatsappNumber}?text=Hi%20RKISPro%20Team%2C%20I%20have%20a%20metal%20fabrication%20requirement%20and%20want%20a%20quick%20quote.`}
+              href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(
+                isCustom && customItemTitle.trim()
+                  ? `Hi RKISPro Team, I want to get a quote for fabricating "${customItemTitle.trim()}" in ${
+                      metalGrade === "ms" ? "Mild Steel / Iron" : "Stainless Steel (SS 304)"
+                    }. Can you help?`
+                  : `Hi RKISPro Team, I have a metal fabrication requirement (${activeTitle}) and want a quick quote.`
+              )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 py-2.5 text-xs font-bold text-emerald-300 hover:bg-emerald-500/20 transition"
             >
               <MessageSquareText className="size-4 text-emerald-400" />
-              <span>Or Send Photo / Drawing on WhatsApp</span>
+              <span>
+                {isCustom && customItemTitle.trim()
+                  ? `Ask on WhatsApp for "${customItemTitle.trim()}"`
+                  : "Or Send Photo / Drawing on WhatsApp"}
+              </span>
             </a>
           </div>
         </div>

@@ -67,7 +67,7 @@ export function ThreeDCadShowcase() {
                 Hand-Drawn Sketch or Photo
               </h3>
               <p className="text-xs text-slate-300 mt-2.5 leading-relaxed">
-                Draw your gate, railing, trolley, or bracket on paper with rough dimensions. Or take a photo of an existing piece. Upload it or send on WhatsApp.
+                Draw your gate, railing, custom frame, bracket, or any specific metal idea on paper with rough dimensions. Or snap a photo of an existing piece. Upload it or send on WhatsApp.
               </p>
               <ul className="mt-4 space-y-1.5 text-xs text-slate-400">
                 <li className="flex items-center gap-2">

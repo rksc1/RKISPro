@@ -13,6 +13,7 @@ import {
   Boxes,
   Home,
   CheckCircle2,
+  Sparkles,
 } from "lucide-react";
 import { Perspective3DCard } from "@/components/3d/Perspective3DCard";
 
@@ -211,6 +212,30 @@ export function CategoryGrid() {
               </Perspective3DCard>
             );
           })}
+        </div>
+
+        {/* Custom / Bespoke Item Callout */}
+        <div className="rounded-2xl border border-dashed border-teal-500/40 bg-teal-50/60 p-6 flex flex-col sm:flex-row items-center justify-between gap-5 transition hover:border-teal-500/70">
+          <div className="flex items-center gap-4">
+            <div className="size-12 rounded-xl bg-teal-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+              <Sparkles className="size-6" />
+            </div>
+            <div>
+              <h4 className="font-display font-bold text-slate-900 text-base sm:text-lg">
+                Need a specific or custom item not listed above?
+              </h4>
+              <p className="mt-0.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+                We make literally anything in metal—from spiral stairs and gym racks to machine brackets, canopies, and water tank stands. Just send a rough sketch or mobile photo!
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/customer/request/new?serviceType=Fabrication&projectTitle=Custom%20Metal%20Item"
+            className="btn-primary shrink-0 text-xs font-bold px-5 py-3 shadow-sm hover:shadow-md"
+          >
+            <span>Post Any Custom Item</span>
+            <ArrowRight className="size-3.5 ml-1" />
+          </Link>
         </div>
       </div>
     </section>
