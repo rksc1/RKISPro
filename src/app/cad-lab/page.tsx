@@ -2,7 +2,7 @@ import { CadPartViewer } from "@/components/3d/CadPartViewer";
 import { StickyNavbar } from "@/components/landing/StickyNavbar";
 import { FooterSection } from "@/components/landing/FooterSection";
 import Link from "next/link";
-import { ArrowLeft, Box, Cpu, FileCheck } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "3D CAD & Metrology Lab | RKISPro",

@@ -6,7 +6,7 @@ import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import type { CheckpointCategory, VendorAuditRecord, VerifiedBadge as BadgeType } from "@/types/audit";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { CheckCircle2, AlertTriangle, ShieldCheck, Award, Info, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle2, AlertTriangle, Info, ChevronDown, ChevronUp } from "lucide-react";
 
 interface VendorAuditFormProps {
   vendorId: string;
@@ -114,8 +114,8 @@ export function VendorAuditForm({
       setTimeout(() => {
         window.location.reload();
       }, 1500);
-    } catch (err: any) {
-      setMessage({ type: "error", text: err.message || "Something went wrong saving the audit." });
+    } catch (err: unknown) {
+      setMessage({ type: "error", text: err instanceof Error ? err.message : "Something went wrong saving the audit." });
     } finally {
       setIsSubmitting(false);
     }
@@ -134,7 +134,12 @@ export function VendorAuditForm({
               <span className="text-xs font-bold uppercase tracking-wider text-muted">Current Live Status:</span>
               <VerifiedBadge badge={currentBadge} score={currentScore} size="md" />
             </div>
-            <h3 className="text-xl font-black text-slate-950">On-Site Physical Workshop Audit Checklist</h3>
+            <h3 className="text-xl font-black text-slate-950">On-Site Workshop Audit: {vendorName}</h3>
+            {auditedAt && (
+              <p className="text-xs font-semibold text-slate-500">
+                Last audited: {new Date(auditedAt).toLocaleDateString()}
+              </p>
+            )}
             <p className="text-sm text-slate-600 max-w-2xl">
               Inspect candidate facilities across the 15 Bare-Minimum and 25 Enterprise checkpoints. Badges are
               awarded automatically based on verified physical shop-floor observations.

@@ -1,6 +1,6 @@
 import React from "react";
 import type { VerifiedBadge as BadgeType } from "@/types/audit";
-import { Shield, Award, CheckCircle, Star, Hammer } from "lucide-react";
+import { Shield, Award, Star, Hammer } from "lucide-react";
 
 interface VerifiedBadgeProps {
   badge?: BadgeType | null;

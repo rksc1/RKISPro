@@ -1,10 +1,9 @@
-import Link from "next/link";
 import { CustomerLayout } from "@/components/layout/CustomerLayout";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { ManagedRFQForm } from "@/components/ui/ManagedRFQForm";
 import { Textarea } from "@/components/ui/Textarea";
-import { Calculator, Camera, ChevronDown, MessageSquare, ShieldCheck, Sparkles, UploadCloud } from "lucide-react";
+import { Camera, ChevronDown, MessageSquare, ShieldCheck, Sparkles, UploadCloud } from "lucide-react";
 import type { ReactNode } from "react";
 
 function Section({ title, helper, children }: { title: string; helper: string; children: ReactNode }) {

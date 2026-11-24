@@ -16,7 +16,17 @@ export async function saveVendorAudit(params: {
   const supabase = getSupabase();
 
   // 1. Update the vendor row with the badge and score
-  const updateData: Record<string, any> = {
+  const updateData: {
+    verified_badge: string;
+    audit_score: number;
+    bare_min_score: number;
+    enterprise_score: number;
+    audited_at: string;
+    auditor_name: string;
+    audit_notes: string | null;
+    verification_status?: "verified";
+    status?: "Approved";
+  } = {
     verified_badge: evaluation.badge,
     audit_score: evaluation.totalScore,
     bare_min_score: evaluation.bareMinScore,
@@ -32,7 +42,8 @@ export async function saveVendorAudit(params: {
     updateData.status = "Approved";
   }
 
-  const { error: vendorUpdateError } = await (supabase.from("vendors") as any)
+  const { error: vendorUpdateError } = await supabase
+    .from("vendors")
     .update(updateData)
     .eq("id", vendorId);
 
@@ -43,7 +54,8 @@ export async function saveVendorAudit(params: {
   // 2. Insert detailed audit record into vendor_audits table
   let auditRecordId = `audit_${Date.now()}`;
   try {
-    const { data: auditData, error: auditInsertError } = await (supabase.from("vendor_audits") as any)
+    const { data: auditData, error: auditInsertError } = await supabase
+      .from("vendor_audits")
       .insert({
         vendor_id: vendorId,
         auditor_id: auditorId ?? null,
@@ -96,7 +108,8 @@ export async function getLatestVendorAudit(vendorId: string): Promise<VendorAudi
   const supabase = getSupabase();
 
   try {
-    const { data, error } = await (supabase.from("vendor_audits") as any)
+    const { data, error } = await supabase
+      .from("vendor_audits")
       .select("*")
       .eq("vendor_id", vendorId)
       .order("created_at", { ascending: false })

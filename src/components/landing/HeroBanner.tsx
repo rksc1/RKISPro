@@ -2,14 +2,10 @@ import Link from "next/link";
 import {
   ArrowRight,
   ShieldCheck,
-  Building2,
-  FileCheck2,
   Lock,
-  Layers,
   Camera,
-  MessageSquare,
-  Wrench,
   Hammer,
+  Wrench,
 } from "lucide-react";
 import { HeroSourcingWidget } from "./HeroSourcingWidget";
 

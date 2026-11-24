@@ -4,6 +4,7 @@ import type { VendorRow } from "@/models/Vendor";
 import type { VendorQuote, VendorQuoteRow } from "@/models/VendorQuote";
 import { getVendorNotificationById, setVendorNotificationQuoted } from "@/services/vendor-notification-service";
 import type { VendorQuoteStatus } from "@/types/auth";
+import type { VerifiedBadge } from "@/types/audit";
 
 function listText(value: string[] | string | null | undefined) {
   if (Array.isArray(value)) return value.join(", ");
@@ -46,7 +47,7 @@ function mapQuoteWithRelations(
           machinery: listText(row.vendors.machinery),
           capacity: row.vendors.capacity,
           verificationStatus: row.vendors.verification_status,
-          verifiedBadge: (row.vendors as any).verified_badge ?? "none",
+          verifiedBadge: (row.vendors.verified_badge as VerifiedBadge) ?? "none",
           city: row.vendors.city,
           state: row.vendors.state
         }
@@ -170,7 +171,7 @@ export async function getApprovedQuotesForCustomerRequest(requestId: string, cus
             machinery: listText(row.vendors.machinery),
             capacity: row.vendors.capacity,
             verificationStatus: row.vendors.verification_status,
-            verifiedBadge: (row.vendors as any).verified_badge ?? "none",
+            verifiedBadge: (row.vendors.verified_badge as VerifiedBadge) ?? "none",
             city: row.vendors.city,
             state: row.vendors.state
           }

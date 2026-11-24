@@ -5,15 +5,10 @@ import {
   ArrowRight,
   Camera,
   CheckCircle2,
-  FileText,
-  Hammer,
-  HelpCircle,
   Layers,
   MessageSquare,
   Ruler,
   Shield,
-  Sparkles,
-  Wrench,
 } from "lucide-react";
 
 export function ThreeDCadShowcase() {

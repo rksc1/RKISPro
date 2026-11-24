@@ -4,6 +4,7 @@ import { createSupabaseAuthUser, upsertAuthProfile, verifySupabasePassword } fro
 import type { VendorProfile, VendorRow } from "@/models/Vendor";
 import { formatQuickBookingServiceType } from "@/services/quick-booking-service";
 import type { QuickBookingServiceType, VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
+import type { VerifiedBadge } from "@/types/audit";
 
 function list(value: string[] | string | null | undefined) {
   if (Array.isArray(value)) return value.map((item) => item.trim()).filter(Boolean);
@@ -46,13 +47,13 @@ function mapVendor(row: VendorRow): VendorProfile {
     state: row.state,
     verificationStatus: row.verification_status ?? (row.status === "Approved" ? "verified" : row.status === "Rejected" ? "rejected" : "pending"),
     verificationNotes: row.verification_notes,
-    verifiedBadge: (row as any).verified_badge ?? "none",
-    auditScore: (row as any).audit_score ?? 0,
-    bareMinScore: (row as any).bare_min_score ?? 0,
-    enterpriseScore: (row as any).enterprise_score ?? 0,
-    auditedAt: (row as any).audited_at ?? null,
-    auditorName: (row as any).auditor_name ?? null,
-    auditNotes: (row as any).audit_notes ?? null,
+    verifiedBadge: (row.verified_badge as VerifiedBadge) ?? "none",
+    auditScore: row.audit_score ?? 0,
+    bareMinScore: row.bare_min_score ?? 0,
+    enterpriseScore: row.enterprise_score ?? 0,
+    auditedAt: row.audited_at ?? null,
+    auditorName: row.auditor_name ?? null,
+    auditNotes: row.audit_notes ?? null,
     rating: row.rating ?? 0,
     completedProjectsCount: row.completed_projects_count ?? 0,
     trustScore: row.trust_score ?? 0,

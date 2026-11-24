@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { QuoteStatusBadge } from "@/components/ui/QuoteStatusBadge";
 import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
+import type { VerifiedBadge as BadgeType } from "@/types/audit";
 import type { VendorQuote } from "@/models/VendorQuote";
 import type { ReactNode } from "react";
 
@@ -16,7 +17,7 @@ type QuoteCardProps = {
       machinery?: string;
       capacity?: string;
       verificationStatus?: string;
-      verifiedBadge?: string | null;
+      verifiedBadge?: BadgeType | null;
       city?: string | null;
       state?: string | null;
     } | null;
@@ -46,7 +47,7 @@ export function QuoteCard({ quote, footer }: QuoteCardProps) {
           <div>
             <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-xl font-black text-slate-950">{quote.vendor?.companyName ?? "Vendor quote"}</h2>
-              <VerifiedBadge badge={quote.vendor?.verifiedBadge as any} size="sm" />
+              <VerifiedBadge badge={quote.vendor?.verifiedBadge} size="sm" />
               <Link href={`/customer/vendors/${quote.vendorId}`} className="text-sm font-bold text-teal-600 hover:underline">
                 View Profile &rarr;
               </Link>

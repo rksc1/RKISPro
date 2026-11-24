@@ -8,7 +8,6 @@ import {
   Hammer,
   Layers,
   ShieldCheck,
-  Wrench,
   MessageSquareText,
   Sparkles,
 } from "lucide-react";
@@ -20,7 +19,6 @@ export function HeroSourcingWidget() {
   const [workType, setWorkType] = useState<string>("gate");
   const [customItemTitle, setCustomItemTitle] = useState<string>("");
   const [metalGrade, setMetalGrade] = useState<"ms" | "ss">("ms");
-  const [sizeTier, setSizeTier] = useState<"small" | "medium" | "large">("medium");
 
   // Industrial state
   const [indMaterial, setIndMaterial] = useState<"ms" | "ss" | "al">("ms");
