@@ -46,6 +46,7 @@ function mapQuoteWithRelations(
           machinery: listText(row.vendors.machinery),
           capacity: row.vendors.capacity,
           verificationStatus: row.vendors.verification_status,
+          verifiedBadge: (row.vendors as any).verified_badge ?? "none",
           city: row.vendors.city,
           state: row.vendors.state
         }
@@ -169,6 +170,7 @@ export async function getApprovedQuotesForCustomerRequest(requestId: string, cus
             machinery: listText(row.vendors.machinery),
             capacity: row.vendors.capacity,
             verificationStatus: row.vendors.verification_status,
+            verifiedBadge: (row.vendors as any).verified_badge ?? "none",
             city: row.vendors.city,
             state: row.vendors.state
           }

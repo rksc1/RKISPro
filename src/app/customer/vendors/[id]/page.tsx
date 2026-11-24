@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { VendorCapabilityCard } from "@/components/ui/VendorCapabilityCard";
 import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import { getCustomerFromCookie } from "@/lib/auth";
 import { getVendorById } from "@/services/vendor-service";
 import { getVendorReviews } from "@/services/review-service";
@@ -82,7 +83,8 @@ export default async function CustomerVendorProfilePage({ params }: { params: Pr
                   <div>
                     <div className="flex flex-wrap items-center gap-2">
                       <VendorTypeBadge type={vendor.vendorType} />
-                      {isVerified && (
+                      <VerifiedBadge badge={vendor.verifiedBadge} size="md" />
+                      {isVerified && !vendor.verifiedBadge && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-black uppercase tracking-wide text-emerald-800 border border-emerald-200">
                           <ShieldCheck className="size-3.5 text-emerald-600" />
                           Verified Facility

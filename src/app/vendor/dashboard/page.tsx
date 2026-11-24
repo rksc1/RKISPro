@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { VendorCapabilityCard } from "@/components/ui/VendorCapabilityCard";
 import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import { getVendorFromCookie } from "@/lib/auth";
 import { normalizeStatus } from "@/lib/status";
 import { getVendorById } from "@/services/vendor-service";
@@ -88,8 +89,10 @@ export default async function VendorDashboardPage() {
     },
     {
       label: "Factory Audit Status",
-      value: vendor?.verificationStatus === "verified" ? "Audited & Verified" : "Under Review",
-      note: "ISO 9001 & physical inspection",
+      value: vendor?.verifiedBadge && vendor.verifiedBadge !== "none"
+        ? `${vendor.verifiedBadge.toUpperCase()} Verified`
+        : vendor?.verificationStatus === "verified" ? "Verified" : "Audit Pending",
+      note: vendor?.auditScore ? `Score: ${vendor.auditScore}/80 pts` : "Physical on-site inspection",
       href: "/vendor/dashboard#profile",
       icon: ShieldCheck,
     },
@@ -121,11 +124,15 @@ export default async function VendorDashboardPage() {
               <ShieldCheck className="size-5" />
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 text-sm">
-                Certified Partner Workshop · Eligible for Managed RFQs
-              </h3>
-              <p className="text-xs text-slate-600">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h3 className="font-bold text-slate-900 text-sm">
+                  Certified Partner Workshop · Eligible for Managed RFQs
+                </h3>
+                <VerifiedBadge badge={vendor?.verifiedBadge} score={vendor?.auditScore} size="sm" />
+              </div>
+              <p className="text-xs text-slate-600 mt-0.5">
                 Approved categories: <strong>{vendor?.services || "Fabrication & Machining"}</strong>
+                {vendor?.auditorName ? ` · Audited by ${vendor.auditorName}` : ""}
               </p>
             </div>
           </div>

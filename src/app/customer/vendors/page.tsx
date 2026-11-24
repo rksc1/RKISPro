@@ -4,6 +4,7 @@ import { CustomerLayout } from "@/components/layout/CustomerLayout";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import { getCustomerFromCookie } from "@/lib/auth";
 import { getDirectoryVendors } from "@/services/vendor-service";
 import type { VendorType } from "@/types/auth";
@@ -155,11 +156,10 @@ export default async function CustomerVendorsDirectoryPage({
                     type="submit"
                     name="service"
                     value={service === "All" ? "" : service}
-                    className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${
-                      isActive
+                    className={`rounded-lg px-3 py-1 text-xs font-semibold transition ${isActive
                         ? "bg-teal-600 text-white shadow-2xs"
                         : "bg-slate-100 text-slate-700 hover:bg-slate-200"
-                    }`}
+                      }`}
                   >
                     {service}
                   </button>
@@ -238,7 +238,8 @@ export default async function CustomerVendorsDirectoryPage({
                         <div>
                           <div className="flex flex-wrap items-center gap-2">
                             <VendorTypeBadge type={vendor.vendorType} />
-                            {isVerified && (
+                            <VerifiedBadge badge={vendor.verifiedBadge} size="sm" />
+                            {isVerified && !vendor.verifiedBadge && (
                               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-800 border border-emerald-200">
                                 <ShieldCheck className="size-3 text-emerald-600" />
                                 Verified Facility

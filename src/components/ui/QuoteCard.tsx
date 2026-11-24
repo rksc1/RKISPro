@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { QuoteStatusBadge } from "@/components/ui/QuoteStatusBadge";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import type { VendorQuote } from "@/models/VendorQuote";
 import type { ReactNode } from "react";
 
@@ -15,6 +16,7 @@ type QuoteCardProps = {
       machinery?: string;
       capacity?: string;
       verificationStatus?: string;
+      verifiedBadge?: string | null;
       city?: string | null;
       state?: string | null;
     } | null;
@@ -42,8 +44,9 @@ export function QuoteCard({ quote, footer }: QuoteCardProps) {
       <div className="grid gap-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 flex-wrap">
               <h2 className="text-xl font-black text-slate-950">{quote.vendor?.companyName ?? "Vendor quote"}</h2>
+              <VerifiedBadge badge={quote.vendor?.verifiedBadge as any} size="sm" />
               <Link href={`/customer/vendors/${quote.vendorId}`} className="text-sm font-bold text-teal-600 hover:underline">
                 View Profile &rarr;
               </Link>

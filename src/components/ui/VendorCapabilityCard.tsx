@@ -1,14 +1,18 @@
 import { Card } from "@/components/ui/Card";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import type { VendorProfile } from "@/models/Vendor";
 
 export function VendorCapabilityCard({ vendor }: { vendor: VendorProfile }) {
   return (
     <Card>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-lg font-black text-slate-950">Capabilities & Trust</h3>
-        <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase ${vendor.verificationStatus === 'verified' ? 'bg-emerald-50 text-emerald-700' : 'bg-canvas text-brand-dark'}`}>
-          {vendor.verificationStatus}
-        </span>
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <VerifiedBadge badge={vendor.verifiedBadge} score={vendor.auditScore} size="sm" />
+          <span className={`rounded-full px-3 py-1 text-xs font-bold uppercase ${vendor.verificationStatus === 'verified' ? 'bg-emerald-50 text-emerald-700' : 'bg-canvas text-brand-dark'}`}>
+            {vendor.verificationStatus}
+          </span>
+        </div>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {vendor.serviceList.map((service) => (

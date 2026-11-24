@@ -14,6 +14,8 @@ export type VendorType = "individual" | "company";
 
 export type VendorVerificationStatus = "pending" | "verified" | "rejected";
 
+export type VerifiedBadge = "none" | "iron" | "bronze" | "silver" | "gold";
+
 export type MarketplaceRequestStatus = "Pending" | "Approved" | "Rejected" | "Distributed" | "quotes_ready" | "awarded";
 
 export type VendorNotificationStatus = "Sent" | "Viewed" | "Quoted" | "awarded";

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
 import { getVendors } from "@/services/vendor-service";
 import type { VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
 
@@ -62,7 +63,10 @@ export default async function AdminVendorsPage({
               {vendors.map((vendor) => (
                 <tr className="border-b border-line align-top" key={vendor.id}>
                   <td className="grid gap-1 p-3">
-                    <strong>{vendor.companyName}</strong>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <strong>{vendor.companyName}</strong>
+                      <VerifiedBadge badge={vendor.verifiedBadge} size="sm" />
+                    </div>
                     <VendorTypeBadge type={vendor.vendorType} />
                     <span className="text-muted">{vendor.ownerName}</span>
                     <span className="text-muted">{vendor.city ?? vendor.location}</span>

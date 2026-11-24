@@ -1,4 +1,4 @@
-import type { VendorStatus, VendorType, VendorVerificationStatus } from "@/types/auth";
+import type { VendorStatus, VendorType, VendorVerificationStatus, VerifiedBadge } from "@/types/auth";
 
 export type VendorRow = {
   id: string;
@@ -31,6 +31,13 @@ export type VendorRow = {
   state: string | null;
   verification_status: VendorVerificationStatus;
   verification_notes: string | null;
+  verified_badge?: VerifiedBadge | null;
+  audit_score?: number | null;
+  bare_min_score?: number | null;
+  enterprise_score?: number | null;
+  audited_at?: string | null;
+  auditor_name?: string | null;
+  audit_notes?: string | null;
   pan_number?: string | null;
   agreement_accepted?: boolean;
   agreement_accepted_at?: string | null;
@@ -72,6 +79,13 @@ export type VendorProfile = {
   state: string | null;
   verificationStatus: VendorVerificationStatus;
   verificationNotes: string | null;
+  verifiedBadge?: VerifiedBadge;
+  auditScore?: number;
+  bareMinScore?: number;
+  enterpriseScore?: number;
+  auditedAt?: string | null;
+  auditorName?: string | null;
+  auditNotes?: string | null;
   rating: number;
   completedProjectsCount: number;
   trustScore: number;

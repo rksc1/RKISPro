@@ -5,8 +5,11 @@ import { Card } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { VendorCapabilityCard } from "@/components/ui/VendorCapabilityCard";
 import { VendorTypeBadge } from "@/components/ui/VendorTypeBadge";
+import { VerifiedBadge } from "@/components/ui/VerifiedBadge";
+import { VendorAuditForm } from "@/components/admin/VendorAuditForm";
 import { getAdminFromCookie } from "@/lib/auth";
 import { getVendorById } from "@/services/vendor-service";
+import { getLatestVendorAudit } from "@/services/vendor-audit-service";
 import type { VendorStatus } from "@/types/auth";
 
 export default async function AdminVendorDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -17,6 +20,8 @@ export default async function AdminVendorDetailPage({ params }: { params: Promis
   const vendor = await getVendorById(id);
   if (!vendor) redirect("/admin/vendors");
 
+  const latestAudit = await getLatestVendorAudit(vendor.id);
+
   return (
     <AdminLayout title="Vendor Detail">
       <div className="flex justify-end">
@@ -25,10 +30,11 @@ export default async function AdminVendorDetailPage({ params }: { params: Promis
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <VendorTypeBadge type={vendor.vendorType} />
               <StatusBadge status={vendor.status} />
               <span className="rounded-full bg-canvas px-3 py-1 text-xs font-bold uppercase text-brand-dark">{vendor.verificationStatus}</span>
+              <VerifiedBadge badge={vendor.verifiedBadge} score={vendor.auditScore} size="md" />
             </div>
             <h2 className="mt-3 text-2xl font-black text-slate-950">
               {vendor.vendorType === "individual" ? vendor.fullName : vendor.companyName}
@@ -73,6 +79,20 @@ export default async function AdminVendorDetailPage({ params }: { params: Promis
           </div>
         </Card>
         <VendorCapabilityCard vendor={vendor} />
+      </div>
+
+      {/* On-Site Workshop Audit Framework Section */}
+      <div className="mt-6">
+        <VendorAuditForm
+          vendorId={vendor.id}
+          vendorName={vendor.vendorType === "individual" ? (vendor.fullName ?? vendor.companyName) : vendor.companyName}
+          initialAudit={latestAudit}
+          currentBadge={vendor.verifiedBadge}
+          currentScore={vendor.auditScore}
+          auditedAt={vendor.auditedAt}
+          auditorName={vendor.auditorName}
+          adminName={admin.name || "RKISPro Quality Engineer"}
+        />
       </div>
     </AdminLayout>
   );
